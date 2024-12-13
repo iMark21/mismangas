@@ -11,7 +11,9 @@ import SwiftUI
 struct mismangasApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let fetchMangasUseCase = FetchMangasUseCase()
+            let viewModel = MangaListViewModel(fetchMangasUseCase: fetchMangasUseCase)
+            MangaListView(viewModel: viewModel)
         }
     }
 }

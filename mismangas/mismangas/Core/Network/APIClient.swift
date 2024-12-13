@@ -1,0 +1,53 @@
+//
+//  APIClient.swift
+//  mismangas
+//
+//  Created by Michel Marques on 10/12/24.
+//
+
+import Foundation
+
+protocol APIClient: Sendable {
+    func perform<T: Decodable>(_ request: URLRequest) async throws -> T
+}
+
+struct MisMangasAPIClient: APIClient {
+    
+    let session: URLSession = .shared
+    let decoder: JSONDecoder = .init()
+
+    func perform<T: Decodable>(_ request: URLRequest) async throws -> T {
+        do {
+            let (data, response) = try await session.data(for: request)
+            try validate(response: response)
+            return try decode(data: data)
+        } catch let urlError as URLError {
+            throw APIError.networkError(urlError)
+        } catch let decodingError as DecodingError {
+            throw APIError.decodingError(decodingError)
+        } catch {
+            throw APIError.unknown(error)
+        }
+    }
+
+    // MARK: - Helpers
+
+    private func validate(response: URLResponse) throws {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse
+        }
+
+        let validStatusCodes = 200..<300
+        guard validStatusCodes.contains(httpResponse.statusCode) else {
+            throw APIError.statusCode(httpResponse.statusCode)
+        }
+    }
+
+    private func decode<T: Decodable>(data: Data) throws -> T {
+        do {
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            throw APIError.decodingError(error)
+        }
+    }
+}
