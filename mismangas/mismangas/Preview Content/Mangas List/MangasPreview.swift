@@ -14,6 +14,10 @@ extension Manga {
         let response = JSONLoader.load(from: "mangas_mock", as: MangaResponseDTO.self)
         return response?.items.map( { $0.toDomain() }) ?? []
     }
+    
+    static var preview: Manga {
+        previewData.first!
+    }
 }
 
 // MARK: - Mock UseCase
