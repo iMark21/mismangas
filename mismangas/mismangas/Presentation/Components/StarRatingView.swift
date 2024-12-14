@@ -25,13 +25,13 @@ struct StarRatingView: View {
     }
 
     private func starType(for index: Int) -> String {
-        let starValue = score / 10 * Double(maxStars) // Convert to a 5-star scale
+        let starValue = score / 10 * Double(maxStars)
         if Double(index) + 0.5 <= starValue {
-            return "star.fill" // Fully filled star
+            return "star.fill"
         } else if Double(index) < starValue {
-            return "star.leadinghalf.filled" // Half-filled star
+            return "star.leadinghalf.filled"
         } else {
-            return "star" // Empty star
+            return "star"
         }
     }
 }

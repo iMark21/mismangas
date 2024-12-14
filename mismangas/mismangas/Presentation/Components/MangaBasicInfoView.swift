@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MangaDetailsView: View {
+struct MangaBasicInfoView: View {
     let title: String
     let score: Double?
     let volumes: Int?
@@ -37,5 +37,7 @@ struct MangaDetailsView: View {
 }
 
 #Preview {
-    MangaDetailsView(title: Manga.preview.title, score: Manga.preview.score, volumes: Manga.preview.volumes)
+    MangaBasicInfoView(title: Manga.preview.title,
+                     score: Manga.preview.score,
+                     volumes: Manga.preview.volumes)
 }

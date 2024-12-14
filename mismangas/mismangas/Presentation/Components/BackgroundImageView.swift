@@ -14,7 +14,7 @@ struct BackgroundImageView: View {
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            // MARK: - Background Image
+            // Background Image
             AsyncImage(url: URL(string: imageUrl.replacingOccurrences(of: "\"", with: ""))) { image in
                 image
                     .resizable()

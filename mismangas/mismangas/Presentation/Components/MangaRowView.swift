@@ -12,15 +12,15 @@ struct MangaRowView: View {
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            // MARK: - Background Image with Gradient
+            // Background Image with Gradient
             BackgroundImageView(imageUrl: manga.mainPicture, height: 180)
             
-            // MARK: - Title and Details
-            MangaDetailsView(title: manga.title, score: manga.score, volumes: manga.volumes)
+            // Title and Details
+            MangaBasicInfoView(title: manga.title, score: manga.score, volumes: manga.volumes)
                 .padding()
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 4)
+        .shadow(color: .primary.opacity(0.3), radius: 6, x: 0, y: 4)
     }
 }
 
