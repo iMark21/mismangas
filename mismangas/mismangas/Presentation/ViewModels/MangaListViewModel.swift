@@ -9,22 +9,62 @@ import Foundation
 
 @Observable
 final class MangaListViewModel {
-    var mangas: [Manga] = []
-    var errorMessage: String?
+    
+    // View State
+    enum ViewState {
+        case loading
+        case content(items: [Manga], isLoadingMore: Bool)
+        case error(message: String, items: [Manga])
+    }
 
+    var state: ViewState = .loading
+    
     private let fetchMangasUseCase: FetchMangasUseCaseProtocol
+    private let paginator: Paginator<Manga>
 
     init(fetchMangasUseCase: FetchMangasUseCaseProtocol = FetchMangasUseCase()) {
         self.fetchMangasUseCase = fetchMangasUseCase
+        self.paginator = Paginator(perPage: 10) { page, perPage in
+            try await fetchMangasUseCase.execute(page: page, perPage: perPage)
+        }
     }
-
-    @MainActor func fetchMangas(page: Int = 1, perPage: Int = 10) {
+    
+    @MainActor func fetchInitialPage() {
+        guard case .loading = state else { return }
         Task {
             do {
-                let result = try await fetchMangasUseCase.execute(page: page, perPage: perPage)
-                mangas = result
+                let newItems = try await paginator.loadNextPage()
+                state = .content(items: newItems, isLoadingMore: false)
             } catch {
-                errorMessage = "Error: \(error.localizedDescription)"
+                state = .error(message: "Error: \(error.localizedDescription)", items: [])
+            }
+        }
+    }
+    
+    @MainActor func fetchNextPage() {
+        guard case let .content(items, isLoadingMore) = state, !isLoadingMore else { return }
+        
+        state = .content(items: items, isLoadingMore: true)
+        
+        Task {
+            do {
+                let newItems = try await paginator.loadNextPage()
+                state = .content(items: newItems, isLoadingMore: false)
+            } catch {
+                state = .error(message: "Error: \(error.localizedDescription)", items: items)
+            }
+        }
+    }
+    
+    @MainActor func refresh() {
+        state = .loading
+        Task {
+            await paginator.reset()
+            do {
+                let newItems = try await paginator.loadNextPage()
+                state = .content(items: newItems, isLoadingMore: false)
+            } catch {
+                state = .error(message: "Error: \(error.localizedDescription)", items: [])
             }
         }
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Manga: Decodable, Identifiable {
+struct Manga: Decodable, Identifiable, Equatable {
     let id: Int
     let title: String
     let titleEnglish: String?
@@ -41,12 +41,12 @@ struct Manga: Decodable, Identifiable {
     }
 }
 
-struct Genre: Decodable {
+struct Genre: Decodable, Equatable {
     let id: String
     let genre: String
 }
 
-struct Demographic: Decodable {
+struct Demographic: Decodable, Equatable {
     let id: String
     let demographic: String
 }
