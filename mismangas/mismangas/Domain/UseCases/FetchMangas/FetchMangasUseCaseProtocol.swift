@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol FetchMangasUseCaseProtocol {
+protocol FetchMangasUseCaseProtocol: Sendable {
     func execute(page: Int, perPage: Int) async throws -> [Manga]
 }
