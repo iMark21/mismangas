@@ -55,4 +55,11 @@ struct Logger {
     static func logError(_ error: Error) {
         log("[ERROR] \(error.localizedDescription)", level: .error)
     }
+    
+    static func logErrorMessage(_ message: String,
+                                file: String = #file,
+                                function: String = #function,
+                                line: Int = #line) {
+        log("[ERROR] \(message)", level: .error, file: file, function: function, line: line)
+    }
 }

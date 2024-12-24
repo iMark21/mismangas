@@ -9,28 +9,37 @@
 import SwiftUI
 
 struct BackgroundImageView: View {
-    let imageUrl: String
+    let imageUrl: String?
     let height: CGFloat
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            // Background Image
-            AsyncImage(url: URL(string: imageUrl.replacingOccurrences(of: "\"", with: ""))) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                Color.gray.opacity(0.3)
+            // Background Image or Placeholder
+            if let urlString = imageUrl,
+               let url = URL(string: urlString) {
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    Color.gray.opacity(0.3)
+                }
+            } else {
+                // Placeholder if URL is nil or invalid
+                ZStack {
+                    Color.gray.opacity(0.3)
+                    Image(systemName: "photo.fill")
+                        .font(.system(size: 50))
+                        .foregroundColor(.gray)
+                }
             }
-            .frame(height: height)
-            .clipped()
-            .overlay(content: {
-                LinearGradient(
-                    gradient: Gradient(colors: [.clear, .black]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            })
+            
+            // Gradient Overlay
+            LinearGradient(
+                gradient: Gradient(colors: [.clear, .black]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
         }
         .frame(height: height)
         .clipped()
@@ -39,5 +48,5 @@ struct BackgroundImageView: View {
 }
 
 #Preview {
-    BackgroundImageView(imageUrl: Manga.preview.mainPicture, height: 180)
+    BackgroundImageView(imageUrl: nil, height: 180)
 }

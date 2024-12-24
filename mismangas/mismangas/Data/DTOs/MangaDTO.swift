@@ -12,14 +12,16 @@ struct MangaDTO: Decodable {
     let title: String
     let titleEnglish: String?
     let titleJapanese: String?
-    let mainPicture: String
+    let mainPicture: String?
+    let url: String?
     let genres: [GenreDTO]
     let demographics: [DemographicDTO]
     let score: Double?
     let chapters: Int?
     let volumes: Int?
-    let status: String
-    let sypnosis: String
+    let status: String?
+    let sypnosis: String?
+    let background: String?
     let startDate: String?
     let endDate: String?
 }

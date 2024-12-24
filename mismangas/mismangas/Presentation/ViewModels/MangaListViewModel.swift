@@ -9,63 +9,82 @@ import Foundation
 
 @Observable
 final class MangaListViewModel {
-    
-    // View State
+
     enum ViewState {
         case loading
         case content(items: [Manga], isLoadingMore: Bool)
         case error(message: String, items: [Manga])
     }
 
+    // MARK: - Public properties
     var state: ViewState = .loading
-    
+
+    // MARK: - Private
     private let fetchMangasUseCase: FetchMangasUseCaseProtocol
     private let paginator: Paginator<Manga>
+    private var currentFilter: MangaFilter
 
-    init(fetchMangasUseCase: FetchMangasUseCaseProtocol = FetchMangasUseCase()) {
+    init(fetchMangasUseCase: FetchMangasUseCaseProtocol = FetchMangasUseCase(),
+         initialFilter: MangaFilter = .empty) {
         self.fetchMangasUseCase = fetchMangasUseCase
-        self.paginator = Paginator(perPage: 10) { page, perPage in
-            try await fetchMangasUseCase.execute(page: page, perPage: perPage)
+        self.currentFilter = initialFilter
+
+        paginator = Paginator(perPage: 10) { filter, page, perPage in
+            return try await fetchMangasUseCase.execute(
+                filter: filter,
+                page: page,
+                perPage: perPage
+            )
         }
     }
-    
-    @MainActor func fetchInitialPage() {
+
+    @MainActor
+    func fetchInitialPage() {
         guard case .loading = state else { return }
         Task {
             do {
-                let newItems = try await paginator.loadNextPage()
+                let newItems = try await paginator.loadNextPage(using: currentFilter)
                 state = .content(items: newItems, isLoadingMore: false)
             } catch {
                 state = .error(message: "Error: \(error.localizedDescription)", items: [])
             }
         }
     }
-    
-    @MainActor func fetchNextPage() {
+
+    @MainActor
+    func fetchNextPage() {
         guard case let .content(items, isLoadingMore) = state, !isLoadingMore else { return }
-        
+
         state = .content(items: items, isLoadingMore: true)
-        
         Task {
             do {
-                let newItems = try await paginator.loadNextPage()
+                let newItems = try await paginator.loadNextPage(using: currentFilter)
                 state = .content(items: newItems, isLoadingMore: false)
             } catch {
                 state = .error(message: "Error: \(error.localizedDescription)", items: items)
             }
         }
     }
-    
-    @MainActor func refresh() {
+
+    @MainActor
+    func refresh() {
         state = .loading
         Task {
-            await paginator.reset()
             do {
-                let newItems = try await paginator.loadNextPage()
+                await paginator.reset()
+                let newItems = try await paginator.loadNextPage(using: currentFilter)
                 state = .content(items: newItems, isLoadingMore: false)
             } catch {
-                state = .error(message: "Error: \(error.localizedDescription)", items: [])
+                state = .error(message: "Refresh failed: \(error.localizedDescription)", items: [])
             }
         }
+    }
+
+    /// Change the filter and refresh the list if the new filter is different from the current one.
+    @MainActor
+    func applyFilter(_ newFilter: MangaFilter) {
+        guard newFilter != currentFilter else { return }
+        currentFilter = newFilter
+        refresh()
     }
 }

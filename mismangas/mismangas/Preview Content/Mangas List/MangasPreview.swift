@@ -23,7 +23,7 @@ extension Manga {
 // MARK: - Mock UseCase
 
 final class MockFetchMangasUseCase: FetchMangasUseCaseProtocol {
-    func execute(page: Int, perPage: Int) async throws -> [Manga] {
+    func execute(filter: MangaFilter, page: Int, perPage: Int) async throws -> [Manga] {
         return Manga.previewData
     }
 }
@@ -35,5 +35,13 @@ extension MangaListViewModel {
         let useCase = MockFetchMangasUseCase()
         let viewModel = MangaListViewModel(fetchMangasUseCase: useCase)
         return viewModel
+    }
+}
+
+// MARK: - Preview Mangas Filter
+
+extension MangaFilter {
+    static var preview: MangaFilter {
+        MangaFilter(query: "One Piece", searchType: .contains)
     }
 }
