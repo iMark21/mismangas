@@ -21,9 +21,12 @@ struct MangaListView: View {
                 .navigationTitle("Mangas")
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Filtros") {
+                        Button(action: {
                             showFilterView = true
-                        }
+                        }, label: {
+                            Image(systemName: "line.3.horizontal.decrease.circle")
+                                .font(.title2)
+                        })
                     }
                 }
         }
@@ -32,7 +35,6 @@ struct MangaListView: View {
         }
         // If showFilterView is true, present the sheet
         .sheet(isPresented: $showFilterView, onDismiss: {
-            // When the sheet is dismissed, apply the filter if it has changed
             viewModel.applyFilter(filter)
         }) {
             // Pass the filter to the MangaFilterView
