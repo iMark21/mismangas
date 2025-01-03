@@ -11,23 +11,38 @@ import SwiftUI
 struct MangaFilterView: View {
     @Binding var filter: MangaFilter
     @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
         NavigationView {
             VStack {
-                Picker("Select filter", selection: $filter.searchType) {
-                    Text("Begins with").tag(SearchType.beginsWith)
-                    Text("Contains").tag(SearchType.contains)
-                    Text("Author").tag(SearchType.author)
-                    Text("Genre").tag(SearchType.genre)
-                    Text("Theme").tag(SearchType.theme)
-                    Text("Demographic").tag(SearchType.demographic)
+                Form {
+                    Section {
+                        HStack {
+                            Text("Select filter")
+                            Spacer()
+                            Picker("", selection: $filter.searchType) {
+                                Text("Begins with").tag(SearchType.beginsWith)
+                                Text("Contains").tag(SearchType.contains)
+                                Text("Author").tag(SearchType.author)
+                                Text("Genre").tag(SearchType.genre)
+                                Text("Theme").tag(SearchType.theme)
+                                Text("Demographic").tag(SearchType.demographic)
+                            }
+                            .pickerStyle(.menu)
+                        }
+                    }
+
+                    Section {
+                        if filter.searchType == .beginsWith || filter.searchType == .contains {
+                            TextField("Type text", text: $filter.query)
+                        } else {
+                            Text("Coming soon")
+                                .foregroundColor(.gray)
+                                .font(.headline)
+                        }
+                    }
                 }
-                .pickerStyle(.automatic)
-                .padding()
-                
-                Spacer()
-                                
+
                 Button(action: {
                     dismiss()
                 }) {
@@ -39,22 +54,19 @@ struct MangaFilterView: View {
                         )
                         .foregroundColor(.white)
                         .cornerRadius(12)
+                        .padding()
                 }
                 .disabled(
                     (filter.searchType != .beginsWith && filter.searchType != .contains) || filter.query.isEmpty
                 )
-                .padding()
             }
             .onAppear {
-                if filter.searchType == nil {
-                    filter.searchType = .beginsWith
-                }
+                filter.searchType = filter.searchType == .none ? .beginsWith : filter.searchType
             }
             .navigationTitle("Filters")
             .navigationBarTitleDisplayMode(.inline)
-            .searchable(text: $filter.query)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Reset") {
                         resetFilters()
                     }
@@ -63,8 +75,7 @@ struct MangaFilterView: View {
             }
         }
     }
-    
-    // MARK: - Reset Filters
+
     private func resetFilters() {
         filter.query = ""
         filter.searchType = .none
