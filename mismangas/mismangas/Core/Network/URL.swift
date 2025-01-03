@@ -20,6 +20,12 @@ extension URL {
     
     static let mangas = api.appending(path: "list/mangas")
     static let bestMangas = api.appending(path: "list/bestMangas")
+    static func searchMangasBeginsWith(_ prefix: String) -> URL {
+        api.appending(path: "search/mangasBeginsWith/\(prefix)")
+    }
+    static func searchMangasContains(_ text: String) -> URL {
+        api.appending(path: "search/mangasContains/\(text)")
+    }
 }
 
 // MARK: - Query Items

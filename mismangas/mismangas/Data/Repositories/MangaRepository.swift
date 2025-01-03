@@ -11,24 +11,41 @@ struct MangaRepository: MangaRepositoryProtocol {
     
     let client: APIClient = MisMangasAPIClient()
     
-    func fetchMangas(page: Int, perPage: Int) async throws -> [Manga] {
+    // MARK: - Public Methods
+    
+    func fetchMangasBy(query: String, searchType: SearchType?, page: Int, perPage: Int) async throws -> [Manga] {
+        let baseURL: URL
+        switch searchType {
+        case .beginsWith:
+            baseURL = .searchMangasBeginsWith(query)
+        case .contains:
+            baseURL = .searchMangasContains(query)
+        default:
+            baseURL = .mangas
+        }
         
-        // Build URL
-        var components = URLComponents(url: .mangas, resolvingAgainstBaseURL: true)
+        return try await performFetch(baseURL: baseURL, page: page, perPage: perPage)
+    }
+    
+    // MARK: - Private Helper Method
+    
+    private func performFetch(baseURL: URL, page: Int, perPage: Int) async throws -> [Manga] {
+        // Append pagination query items
+        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
         components?.queryItems = [
             .page(page),
             .per(perPage)
         ]
         
-        // Check if URL is correct
-        guard let url = components?.url else {
+        // Validate the final URL
+        guard let finalURL = components?.url else {
             throw URLError(.badURL)
         }
         
-        // API request to Client
-        let result: MangaResponseDTO = try await client.perform(.get(url))
+        // Perform API request using the client
+        let result: MangaResponseDTO = try await client.perform(.get(finalURL))
         
-        // Map response to domain
+        // Map the response to domain models
         return result.items.compactMap { $0.toDomain() }
     }
 }

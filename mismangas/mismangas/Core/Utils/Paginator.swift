@@ -9,7 +9,7 @@
 import Foundation
 
 actor Paginator<T: Sendable> {
-    typealias FetchPage = @Sendable (_ page: Int, _ perPage: Int) async throws -> [T]
+    typealias FetchPage = @Sendable (_ filter: MangaFilter, _ page: Int, _ perPage: Int) async throws -> [T]
 
     private var items: [T] = []
     private var currentPage: Int = 0
@@ -22,12 +22,12 @@ actor Paginator<T: Sendable> {
         self.fetchPage = fetchPage
     }
     
-    func loadNextPage() async throws -> [T] {
+    func loadNextPage(using filter: MangaFilter) async throws -> [T] {
         guard hasMorePages else { return items }
         let nextPage = currentPage + 1
-        let newItems = try await fetchPage(nextPage, perPage)
+        let newItems = try await fetchPage(filter, nextPage, perPage)
         
-        if newItems.count < perPage {
+        if newItems.count != perPage {
             hasMorePages = false
         }
         

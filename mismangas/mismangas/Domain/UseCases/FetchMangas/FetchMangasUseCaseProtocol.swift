@@ -8,5 +8,5 @@
 import Foundation
 
 protocol FetchMangasUseCaseProtocol: Sendable {
-    func execute(page: Int, perPage: Int) async throws -> [Manga]
+    func execute(filter: MangaFilter, page: Int, perPage: Int) async throws -> [Manga]
 }

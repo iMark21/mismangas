@@ -59,6 +59,7 @@ struct MisMangasAPIClient: APIClient {
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
+            Logger.logError(error)
             throw APIError.decodingError(error)
         }
     }

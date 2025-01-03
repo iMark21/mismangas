@@ -12,14 +12,14 @@ extension MangaDTO {
             title: title,
             titleEnglish: titleEnglish,
             titleJapanese: titleJapanese,
-            mainPicture: mainPicture.replacingOccurrences(of: "\"", with: ""),
+            mainPicture: mainPicture?.replacingOccurrences(of: "\"", with: ""),
             genres: genres.map { $0.toDomain() },
             demographics: demographics.map { $0.toDomain() },
             score: score,
             chapters: chapters,
             volumes: volumes,
-            status: status,
-            sypnosis: sypnosis,
+            status: status ?? " - ",
+            sypnosis: sypnosis ?? " - ",
             startDate: startDate,
             endDate: endDate
         )
