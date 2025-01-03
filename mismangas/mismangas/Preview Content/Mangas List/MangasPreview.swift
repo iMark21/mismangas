@@ -42,6 +42,6 @@ extension MangaListViewModel {
 
 extension MangaFilter {
     static var preview: MangaFilter {
-        MangaFilter(query: "One Piece", searchType: .contains)
+        MangaFilter(query: "Query", searchType: .contains)
     }
 }

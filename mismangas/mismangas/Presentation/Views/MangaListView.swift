@@ -39,6 +39,7 @@ struct MangaListView: View {
         }) {
             // Pass the filter to the MangaFilterView
             MangaFilterView(filter: $filter)
+                .presentationDetents([.height(250)])
         }
     }
     
