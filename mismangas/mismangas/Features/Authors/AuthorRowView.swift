@@ -2,9 +2,8 @@
 //  AuthorRowView.swift
 //  mismangas
 //
-//  Created by Michel Marques on 7/1/25.
+//  Created by Michel Marques on 12/1/25.
 //
-
 
 import SwiftUI
 
@@ -24,6 +23,6 @@ struct AuthorRowView: View {
 }
 
 #Preview {
-    AuthorRowView(author: Author(id: "1", fullName: "Hayao Miyazaki", role: .storyAndArt))
+    AuthorRowView(author: .preview)
         .padding()
 }

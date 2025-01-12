@@ -80,11 +80,16 @@ struct MangaFilterView: View {
                 }
             }
             .sheet(isPresented: $showAuthorPicker) {
-                AuthorListView(
-                    viewModel: AuthorListViewModel(selectedAuthor: filter.query, onSelectAuthor: { selectedAuthor in
-                        filter.query = selectedAuthor.fullName
-                        filter.id = selectedAuthor.id
-                    })
+                SelectableListView(
+                    viewModel: SelectableListViewModel(
+                        title: "Authors",
+                        fetchItemsUseCase: FetchAuthorsUseCase(),
+                        selectedItem: nil,
+                        onSelectItem: { (selectedAuthor: Author) in
+                            filter.query = selectedAuthor.fullName
+                            filter.id = selectedAuthor.id
+                        }
+                    )
                 )
             }
         }

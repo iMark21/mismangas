@@ -6,7 +6,7 @@
 //
 
 
-struct Author: Identifiable, Decodable, Equatable {
+struct Author: Identifiable, Decodable, Equatable, Hashable {
     let id: String
     let fullName: String
     let role: AuthorRole
@@ -21,5 +21,11 @@ enum AuthorRole: String, Decodable {
 extension Author: CustomStringConvertible {
     var description: String {
         return fullName
+    }
+}
+
+extension Author: Searchable {
+    func matches(query: String) -> Bool {
+        fullName.lowercased().contains(query.lowercased())
     }
 }

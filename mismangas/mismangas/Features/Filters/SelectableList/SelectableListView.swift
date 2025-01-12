@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct AuthorListView: View {
+struct SelectableListView<T: Identifiable & Hashable & Searchable>: View {
     
     // MARK: - Properties
     
-    @State var viewModel: AuthorListViewModel
+    @State var viewModel: SelectableListViewModel<T>
     @Environment(\.dismiss) private var dismiss
     
     // MARK: - Body
@@ -20,13 +20,13 @@ struct AuthorListView: View {
         NavigationStack {
             VStack {
                 content
-                    .searchable(text: $viewModel.searchQuery, prompt: "Search authors")
+                    .searchable(text: $viewModel.searchQuery, prompt: "Search \(viewModel.title)")
                     .onChange(of: viewModel.searchQuery) {
                         Task { viewModel.applyQuery() }
                     }
                     .task { viewModel.fetch() }
             }
-            .navigationTitle("Select Author")
+            .navigationTitle("Select \(viewModel.title)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -42,19 +42,23 @@ struct AuthorListView: View {
     private var content: some View {
         switch viewModel.state {
         case .loading:
-            ProgressMeView(message: "Loading authors...")
+            ProgressMeView(message: "Loading \(viewModel.title)...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         
         case .content(let items):
-            AuthorListContentView(
+            SelectableListContentView(
                 items: items,
-                selectedAuthor: $viewModel.selectedAuthor,
-                onSelect: { author in
-                    viewModel.selectAuthor(author)
+                selectedItem: $viewModel.selectedItem,
+                onSelect: { item in
+                    viewModel.selectItem(item)
                     dismiss()
+                },
+                content: { item in
+                    guard let author = item as? Author else { return AnyView(EmptyView()) }
+                    return AnyView(AuthorRowView(author: author))
                 }
             )
-
+            
         case .error(let message, _):
             ErrorView(
                 message: message,
@@ -63,9 +67,8 @@ struct AuthorListView: View {
         }
     }
 }
-
 // MARK: - Preview
 
 #Preview {
-    AuthorListView(viewModel: .preview)
+    SelectableListView(viewModel: .authorsPreview)
 }
