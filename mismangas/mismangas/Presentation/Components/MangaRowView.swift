@@ -15,14 +15,23 @@ struct MangaRowView: View {
             // Background Image with Gradient
             BackgroundImageView(imageUrl: manga.mainPicture, height: 180)
             
-            // Title and Details
-            MangaBasicInfoView(title: manga.title, score: manga.score, volumes: manga.volumes)
-                .padding()
+            // Title, Author, and Details
+            VStack(alignment: .leading, spacing: 4) {
+                MangaBasicInfoView(title: manga.title, score: manga.score, volumes: manga.volumes)
+                
+                // - PARA PRUEBAS -
+                Text("By \(manga.authors.map { $0.fullName }.joined(separator: ", "))")
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+            }
+            .padding()
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .primary.opacity(0.3), radius: 6, x: 0, y: 4)
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     MangaRowView(manga: .preview)

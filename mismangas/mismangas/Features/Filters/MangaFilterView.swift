@@ -5,12 +5,12 @@
 //  Created by Michel Marques on 24/12/24.
 //
 
-
 import SwiftUI
 
 struct MangaFilterView: View {
     @Binding var filter: MangaFilter
     @Environment(\.dismiss) private var dismiss
+    @State private var showAuthorPicker = false
 
     var body: some View {
         NavigationView {
@@ -35,6 +35,12 @@ struct MangaFilterView: View {
                     Section {
                         if filter.searchType == .beginsWith || filter.searchType == .contains {
                             TextField("Type text", text: $filter.query)
+                        } else if filter.searchType == .author {
+                            Text(filter.query.isEmpty ? "Select an author..." : filter.query)
+                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
+                                .onTapGesture {
+                                    showAuthorPicker = true
+                                }
                         } else {
                             Text("Coming soon")
                                 .foregroundColor(.gray)
@@ -50,14 +56,14 @@ struct MangaFilterView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(
-                            (filter.searchType == .beginsWith || filter.searchType == .contains) && !filter.query.isEmpty ? Color.blue : Color.gray
+                            (filter.searchType == .beginsWith || filter.searchType == .contains || filter.searchType == .author) && !filter.query.isEmpty ? Color.blue : Color.gray
                         )
                         .foregroundColor(.white)
                         .cornerRadius(12)
                         .padding()
                 }
                 .disabled(
-                    (filter.searchType != .beginsWith && filter.searchType != .contains) || filter.query.isEmpty
+                    (filter.searchType != .beginsWith && filter.searchType != .contains && filter.searchType != .author) || filter.query.isEmpty
                 )
             }
             .onAppear {
@@ -73,10 +79,19 @@ struct MangaFilterView: View {
                     .foregroundColor(.red)
                 }
             }
+            .sheet(isPresented: $showAuthorPicker) {
+                AuthorListView(
+                    viewModel: AuthorListViewModel(selectedAuthor: filter.query, onSelectAuthor: { selectedAuthor in
+                        filter.query = selectedAuthor.fullName
+                        filter.id = selectedAuthor.id
+                    })
+                )
+            }
         }
     }
 
     private func resetFilters() {
+        filter.id = nil
         filter.query = ""
         filter.searchType = .none
         dismiss()

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol MangaRepositoryProtocol: Sendable {
-    func fetchMangasBy(query: String, searchType: SearchType?, page: Int, perPage: Int) async throws -> [Manga]
+    func fetchMangasBy(filter: MangaFilter, page: Int, perPage: Int) async throws -> [Manga]
 }

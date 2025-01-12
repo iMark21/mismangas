@@ -21,7 +21,7 @@ final class MangaListViewModel {
 
     // MARK: - Private
     private let fetchMangasUseCase: FetchMangasUseCaseProtocol
-    private let paginator: Paginator<Manga>
+    private let paginator: Paginator<Manga, MangaFilter>
     private var currentFilter: MangaFilter
 
     init(fetchMangasUseCase: FetchMangasUseCaseProtocol = FetchMangasUseCase(),

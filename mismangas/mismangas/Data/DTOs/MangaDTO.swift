@@ -16,6 +16,7 @@ struct MangaDTO: Decodable {
     let url: String?
     let genres: [GenreDTO]
     let demographics: [DemographicDTO]
+    let authors: [AuthorDTO]
     let score: Double?
     let chapters: Int?
     let volumes: Int?

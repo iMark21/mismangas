@@ -13,18 +13,20 @@ struct MangaRepository: MangaRepositoryProtocol {
     
     // MARK: - Public Methods
     
-    func fetchMangasBy(query: String, searchType: SearchType?, page: Int, perPage: Int) async throws -> [Manga] {
-        let baseURL: URL
-        switch searchType {
+    func fetchMangasBy(filter: MangaFilter, page: Int, perPage: Int) async throws -> [Manga] {
+        let url: URL
+        switch filter.searchType {
         case .beginsWith:
-            baseURL = .searchMangasBeginsWith(query)
+            url = .searchMangasBeginsWith(filter.query)
         case .contains:
-            baseURL = .searchMangasContains(query)
+            url = .searchMangasContains(filter.query)
+        case .author:
+            url = .searchMangas(by: filter.id ?? "")
         default:
-            baseURL = .mangas
+            url = .mangas
         }
         
-        return try await performFetch(baseURL: baseURL, page: page, perPage: perPage)
+        return try await performFetch(baseURL: url, page: page, perPage: perPage)
     }
     
     // MARK: - Private Helper Method

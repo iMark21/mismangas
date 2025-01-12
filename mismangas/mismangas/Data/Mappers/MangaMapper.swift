@@ -15,6 +15,7 @@ extension MangaDTO {
             mainPicture: mainPicture?.replacingOccurrences(of: "\"", with: ""),
             genres: genres.map { $0.toDomain() },
             demographics: demographics.map { $0.toDomain() },
+            authors: authors.map { $0.toDomain() },
             score: score,
             chapters: chapters,
             volumes: volumes,
