@@ -1,66 +1,31 @@
 //
-//  ErrorView.swift
+//  ErrorMessageView.swift
 //  mismangas
 //
-//  Created by Michel Marques on 17/12/24.
+//  Created by Michel Marques on 12/1/25.
 //
 
 import SwiftUI
 
-struct ErrorView<Content: View>: View {
+struct ErrorView: View {
     let message: String
-    let retryAction: () -> Void
-    let fallbackContent: () -> Content
-    
-    init(
-        message: String,
-        retryAction: @escaping () -> Void,
-        @ViewBuilder fallbackContent: @escaping () -> Content
-    ) {
-        self.message = message
-        self.retryAction = retryAction
-        self.fallbackContent = fallbackContent
-    }
+    var onRetry: () -> Void
     
     var body: some View {
-        VStack {
-            if isFallbackContentEmpty() {
-                VStack(spacing: 12) {
-                    Text(message)
-                        .multilineTextAlignment(.center)
-                    Button("Retry") {
-                        retryAction()
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                fallbackContent()
-            }
+        VStack(spacing: 16) {
+            Text(message)
+                .foregroundColor(.red)
+            Button("Retry", action: onRetry)
         }
-        .alert(isPresented: .constant(true)) {
-            Alert(
-                title: Text("Error"),
-                message: Text(message),
-                dismissButton: .default(Text("OK")) {
-                    retryAction()
-                }
-            )
-        }
-    }
-    
-    private func isFallbackContentEmpty() -> Bool {
-        // Logic to check if fallbackContent is empty can be customized
-        false
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
     }
 }
 
 // MARK: - Preview
 
 #Preview {
-    ErrorView(
-        message: "Something went wrong",
-        retryAction: { print("Retry pressed") }
-    ) {
-        Text("Fallback Content Here")
+    ErrorView(message: "An unexpected error occurred") {
+        Logger.log("Retry tapped")
     }
 }

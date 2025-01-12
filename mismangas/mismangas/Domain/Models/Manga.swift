@@ -15,6 +15,7 @@ struct Manga: Decodable, Identifiable, Equatable {
     let mainPicture: String?
     let genres: [Genre]
     let demographics: [Demographic]
+    let authors: [Author]
     let score: Double?
     let chapters: Int?
     let volumes: Int?
@@ -22,14 +23,4 @@ struct Manga: Decodable, Identifiable, Equatable {
     let sypnosis: String
     let startDate: String?
     let endDate: String?
-}
-
-struct Genre: Decodable, Equatable {
-    let id: String
-    let genre: String
-}
-
-struct Demographic: Decodable, Equatable {
-    let id: String
-    let demographic: String
 }

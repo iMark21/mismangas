@@ -10,7 +10,7 @@ import Foundation
 struct JSONLoader {
     static func load<T: Decodable>(from filename: String, as type: T.Type) -> T? {
         guard let url = Bundle.main.url(forResource: filename, withExtension: "json") else {
-            print("Error: No se encontró el archivo \(filename).json en el bundle.")
+            Logger.logErrorMessage("Error: No se encontró el archivo \(filename).json en el bundle.")
             return nil
         }
         
@@ -20,7 +20,7 @@ struct JSONLoader {
             decoder.dateDecodingStrategy = .iso8601
             return try decoder.decode(T.self, from: data)
         } catch {
-            print("Error al cargar \(filename).json: \(error.localizedDescription)")
+            Logger.logErrorMessage("Error al cargar \(filename).json: \(error.localizedDescription)")
             return nil
         }
     }

@@ -13,8 +13,7 @@ struct FetchMangasUseCase: FetchMangasUseCaseProtocol {
     func execute(filter: MangaFilter, page: Int, perPage: Int) async throws -> [Manga] {
         
         return try await repository.fetchMangasBy(
-            query: filter.query,
-            searchType: filter.searchType,
+            filter: filter,
             page: page,
             perPage: perPage
         )

@@ -53,7 +53,7 @@ struct MangaListView: View {
         case let .content(items, isLoadingMore):
             mangaListView(items: items, isLoadingMore: isLoadingMore)
         case let .error(message, items):
-            ErrorView(
+            AlertErrorView(
                 message: message,
                 retryAction: { viewModel.refresh() }
             ) {

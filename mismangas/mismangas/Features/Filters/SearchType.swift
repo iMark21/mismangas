@@ -1,5 +1,5 @@
 //
-//  MangaFilter.swift
+//  SearchType.swift
 //  mismangas
 //
 //  Created by Michel Marques on 24/12/24.
@@ -13,13 +13,4 @@ enum SearchType: String, CaseIterable {
     case genre
     case theme
     case demographic
-}
-
-struct MangaFilter: Equatable {
-    var query: String
-    var searchType: SearchType?
-    
-    static var empty: MangaFilter {
-        MangaFilter(query: "")
-    }
 }

@@ -16,7 +16,7 @@ extension URL {
     
     private static let api = URL(string: baseURL)!
 
-    // MARK: - Endpoints
+    // MARK: - Manga Endpoints
     
     static let mangas = api.appending(path: "list/mangas")
     static let bestMangas = api.appending(path: "list/bestMangas")
@@ -25,6 +25,16 @@ extension URL {
     }
     static func searchMangasContains(_ text: String) -> URL {
         api.appending(path: "search/mangasContains/\(text)")
+    }
+    
+    // MARK: - Author Endpoints
+
+    static let authors = api.appending(path: "list/authors")
+    static func searchMangas(by author: String) -> URL {
+        api.appending(path: "list/mangaByAuthor/\(author)")
+    }
+    static func searchAuthors(by name: String) -> URL {
+        api.appending(path: "search/author/\(name)")
     }
 }
 
