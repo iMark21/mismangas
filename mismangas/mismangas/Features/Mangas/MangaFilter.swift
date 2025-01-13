@@ -6,7 +6,7 @@
 //
 
 
-struct MangaFilter: Equatable, FilterProtocol {
+struct MangaFilter: Equatable {
     var id: String?
     var query: String
     var searchType: SearchType?

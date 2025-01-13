@@ -54,8 +54,25 @@ struct SelectableListView<T: Identifiable & Hashable & Searchable>: View {
                     dismiss()
                 },
                 content: { item in
-                    guard let author = item as? Author else { return AnyView(EmptyView()) }
-                    return AnyView(AuthorRowView(author: author))
+                    if let author = item as? Author {
+                        return AnyView(
+                            SelectableContentRowView(
+                                item: author,
+                                title: { $0.fullName },
+                                subtitle: { $0.role.rawValue }
+                            )
+                        )
+                    } else if let genre = item as? Genre {
+                        return AnyView(
+                            SelectableContentRowView(
+                                item: genre,
+                                title: { $0.genre },
+                                subtitle: nil
+                            )
+                        )
+                    } else {
+                        return AnyView(EmptyView())
+                    }
                 }
             )
             

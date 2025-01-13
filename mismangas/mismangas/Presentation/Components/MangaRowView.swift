@@ -20,7 +20,7 @@ struct MangaRowView: View {
                 MangaBasicInfoView(title: manga.title, score: manga.score, volumes: manga.volumes)
                 
                 // - PARA PRUEBAS -
-                Text("By \(manga.authors.map { $0.fullName }.joined(separator: ", "))")
+                Text("Genres: \(manga.genres.map { $0.genre }.joined(separator: ", "))")
                     .font(.subheadline)
                     .foregroundColor(.white)
             }

@@ -23,7 +23,11 @@ struct SelectableRowView<T>: View {
         item: Author(id: "1", fullName: "Hayao Miyazaki", role: .storyAndArt),
         content: { author in
             AnyView(
-                AuthorRowView(author: author)
+                SelectableContentRowView(
+                    item: author,
+                    title: { $0.fullName },
+                    subtitle: { $0.role.rawValue }
+                )
             )
         }
     )

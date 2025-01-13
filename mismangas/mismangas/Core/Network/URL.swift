@@ -7,34 +7,51 @@
 
 import Foundation
 
+// MARK: - Base Configuration
+
 extension URL {
-    
-    // MARK: - Constants
-    
     static let baseURL = "https://mymanga-acacademy-5607149ebe3d.herokuapp.com"
     static let timeOut = 60.0
     
     private static let api = URL(string: baseURL)!
+}
 
-    // MARK: - Manga Endpoints
-    
+// MARK: - Manga Endpoints
+
+extension URL {
     static let mangas = api.appending(path: "list/mangas")
     static let bestMangas = api.appending(path: "list/bestMangas")
+    
     static func searchMangasBeginsWith(_ prefix: String) -> URL {
         api.appending(path: "search/mangasBeginsWith/\(prefix)")
     }
+    
     static func searchMangasContains(_ text: String) -> URL {
         api.appending(path: "search/mangasContains/\(text)")
     }
-    
-    // MARK: - Author Endpoints
+}
 
+// MARK: - Author Endpoints
+
+extension URL {
     static let authors = api.appending(path: "list/authors")
-    static func searchMangas(by author: String) -> URL {
+    
+    static func searchMangasByAuthor(_ author: String) -> URL {
         api.appending(path: "list/mangaByAuthor/\(author)")
     }
+    
     static func searchAuthors(by name: String) -> URL {
         api.appending(path: "search/author/\(name)")
+    }
+}
+
+// MARK: - Genre Endpoints
+
+extension URL {
+    static let genres = api.appending(path: "list/genres")
+    
+    static func searchMangasByGenre(_ genre: String) -> URL {
+        api.appending(path: "list/mangaByGenre/\(genre)")
     }
 }
 

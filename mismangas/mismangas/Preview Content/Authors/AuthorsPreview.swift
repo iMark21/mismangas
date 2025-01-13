@@ -45,11 +45,3 @@ extension SelectableListViewModel where T == Author {
         return viewModel
     }
 }
-
-// MARK: - Preview Authors Filter
-
-extension AuthorFilter {
-    static var preview: AuthorFilter {
-        AuthorFilter(query: "Query")
-    }
-}

@@ -51,7 +51,13 @@ struct SelectableListContentView<T: Identifiable & Hashable>: View {
                 SelectableRowView(
                     item: author,
                     content: { selectedAuthor in
-                        AnyView(AuthorRowView(author: selectedAuthor))
+                        AnyView(
+                            SelectableContentRowView(
+                                item: selectedAuthor,
+                                title: { $0.fullName },
+                                subtitle: { $0.role.rawValue }
+                            )
+                        )
                     }
                 )
             )

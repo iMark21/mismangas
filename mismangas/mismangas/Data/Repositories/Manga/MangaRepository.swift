@@ -21,7 +21,9 @@ struct MangaRepository: MangaRepositoryProtocol {
         case .contains:
             url = .searchMangasContains(filter.query)
         case .author:
-            url = .searchMangas(by: filter.id ?? "")
+            url = .searchMangasByAuthor(filter.id ?? "")
+        case .genre:
+            url = .searchMangasByGenre(filter.id ?? "")
         default:
             url = .mangas
         }
