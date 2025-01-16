@@ -16,6 +16,7 @@ struct Manga: Decodable, Identifiable, Equatable {
     let genres: [Genre]
     let demographics: [Demographic]
     let authors: [Author]
+    let themes: [Theme]
     let score: Double?
     let chapters: Int?
     let volumes: Int?

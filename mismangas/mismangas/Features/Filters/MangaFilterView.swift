@@ -14,6 +14,11 @@ struct MangaFilterView: View {
     // Pickers
     @State private var showAuthorPicker = false
     @State private var showGenrePicker = false
+    @State private var showThemePicker = false
+    
+    private var isFilterValid: Bool {
+        [.beginsWith, .contains, .author, .genre, .theme].contains(filter.searchType) && !filter.query.isEmpty
+    }
 
     var body: some View {
         NavigationView {
@@ -53,6 +58,12 @@ struct MangaFilterView: View {
                                 .onTapGesture {
                                     showGenrePicker = true
                                 }
+                        } else if filter.searchType == .theme {
+                            Text(filter.query.isEmpty ? "Select a theme..." : filter.query)
+                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
+                                .onTapGesture {
+                                    showThemePicker = true
+                                }
                         } else {
                             Text("Coming soon")
                                 .foregroundColor(.gray)
@@ -67,22 +78,12 @@ struct MangaFilterView: View {
                     Text("Apply Filter")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(
-                            (filter.searchType == .beginsWith ||
-                             filter.searchType == .contains ||
-                             filter.searchType == .author ||
-                             filter.searchType == .genre) && !filter.query.isEmpty ? Color.blue : Color.gray
-                        )
+                        .background(isFilterValid ? Color.blue : Color.gray)
                         .foregroundColor(.white)
                         .cornerRadius(12)
                         .padding()
                 }
-                .disabled(
-                    (filter.searchType != .beginsWith &&
-                     filter.searchType != .contains &&
-                     filter.searchType != .author &&
-                     filter.searchType != .genre) || filter.query.isEmpty
-                )
+                .disabled(!isFilterValid)
             }
             .onAppear {
                 filter.searchType = filter.searchType == .none ? .beginsWith : filter.searchType
@@ -117,6 +118,18 @@ struct MangaFilterView: View {
                         onSelectItem: { (selectedGenre: Genre) in
                             filter.query = selectedGenre.genre
                             filter.id = selectedGenre.id
+                        }
+                    )
+                )
+            }
+            .sheet(isPresented: $showThemePicker) {
+                SelectableListView(
+                    viewModel: SelectableListViewModel(
+                        title: "Themes",
+                        fetchItemsUseCase: FetchThemesUseCase(),
+                        onSelectItem: { (selectedTheme: Theme) in
+                            filter.query = selectedTheme.name
+                            filter.id = selectedTheme.id
                         }
                     )
                 )

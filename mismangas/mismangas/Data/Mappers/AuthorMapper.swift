@@ -5,15 +5,12 @@
 //  Created by Michel Marques on 6/1/25.
 //
 
+import Foundation
 
-struct AuthorMapper {
-    static func map(from dto: AuthorDTO) -> Author {
-        let role = AuthorRole(rawValue: dto.role) ?? .storyAndArt
-        let fullName = "\(dto.firstName) \(dto.lastName)"
-        return Author(id: dto.id, fullName: fullName, role: role)
-    }
-
-    static func map(from dtoList: [AuthorDTO]) -> [Author] {
-        return dtoList.map { map(from: $0) }
+extension AuthorDTO {
+    func toDomain() -> Author {
+        Author(id: id,
+               fullName: "\(firstName) \(lastName)",
+               role: AuthorRole(rawValue: role) ?? .story)
     }
 }

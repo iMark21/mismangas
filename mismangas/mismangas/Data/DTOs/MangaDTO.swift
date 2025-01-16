@@ -17,6 +17,7 @@ struct MangaDTO: Decodable {
     let genres: [GenreDTO]
     let demographics: [DemographicDTO]
     let authors: [AuthorDTO]
+    let themes: [ThemeDTO]
     let score: Double?
     let chapters: Int?
     let volumes: Int?

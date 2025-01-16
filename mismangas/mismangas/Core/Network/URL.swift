@@ -55,6 +55,16 @@ extension URL {
     }
 }
 
+// MARK: - Theme Endpoints
+
+extension URL {
+    static let themes = api.appending(path: "list/themes")
+    
+    static func searchMangasByTheme(_ theme: String) -> URL {
+        api.appending(path: "list/mangaByTheme/\(theme)")
+    }
+}
+
 // MARK: - Query Items
 
 extension URLQueryItem {
