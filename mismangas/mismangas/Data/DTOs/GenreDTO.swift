@@ -12,16 +12,16 @@ struct GenreDTO: Decodable, Identifiable {
     let genre: String
 
     init(from decoder: Decoder) throws {
-        // First, we try to decode a single string value representing the genre
+        // Attempt to decode as a single string (used in the general list of genres)
         if let singleValueContainer = try? decoder.singleValueContainer(),
            let genreString = try? singleValueContainer.decode(String.self) {
             self.id = genreString // Use the genre name as the id
             self.genre = genreString
         } else {
-            // If it's not a single string, we attempt to decode an object with "id" and "genre" keys
+            // If the genre is an object, decode its "id" and "genre" properties
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try container.decode(String.self, forKey: .id) // Decode the id field
-            self.genre = try container.decode(String.self, forKey: .genre) // Decode the genre field
+            self.id = try container.decode(String.self, forKey: .id)
+            self.genre = try container.decode(String.self, forKey: .genre)
         }
     }
 

@@ -38,6 +38,6 @@ struct AuthorRepository: AuthorRepositoryProtocol {
         let result: [AuthorDTO] = try await client.perform(.get(finalURL))
         
         // Map the response to domain models
-        return AuthorMapper.map(from: result)
+        return result.compactMap({ $0.toDomain() })
     }
 }

@@ -65,7 +65,7 @@ final class SelectableListViewModel<T: Identifiable & Hashable & Searchable> {
             filteredItems = allItems
         } else {
             filteredItems = allItems.filter { item in
-                item.matches(query: searchQuery) // Aquí podríamos definir una extensión para comparar.
+                item.matches(query: searchQuery)
             }
         }
         

@@ -12,13 +12,3 @@ struct AuthorDTO: Codable {
     let lastName: String
     let role: String
 }
-
-extension AuthorDTO {
-    func toDomain() -> Author {
-        Author(
-            id: id,
-            fullName: "\(firstName) \(lastName)",
-            role: AuthorRole(rawValue: role) ?? .story
-        )
-    }
-}

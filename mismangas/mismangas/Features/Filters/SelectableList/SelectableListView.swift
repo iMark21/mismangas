@@ -70,6 +70,14 @@ struct SelectableListView<T: Identifiable & Hashable & Searchable>: View {
                                 subtitle: nil
                             )
                         )
+                    } else if let theme = item as? Theme {
+                        return AnyView(
+                            SelectableContentRowView(
+                                item: theme,
+                                title: { $0.name },
+                                subtitle: nil
+                            )
+                        )
                     } else {
                         return AnyView(EmptyView())
                     }
