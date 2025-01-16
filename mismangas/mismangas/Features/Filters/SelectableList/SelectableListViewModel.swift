@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-final class SelectableListViewModel<T: Identifiable & Hashable & Searchable> {
+final class SelectableListViewModel<T: Searchable> {
 
     enum ViewState {
         case loading
