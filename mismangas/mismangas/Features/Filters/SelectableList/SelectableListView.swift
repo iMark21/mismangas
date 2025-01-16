@@ -78,6 +78,14 @@ struct SelectableListView<T: Identifiable & Hashable & Searchable>: View {
                                 subtitle: nil
                             )
                         )
+                    } else if let demographic = item as? Demographic {
+                        return AnyView(
+                            SelectableContentRowView(
+                                item: demographic,
+                                title: { $0.demographic },
+                                subtitle: nil
+                            )
+                        )
                     } else {
                         return AnyView(EmptyView())
                     }

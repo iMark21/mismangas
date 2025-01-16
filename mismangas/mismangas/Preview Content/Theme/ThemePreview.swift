@@ -9,7 +9,7 @@
 
 extension Theme {
     static var previewData: [Theme] {
-        let response = JSONLoader.load(from: "genres_mock", as: [ThemeDTO].self)
+        let response = JSONLoader.load(from: "themes_mock", as: [ThemeDTO].self)
         return response?.map { $0.toDomain() } ?? []
     }
     
@@ -32,7 +32,7 @@ extension SelectableListViewModel where T == Theme {
     static var themesPreview: SelectableListViewModel<Theme> {
         SelectableListViewModel<Theme>(
             title: "Themes",
-            fetchItemsUseCase: FetchThemesUseCase(),
+            fetchItemsUseCase: MockFetchThemeUseCase(),
             onSelectItem: { _ in }
         )
     }

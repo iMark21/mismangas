@@ -65,6 +65,16 @@ extension URL {
     }
 }
 
+// MARK: - Demographic Endpoints
+
+extension URL {
+    static let demographics = api.appending(path: "list/demographics")
+    
+    static func searchMangasByDemographic(_ demographic: String) -> URL {
+        api.appending(path: "list/mangaByDemographic/\(demographic)")
+    }
+}
+
 // MARK: - Query Items
 
 extension URLQueryItem {

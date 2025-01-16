@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol Searchable {
+protocol Searchable: Identifiable, Hashable, Equatable, Sendable {
     func matches(query: String) -> Bool
 }

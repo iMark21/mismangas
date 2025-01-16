@@ -6,11 +6,13 @@
 //
 
 
-enum SearchType: String, CaseIterable {
+enum SearchType: String, CaseIterable, Identifiable {
     case beginsWith
     case contains
     case author
     case genre
     case theme
     case demographic
+    
+    var id: Self { self }
 }

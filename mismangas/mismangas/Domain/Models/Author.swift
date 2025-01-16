@@ -6,7 +6,7 @@
 //
 
 
-struct Author: Identifiable, Decodable, Equatable, Hashable {
+struct Author: Decodable {
     let id: String
     let fullName: String
     let role: AuthorRole

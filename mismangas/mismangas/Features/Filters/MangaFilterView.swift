@@ -11,13 +11,11 @@ struct MangaFilterView: View {
     @Binding var filter: MangaFilter
     @Environment(\.dismiss) private var dismiss
     
-    // Pickers
-    @State private var showAuthorPicker = false
-    @State private var showGenrePicker = false
-    @State private var showThemePicker = false
+    // Picker
+    @State private var showPicker: SearchType?
     
     private var isFilterValid: Bool {
-        [.beginsWith, .contains, .author, .genre, .theme].contains(filter.searchType) && !filter.query.isEmpty
+        !filter.query.isEmpty
     }
 
     var body: some View {
@@ -46,35 +44,19 @@ struct MangaFilterView: View {
                     Section {
                         if filter.searchType == .beginsWith || filter.searchType == .contains {
                             TextField("Type text", text: $filter.query)
-                        } else if filter.searchType == .author {
-                            Text(filter.query.isEmpty ? "Select an author..." : filter.query)
-                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
-                                .onTapGesture {
-                                    showAuthorPicker = true
-                                }
-                        } else if filter.searchType == .genre {
-                            Text(filter.query.isEmpty ? "Select a genre..." : filter.query)
-                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
-                                .onTapGesture {
-                                    showGenrePicker = true
-                                }
-                        } else if filter.searchType == .theme {
-                            Text(filter.query.isEmpty ? "Select a theme..." : filter.query)
-                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
-                                .onTapGesture {
-                                    showThemePicker = true
-                                }
                         } else {
-                            Text("Coming soon")
-                                .foregroundColor(.gray)
-                                .font(.headline)
+                            Text(filter.query.isEmpty ? "Select \(filter.searchType?.rawValue ?? "option")..." : filter.query)
+                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
+                                .onTapGesture {
+                                    showPicker = filter.searchType
+                                }
                         }
                     }
                 }
-
+                
                 Button(action: {
                     dismiss()
-                }) {
+                }, label: {
                     Text("Apply Filter")
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -82,7 +64,7 @@ struct MangaFilterView: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                         .padding()
-                }
+                })
                 .disabled(!isFilterValid)
             }
             .onAppear {
@@ -98,42 +80,7 @@ struct MangaFilterView: View {
                     .foregroundColor(.red)
                 }
             }
-            .sheet(isPresented: $showAuthorPicker) {
-                SelectableListView(
-                    viewModel: SelectableListViewModel(
-                        title: "Authors",
-                        fetchItemsUseCase: FetchAuthorsUseCase(),
-                        onSelectItem: { (selectedAuthor: Author) in
-                            filter.query = selectedAuthor.fullName
-                            filter.id = selectedAuthor.id
-                        }
-                    )
-                )
-            }
-            .sheet(isPresented: $showGenrePicker) {
-                SelectableListView(
-                    viewModel: SelectableListViewModel(
-                        title: "Genres",
-                        fetchItemsUseCase: FetchGenresUseCase(),
-                        onSelectItem: { (selectedGenre: Genre) in
-                            filter.query = selectedGenre.genre
-                            filter.id = selectedGenre.id
-                        }
-                    )
-                )
-            }
-            .sheet(isPresented: $showThemePicker) {
-                SelectableListView(
-                    viewModel: SelectableListViewModel(
-                        title: "Themes",
-                        fetchItemsUseCase: FetchThemesUseCase(),
-                        onSelectItem: { (selectedTheme: Theme) in
-                            filter.query = selectedTheme.name
-                            filter.id = selectedTheme.id
-                        }
-                    )
-                )
-            }
+            .sheet(item: $showPicker, content: showSheet)
         }
     }
 
@@ -142,6 +89,60 @@ struct MangaFilterView: View {
         filter.query = ""
         filter.searchType = .none
         dismiss()
+    }
+    
+    // MARK: - View Builder
+    
+    @ViewBuilder
+    private func showSheet(_ type: SearchType) -> some View {
+        switch type {
+        case .author:
+            SelectableListView(
+                viewModel: SelectableListViewModel(
+                    title: "Authors",
+                    fetchItemsUseCase: FetchAuthorsUseCase(),
+                    onSelectItem: { (selectedAuthor: Author) in
+                        filter.query = selectedAuthor.fullName
+                        filter.id = selectedAuthor.id
+                    }
+                )
+            )
+        case .genre:
+            SelectableListView(
+                viewModel: SelectableListViewModel(
+                    title: "Genres",
+                    fetchItemsUseCase: FetchGenresUseCase(),
+                    onSelectItem: { (selectedGenre: Genre) in
+                        filter.query = selectedGenre.genre
+                        filter.id = selectedGenre.id
+                    }
+                )
+            )
+        case .theme:
+            SelectableListView(
+                viewModel: SelectableListViewModel(
+                    title: "Themes",
+                    fetchItemsUseCase: FetchThemesUseCase(),
+                    onSelectItem: { (selectedTheme: Theme) in
+                        filter.query = selectedTheme.name
+                        filter.id = selectedTheme.id
+                    }
+                )
+            )
+        case .demographic:
+            SelectableListView(
+                viewModel: SelectableListViewModel(
+                    title: "Demographics",
+                    fetchItemsUseCase: FetchDemographicsUseCase(),
+                    onSelectItem: { (selectedDemographic: Demographic) in
+                        filter.query = selectedDemographic.demographic
+                        filter.id = selectedDemographic.id
+                    }
+                )
+            )
+        default:
+            EmptyView()
+        }
     }
 }
 
