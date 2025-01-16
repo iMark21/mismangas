@@ -5,7 +5,7 @@
 //  Created by Michel Marques on 17/12/24.
 //
 
-actor Paginator<T: Sendable, F: FilterProtocol & Sendable> {
+actor Paginator<T: Sendable, F: Sendable> {
     typealias FetchPage = @Sendable (_ filter: F, _ page: Int, _ perPage: Int) async throws -> [T]
     
     private var items: [T] = []

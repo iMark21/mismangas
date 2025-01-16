@@ -10,7 +10,10 @@ import SwiftUI
 struct MangaFilterView: View {
     @Binding var filter: MangaFilter
     @Environment(\.dismiss) private var dismiss
+    
+    // Pickers
     @State private var showAuthorPicker = false
+    @State private var showGenrePicker = false
 
     var body: some View {
         NavigationView {
@@ -29,6 +32,9 @@ struct MangaFilterView: View {
                                 Text("Demographic").tag(SearchType.demographic)
                             }
                             .pickerStyle(.menu)
+                            .onChange(of: filter.searchType) {
+                                filter.query = ""
+                            }
                         }
                     }
 
@@ -40,6 +46,12 @@ struct MangaFilterView: View {
                                 .foregroundColor(filter.query.isEmpty ? .blue : .primary)
                                 .onTapGesture {
                                     showAuthorPicker = true
+                                }
+                        } else if filter.searchType == .genre {
+                            Text(filter.query.isEmpty ? "Select a genre..." : filter.query)
+                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
+                                .onTapGesture {
+                                    showGenrePicker = true
                                 }
                         } else {
                             Text("Coming soon")
@@ -56,14 +68,20 @@ struct MangaFilterView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(
-                            (filter.searchType == .beginsWith || filter.searchType == .contains || filter.searchType == .author) && !filter.query.isEmpty ? Color.blue : Color.gray
+                            (filter.searchType == .beginsWith ||
+                             filter.searchType == .contains ||
+                             filter.searchType == .author ||
+                             filter.searchType == .genre) && !filter.query.isEmpty ? Color.blue : Color.gray
                         )
                         .foregroundColor(.white)
                         .cornerRadius(12)
                         .padding()
                 }
                 .disabled(
-                    (filter.searchType != .beginsWith && filter.searchType != .contains && filter.searchType != .author) || filter.query.isEmpty
+                    (filter.searchType != .beginsWith &&
+                     filter.searchType != .contains &&
+                     filter.searchType != .author &&
+                     filter.searchType != .genre) || filter.query.isEmpty
                 )
             }
             .onAppear {
@@ -80,11 +98,27 @@ struct MangaFilterView: View {
                 }
             }
             .sheet(isPresented: $showAuthorPicker) {
-                AuthorListView(
-                    viewModel: AuthorListViewModel(selectedAuthor: filter.query, onSelectAuthor: { selectedAuthor in
-                        filter.query = selectedAuthor.fullName
-                        filter.id = selectedAuthor.id
-                    })
+                SelectableListView(
+                    viewModel: SelectableListViewModel(
+                        title: "Authors",
+                        fetchItemsUseCase: FetchAuthorsUseCase(),
+                        onSelectItem: { (selectedAuthor: Author) in
+                            filter.query = selectedAuthor.fullName
+                            filter.id = selectedAuthor.id
+                        }
+                    )
+                )
+            }
+            .sheet(isPresented: $showGenrePicker) {
+                SelectableListView(
+                    viewModel: SelectableListViewModel(
+                        title: "Genres",
+                        fetchItemsUseCase: FetchGenresUseCase(),
+                        onSelectItem: { (selectedGenre: Genre) in
+                            filter.query = selectedGenre.genre
+                            filter.id = selectedGenre.id
+                        }
+                    )
                 )
             }
         }

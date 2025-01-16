@@ -31,18 +31,17 @@ final class MockFetchAuthorsUseCase: FetchAuthorsUseCaseProtocol {
 
 // MARK: - Preview ViewModel
 
-extension AuthorListViewModel {
-    static var preview: AuthorListViewModel {
+extension SelectableListViewModel where T == Author {
+    static var authorsPreview: SelectableListViewModel<Author> {
         let useCase = MockFetchAuthorsUseCase()
-        let viewModel = AuthorListViewModel(fetchAuthorsUseCase: useCase)
+        let viewModel = SelectableListViewModel(
+            title: "Authors",
+            fetchItemsUseCase: useCase,
+            selectedItem: nil,
+            onSelectItem: { _ in
+                Logger.log("Item selected")
+            }
+        )
         return viewModel
-    }
-}
-
-// MARK: - Preview Authors Filter
-
-extension AuthorFilter {
-    static var preview: AuthorFilter {
-        AuthorFilter(query: "Query")
     }
 }

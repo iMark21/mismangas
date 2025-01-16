@@ -7,6 +7,12 @@
 
 import Foundation
 
-protocol FetchAuthorsUseCaseProtocol: Sendable {
+protocol FetchAuthorsUseCaseProtocol: FetchItemsUseCaseProtocol {
     func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Author]
+}
+
+
+protocol FetchItemsUseCaseProtocol: Sendable {
+    associatedtype Item: Identifiable & Hashable & Sendable
+    func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Item]
 }
