@@ -15,9 +15,11 @@ struct MangaFilterView: View {
     @State private var showAuthorPicker = false
     @State private var showGenrePicker = false
     @State private var showThemePicker = false
+    @State private var showDemographicPicker = false
     
     private var isFilterValid: Bool {
-        [.beginsWith, .contains, .author, .genre, .theme].contains(filter.searchType) && !filter.query.isEmpty
+        [.beginsWith, .contains, .author, .genre, .theme, .demographic]
+            .contains(filter.searchType) && !filter.query.isEmpty
     }
 
     var body: some View {
@@ -63,6 +65,12 @@ struct MangaFilterView: View {
                                 .foregroundColor(filter.query.isEmpty ? .blue : .primary)
                                 .onTapGesture {
                                     showThemePicker = true
+                                }
+                        } else if filter.searchType == .demographic {
+                            Text(filter.query.isEmpty ? "Select a demographic..." : filter.query)
+                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
+                                .onTapGesture {
+                                    showDemographicPicker = true
                                 }
                         } else {
                             Text("Coming soon")
@@ -130,6 +138,18 @@ struct MangaFilterView: View {
                         onSelectItem: { (selectedTheme: Theme) in
                             filter.query = selectedTheme.name
                             filter.id = selectedTheme.id
+                        }
+                    )
+                )
+            }
+            .sheet(isPresented: $showDemographicPicker) {
+                SelectableListView(
+                    viewModel: SelectableListViewModel(
+                        title: "Demographics",
+                        fetchItemsUseCase: FetchDemographicsUseCase(),
+                        onSelectItem: { (selectedDemographic: Demographic) in
+                            filter.query = selectedDemographic.demographic
+                            filter.id = selectedDemographic.id
                         }
                     )
                 )
