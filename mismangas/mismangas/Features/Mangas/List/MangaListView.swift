@@ -14,9 +14,9 @@ struct MangaListView: View {
     @State private var filter = MangaFilter.empty
     
     // MARK: - Body
-
+    
     var body: some View {
-        NavigationView {
+        NavigationStack {
             content
                 .navigationTitle("Mangas")
                 .toolbar {
@@ -33,18 +33,16 @@ struct MangaListView: View {
         .onAppear {
             viewModel.fetchInitialPage()
         }
-        // If showFilterView is true, present the sheet
         .sheet(isPresented: $showFilterView, onDismiss: {
             viewModel.applyFilter(filter)
         }) {
-            // Pass the filter to the MangaFilterView
             MangaFilterView(filter: $filter)
                 .presentationDetents([.medium, .large])
         }
     }
     
     // MARK: - Private content
-
+    
     @ViewBuilder
     private var content: some View {
         switch viewModel.state {
@@ -63,17 +61,19 @@ struct MangaListView: View {
             }
         }
     }
-
+    
     private func mangaListView(items: [Manga], isLoadingMore: Bool) -> some View {
         List {
             ForEach(items, id: \.id) { manga in
-                MangaRowView(manga: manga)
-                    .onAppear {
-                        // When the last item appears, fetch the next page
-                        if items.last == manga {
-                            viewModel.fetchNextPage()
-                        }
+                NavigationLink(destination: MangaDetailView(manga: manga)) {
+                    MangaRowView(manga: manga)
+                }
+                .onAppear {
+                    // Fetch the next page when the last item appears
+                    if items.last == manga {
+                        viewModel.fetchNextPage()
                     }
+                }
             }
             if isLoadingMore {
                 LoadingMoreView(message: "Loading more...")
@@ -85,6 +85,8 @@ struct MangaListView: View {
         }
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     MangaListView(viewModel: .preview)
