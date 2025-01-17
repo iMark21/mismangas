@@ -21,7 +21,7 @@ extension MangaDTO {
             chapters: chapters,
             volumes: volumes,
             status: status ?? " - ",
-            sypnosis: sypnosis ?? " - ",
+            synopsis: sypnosis ?? " - ",
             startDate: startDate,
             endDate: endDate
         )

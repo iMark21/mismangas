@@ -21,7 +21,7 @@ struct Manga: Decodable, Equatable {
     let chapters: Int?
     let volumes: Int?
     let status: String
-    let sypnosis: String
+    let synopsis: String
     let startDate: String?
     let endDate: String?
 }

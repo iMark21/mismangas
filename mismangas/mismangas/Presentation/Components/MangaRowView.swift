@@ -17,12 +17,7 @@ struct MangaRowView: View {
             
             // Title, Author, and Details
             VStack(alignment: .leading, spacing: 4) {
-                MangaBasicInfoView(title: manga.title, score: manga.score, volumes: manga.volumes)
-                
-                // - PARA PRUEBAS -
-                Text("Themes: \(manga.themes.map { $0.name }.joined(separator: ", "))")
-                    .font(.subheadline)
-                    .foregroundColor(.white)
+                MangaBasicInfoView(title: manga.title, titleJapanese: nil, score: manga.score, volumes: manga.volumes)
             }
             .padding()
         }
