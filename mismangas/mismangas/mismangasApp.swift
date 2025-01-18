@@ -6,14 +6,23 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct mismangasApp: App {
     var body: some Scene {
         WindowGroup {
-            let fetchMangasUseCase = FetchMangasUseCase()
-            let viewModel = MangaListViewModel(fetchMangasUseCase: fetchMangasUseCase)
-            MangaListView(viewModel: viewModel)
+            TabView {
+                MangaListView()
+                    .tabItem {
+                        Label("All Mangas", systemImage: "book")
+                    }
+                MyCollectionListView()
+                    .tabItem {
+                        Label("My Collection", systemImage: "heart.fill")
+                    }
+            }
         }
+        .modelContainer(for: [MangaCollection.self])
     }
 }

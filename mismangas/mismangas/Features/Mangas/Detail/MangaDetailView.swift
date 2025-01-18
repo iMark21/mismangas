@@ -6,63 +6,90 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MangaDetailView: View {
-    let manga: Manga
-    @State private var isInCollection = false
-    @State private var volumesOwned: [Int] = []
-    @State private var readingVolume: Int? = nil
-    @State private var completeCollection = false
-    @State private var showingCollectionManagement = false
+    @State var viewModel: MangaDetailViewModel
+    @Query private var collections: [MangaCollection]
+    @Environment(\.modelContext) private var modelContext
 
+    // MARK: - Computed Properties
+    
+    private var collection: MangaCollection? {
+        guard case .content(let manga) = viewModel.state else { return nil }
+        return collections.first(where: { $0.mangaID == manga.id })
+    }
+
+    private var collectionManager: MangaCollectionManager {
+        MangaCollectionManager(modelContext: modelContext)
+    }
+
+    // MARK: - Body
+    
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    // HEADER
-                    MangaHeaderView(manga: manga)
-                    
-                    // TAGS
-                    MangaTagsView(
-                        genres: manga.genres.map { $0.genre },
-                        demographics: manga.demographics.map { $0.demographic },
-                        themes: manga.themes.map { $0.name }
-                    )
-                    .padding(.horizontal)
+            switch viewModel.state {
+            case .loading:
+                ProgressMeView(message: "Loading ...")
 
-                    // SYNOPSIS
-                    MangaSynopsisView(synopsis: manga.synopsis)
-                        .padding()
+            case .content(let manga):
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16) {
+                        MangaHeaderView(manga: manga)
+                        MangaTagsView(
+                            genres: manga.genres.map { $0.genre },
+                            demographics: manga.demographics.map { $0.demographic },
+                            themes: manga.themes.map { $0.name }
+                        )
+                        .padding(.horizontal)
+                        MangaSynopsisView(synopsis: manga.synopsis)
+                            .padding()
+                    }
+                }
+                MangaDetailBottomBar(isInCollection: collection != nil,
+                                     toggleCollection: toggleCollection,
+                                     showManagement: {
+                    viewModel.showingCollectionManagement = true
+                })
+                
+            case .error(let message):
+                ErrorView(message: message) {
+                    if let mangaID = viewModel.mangaID {
+                        viewModel.fetchMangaDetails(for: mangaID)
+                    }
                 }
             }
-
-            // MANAGEMENT
-            MangaDetailBottomBar(
-                isInCollection: $isInCollection,
-                toggleCollection: toggleCollection,
-                showManagement: { showingCollectionManagement = true }
-            )
         }
         .navigationTitle("Manga Details")
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $showingCollectionManagement) {
-            CollectionManagementSection(
-                completeCollection: $completeCollection,
-                volumesOwned: $volumesOwned,
-                readingVolume: $readingVolume,
-                totalVolumes: manga.volumes
-            )
-            .presentationDetents([.height(200), .medium])
-            .presentationDragIndicator(.visible)
+        .sheet(isPresented: $viewModel.showingCollectionManagement) {
+            if case .content(let manga) = viewModel.state {
+                MyCollectionManagementSection(completeCollection: $viewModel.completeCollection,
+                                            volumesOwned: $viewModel.volumesOwned,
+                                            readingVolume: $viewModel.readingVolume,
+                                            totalVolumes: manga.volumes,
+                                            manga: manga)
+                .presentationDetents([.height(200), .medium])
+                .presentationDragIndicator(.visible)
+            }
         }
     }
 
+    // MARK: - Actions
+    
     private func toggleCollection() {
-        isInCollection.toggle()
-        if !isInCollection {
-            volumesOwned = []
-            readingVolume = nil
-            completeCollection = false
+        guard case .content(let manga) = viewModel.state else { return }
+
+        if collection != nil {
+            let resetState = collectionManager.removeFromCollection(mangaID: manga.id)
+            viewModel.completeCollection = resetState.completeCollection
+            viewModel.volumesOwned = resetState.volumesOwned
+            viewModel.readingVolume = resetState.readingVolume
+        } else {
+            collectionManager.saveToMyCollection(manga: manga,
+                                                 completeCollection: viewModel.completeCollection,
+                                                 volumesOwned: viewModel.volumesOwned,
+                                                 readingVolume: viewModel.readingVolume)
         }
     }
 }
@@ -70,5 +97,5 @@ struct MangaDetailView: View {
 // MARK: - Preview
 
 #Preview {
-    MangaDetailView(manga: .preview)
+    MangaDetailView(viewModel: .preview)
 }

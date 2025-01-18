@@ -65,7 +65,7 @@ struct MangaListView: View {
     private func mangaListView(items: [Manga], isLoadingMore: Bool) -> some View {
         List {
             ForEach(items, id: \.id) { manga in
-                NavigationLink(destination: MangaDetailView(manga: manga)) {
+                NavigationLink(destination: MangaDetailView(viewModel: MangaDetailViewModel(manga: manga))) {
                     MangaRowView(manga: manga)
                 }
                 .onAppear {
