@@ -13,11 +13,16 @@ struct MangaRowView: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             // Background Image with Gradient
-            BackgroundImageView(imageUrl: manga.mainPicture, height: 180)
+            BackgroundImageView(imageUrl: manga.mainPicture,
+                                height: 180)
             
             // Title, Author, and Details
-            VStack(alignment: .leading, spacing: 4) {
-                MangaBasicInfoView(title: manga.title, titleJapanese: nil, score: manga.score, volumes: manga.volumes)
+            VStack(alignment: .leading) {
+                MangaBasicInfoView(title: manga.title,
+                                   titleJapanese: nil,
+                                   score: manga.score,
+                                   volumes: manga.volumes,
+                                   mangaID: manga.id)
             }
             .padding()
         }

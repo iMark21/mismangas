@@ -35,6 +35,12 @@ struct MangaRepository: MangaRepositoryProtocol {
         return try await performFetch(baseURL: url, page: page, perPage: perPage)
     }
     
+    func fetchMangaDetails(by id: Int) async throws -> Manga {
+        let url = URL.mangaDetail(for: id)
+        let result: MangaDTO = try await client.perform(.get(url))
+        return result.toDomain()
+    }
+    
     // MARK: - Private Helper Method
     
     private func performFetch(baseURL: URL, page: Int, perPage: Int) async throws -> [Manga] {

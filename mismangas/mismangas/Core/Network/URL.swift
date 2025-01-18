@@ -31,6 +31,14 @@ extension URL {
     }
 }
 
+// MARK: - Manga Detail Endpoint
+
+extension URL {
+    static func mangaDetail(for id: Int) -> URL {
+        api.appending(path: "search/manga/\(id)")
+    }
+}
+
 // MARK: - Author Endpoints
 
 extension URL {

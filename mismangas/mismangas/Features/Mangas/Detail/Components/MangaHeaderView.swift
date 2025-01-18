@@ -17,7 +17,8 @@ struct MangaHeaderView: View {
             MangaBasicInfoView(title: manga.title,
                                titleJapanese: manga.titleJapanese,
                                score: manga.score,
-                               volumes: manga.volumes)
+                               volumes: manga.volumes,
+                               mangaID: manga.id)
             .padding()
         }
     }

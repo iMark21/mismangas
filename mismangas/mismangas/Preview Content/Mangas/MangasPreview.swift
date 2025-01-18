@@ -38,6 +38,12 @@ extension MangaListViewModel {
     }
 }
 
+extension MangaDetailViewModel {
+    static var preview: MangaDetailViewModel {
+        MangaDetailViewModel(manga: .preview)
+    }
+}
+
 // MARK: - Preview Mangas Filter
 
 extension MangaFilter {

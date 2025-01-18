@@ -10,20 +10,22 @@ import Foundation
 @Observable
 final class MangaListViewModel {
 
+    // MARK: - View State
     enum ViewState {
         case loading
         case content(items: [Manga], isLoadingMore: Bool)
         case error(message: String, items: [Manga])
     }
 
-    // MARK: - Public properties
+    // MARK: - Public Properties
     var state: ViewState = .loading
 
-    // MARK: - Private
+    // MARK: - Private Properties
     private let fetchMangasUseCase: FetchMangasUseCaseProtocol
     private let paginator: Paginator<Manga, MangaFilter>
     private var currentFilter: MangaFilter
 
+    // MARK: - Initialization
     init(fetchMangasUseCase: FetchMangasUseCaseProtocol = FetchMangasUseCase(),
          initialFilter: MangaFilter = .empty) {
         self.fetchMangasUseCase = fetchMangasUseCase
@@ -38,6 +40,7 @@ final class MangaListViewModel {
         }
     }
 
+    // MARK: - Public Methods
     @MainActor
     func fetchInitialPage() {
         guard case .loading = state else { return }
