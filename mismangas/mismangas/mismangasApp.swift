@@ -12,15 +12,33 @@ import SwiftData
 struct mismangasApp: App {
     var body: some Scene {
         WindowGroup {
-            TabView {
-                MangaListView()
-                    .tabItem {
-                        Label("All Mangas", systemImage: "book")
+            if iPad {
+                NavigationSplitView {
+                    List {
+                        NavigationLink(destination: MangaListPadView()) {
+                            Label("All Mangas", systemImage: "book")
+                        }
+                        NavigationLink(destination: MyCollectionListView()) {
+                            Label("My Collection", systemImage: "heart.fill")
+                        }
                     }
-                MyCollectionListView()
-                    .tabItem {
-                        Label("My Collection", systemImage: "heart.fill")
-                    }
+                    .navigationTitle("Mismangas")
+                } detail: {
+                    Text("Select a section")
+                        .foregroundColor(.secondary)
+                }
+            } else {
+                // TabView para iPhone
+                TabView {
+                    MangaListView()
+                        .tabItem {
+                            Label("All Mangas", systemImage: "book")
+                        }
+                    MyCollectionListView()
+                        .tabItem {
+                            Label("My Collection", systemImage: "heart.fill")
+                        }
+                }
             }
         }
         .modelContainer(for: [MangaCollection.self])

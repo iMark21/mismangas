@@ -1,5 +1,5 @@
 //
-//  CollectionListView.swift
+//  MyCollectionListView.swift
 //  mismangas
 //
 //  Created by Michel Marques on 17/1/25.
@@ -9,55 +9,84 @@ import SwiftUI
 import SwiftData
 
 struct MyCollectionListView: View {
+    // MARK: - Properties
+    
     @Query private var collections: [MangaCollection]
     @Environment(\.modelContext) private var modelContext
+
+    @State private var selectedMangaID: Int? = nil
 
     private var collectionManager: MangaCollectionManager {
         MangaCollectionManager(modelContext: modelContext)
     }
 
+    // MARK: - Body
+
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(collections) { collection in
-                    NavigationLink(destination: MangaDetailView(viewModel: MangaDetailViewModel(mangaID: collection.mangaID))) {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(collection.mangaName)
-                                    .font(.headline)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.primary)
-                                if collection.completeCollection {
-                                    Text("Status: Complete")
-                                        .font(.subheadline)
-                                        .foregroundColor(.green)
-                                } else {
-                                    Text("Status: In Progress")
-                                        .font(.subheadline)
-                                        .foregroundColor(.orange)
-                                }
-                            }
-                            Spacer()
-                            Image(systemName: collection.completeCollection ? "checkmark.seal.fill" : "book.fill")
-                                .foregroundColor(collection.completeCollection ? .green : .orange)
-                                .font(.title3)
-                        }
-                        .padding(.vertical, 8)
+        if iPad {
+            // iPad layout with NavigationSplitView
+            NavigationSplitView {
+                List(selection: $selectedMangaID) {
+                    ForEach(collections) { collection in
+                        MyCollectionRowView(
+                            mangaName: collection.mangaName,
+                            completeCollection: collection.completeCollection
+                        )
+                        .tag(collection.mangaID)
                     }
+                    .onDelete(perform: deleteCollection)
                 }
-                .onDelete(perform: deleteCollection)
+            } detail: {
+                detailView
             }
-            .navigationTitle("My Collection")
-            .toolbar {
-                EditButton()
+        } else {
+            // iPhone layout with NavigationStack and NavigationLink
+            NavigationStack {
+                List {
+                    ForEach(collections) { collection in
+                        NavigationLink(
+                            destination: MangaDetailView(
+                                viewModel: MangaDetailViewModel(mangaID: collection.mangaID)
+                            )
+                        ) {
+                            MyCollectionRowView(
+                                mangaName: collection.mangaName,
+                                completeCollection: collection.completeCollection
+                            )
+                        }
+                    }
+                    .onDelete(perform: deleteCollection)
+                }
+                .navigationTitle("My Collection")
+                .toolbar {
+                    EditButton()
+                }
             }
         }
     }
 
+    // MARK: - Detail View
+
+    private var detailView: some View {
+        Group {
+            if let selectedMangaID = selectedMangaID,
+               let collection = collections.first(where: { $0.mangaID == selectedMangaID }) {
+                MangaDetailPadView(viewModel: MangaDetailViewModel(mangaID: collection.mangaID))
+                    .id(selectedMangaID)
+            } else {
+                Text("Select a manga from your collection")
+                    .foregroundColor(.secondary)
+                    .font(.title2)
+            }
+        }
+    }
+
+    // MARK: - Actions
+
     private func deleteCollection(at offsets: IndexSet) {
         for index in offsets {
             let collection = collections[index]
-             _ = collectionManager.removeFromCollection(mangaID: collection.mangaID)
+            collectionManager.removeFromCollection(mangaID: collection.mangaID)
         }
     }
 }

@@ -55,12 +55,11 @@ final class MangaCollectionManager {
     // MARK: - Delete Operations
 
     /// Remove manga from collection and reset state
-    func removeFromCollection(mangaID: Int) -> (completeCollection: Bool, volumesOwned: [Int], readingVolume: Int?) {
+    func removeFromCollection(mangaID: Int)  {
         if let collection = fetchCollection(for: mangaID) {
             modelContext.delete(collection)
             try? modelContext.save()
         }
-        return (false, [], nil)
     }
 
     // MARK: - Volume Management

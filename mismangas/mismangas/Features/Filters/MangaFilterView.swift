@@ -19,7 +19,7 @@ struct MangaFilterView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Form {
                     Section {
@@ -44,6 +44,8 @@ struct MangaFilterView: View {
                     Section {
                         if filter.searchType == .beginsWith || filter.searchType == .contains {
                             TextField("Type text", text: $filter.query)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
                         } else {
                             Text(filter.query.isEmpty ? "Select \(filter.searchType?.rawValue ?? "option")..." : filter.query)
                                 .foregroundColor(filter.query.isEmpty ? .blue : .primary)
