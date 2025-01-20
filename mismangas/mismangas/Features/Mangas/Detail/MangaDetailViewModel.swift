@@ -40,10 +40,10 @@ final class MangaDetailViewModel {
         self.fetchMangaDetailsUseCase = fetchMangaDetailsUseCase
         self.mangaID = mangaID
 
-        if let manga = manga {
-            state = .content(manga: manga)
-        } else if let mangaID = mangaID {
+        if let mangaID = mangaID {
             fetchMangaDetails(for: mangaID)
+        } else if let manga = manga {
+            state = .content(manga: manga)
         }
     }
 
@@ -59,5 +59,11 @@ final class MangaDetailViewModel {
                 state = .error(message: "Failed to load manga details.")
             }
         }
+    }
+    
+    func reset() {
+        completeCollection = false
+        volumesOwned = []
+        readingVolume = nil
     }
 }

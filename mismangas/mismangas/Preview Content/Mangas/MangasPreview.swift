@@ -34,6 +34,7 @@ extension MangaListViewModel {
     static var preview: MangaListViewModel {
         let useCase = MockFetchMangasUseCase()
         let viewModel = MangaListViewModel(fetchMangasUseCase: useCase)
+        viewModel.state = .content(items: Manga.previewData, isLoadingMore: false)
         return viewModel
     }
 }

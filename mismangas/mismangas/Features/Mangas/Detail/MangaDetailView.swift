@@ -81,10 +81,8 @@ struct MangaDetailView: View {
         guard case .content(let manga) = viewModel.state else { return }
 
         if collection != nil {
-            let resetState = collectionManager.removeFromCollection(mangaID: manga.id)
-            viewModel.completeCollection = resetState.completeCollection
-            viewModel.volumesOwned = resetState.volumesOwned
-            viewModel.readingVolume = resetState.readingVolume
+            collectionManager.removeFromCollection(mangaID: manga.id)
+            viewModel.reset()
         } else {
             collectionManager.saveToMyCollection(manga: manga,
                                                  completeCollection: viewModel.completeCollection,
