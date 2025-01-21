@@ -6,26 +6,24 @@
 //
 
 import SwiftUI
-
 struct MangaImageDetailPadView: View {
+    
     // MARK: - Properties
 
     let imageUrl: String?
     let cornerRadius: CGFloat
     let shadowRadius: CGFloat
-
+    
     // MARK: - Body
 
     var body: some View {
-        AsyncImage(url: URL(string: imageUrl ?? "")) { image in
-            image
-                .resizable()
-                .scaledToFit()
-                .cornerRadius(cornerRadius)
-        } placeholder: {
-            ProgressView()
-        }
-        .shadow(radius: shadowRadius)
+        ReusableMangaImageView(imageUrl: imageUrl,
+                               width: nil,
+                               height: nil,
+                               cornerRadius: cornerRadius,
+                               shadowRadius: shadowRadius,
+                               contentMode: .fit,
+                               placeholderScale: 1.0)
     }
 }
 

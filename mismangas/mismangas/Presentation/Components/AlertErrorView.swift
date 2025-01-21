@@ -41,9 +41,9 @@ struct AlertErrorView<Content: View>: View {
             Alert(
                 title: Text("Error"),
                 message: Text(message),
-                dismissButton: .default(Text("OK")) {
+                primaryButton: .default(Text("Retry"), action: {
                     retryAction()
-                }
+                }), secondaryButton: .cancel({})
             )
         }
     }

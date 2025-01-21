@@ -13,6 +13,12 @@ struct MangaRepository: MangaRepositoryProtocol {
     
     // MARK: - Public Methods
     
+    func fetchBestMangas() async throws -> [Manga] {
+        let url = URL.bestMangas
+        let result: MangaResponseDTO = try await client.perform(.get(url))
+        return result.items.compactMap { $0.toDomain() }
+    }
+    
     func fetchMangasBy(filter: MangaFilter, page: Int, perPage: Int) async throws -> [Manga] {
         let url: URL
         switch filter.searchType {

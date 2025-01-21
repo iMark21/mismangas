@@ -30,6 +30,10 @@ struct mismangasApp: App {
             } else {
                 // TabView para iPhone
                 TabView {
+                    HomeView()
+                        .tabItem {
+                            Label("Home", systemImage: "house")
+                        }
                     MangaListView()
                         .tabItem {
                             Label("All Mangas", systemImage: "book")
