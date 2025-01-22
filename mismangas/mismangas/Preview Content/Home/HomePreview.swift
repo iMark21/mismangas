@@ -9,8 +9,8 @@
 extension HomeViewModel {
     static var preview: HomeViewModel {
         let viewModel = HomeViewModel(bestMangasUseCase: MockFetchBestMangasUseCase())
-        viewModel.latestMangas = Manga.previewData.shuffled()
-        viewModel.genres = Manga.previewData.shuffled()
+//        viewModel.latestMangas = Manga.previewData.shuffled()
+//        viewModel.genres = Manga.previewData.shuffled()
 
         return viewModel
     }

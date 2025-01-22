@@ -8,5 +8,5 @@
 import Foundation
 
 protocol FetchGenresUseCaseProtocol: FetchItemsUseCaseProtocol {
-    func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Genre]
+    func execute() async throws -> [Genre]
 }

@@ -11,6 +11,7 @@ import SwiftUI
 struct AutomaticMangaCarousel: View {
     let mangas: [Manga]
     let isLoading: Bool
+    let onSelect: (Manga) -> Void
 
     @State private var currentIndex = 0
     private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
@@ -28,6 +29,9 @@ struct AutomaticMangaCarousel: View {
                     ForEach(mangas.indices, id: \.self) { index in
                         MangaCarouselItem(manga: mangas[index])
                             .tag(index)
+                            .onTapGesture {
+                                onSelect(mangas[index])
+                            }
                     }
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
@@ -48,5 +52,7 @@ struct AutomaticMangaCarousel: View {
 // MARK: - Preview
 
 #Preview {
-    AutomaticMangaCarousel(mangas: Manga.previewData, isLoading: false)
+    AutomaticMangaCarousel(mangas: Manga.previewData,
+                           isLoading: false,
+                           onSelect: { _ in })
 }

@@ -97,12 +97,16 @@ struct MangaFilterView: View {
     
     @ViewBuilder
     private func showSheet(_ type: SearchType) -> some View {
+        
+        
+        
         switch type {
         case .author:
             SelectableListView(
                 viewModel: SelectableListViewModel(
                     title: "Authors",
                     fetchItemsUseCase: FetchAuthorsUseCase(),
+                    selectedItem: filter.searchType == .author ? Author(id: filter.id ?? "", fullName: filter.query, role: .story) : nil,
                     onSelectItem: { (selectedAuthor: Author) in
                         filter.query = selectedAuthor.fullName
                         filter.id = selectedAuthor.id
@@ -114,6 +118,7 @@ struct MangaFilterView: View {
                 viewModel: SelectableListViewModel(
                     title: "Genres",
                     fetchItemsUseCase: FetchGenresUseCase(),
+                    selectedItem: filter.searchType == .genre ? Genre(id: filter.id ?? "", genre: filter.query) : nil,
                     onSelectItem: { (selectedGenre: Genre) in
                         filter.query = selectedGenre.genre
                         filter.id = selectedGenre.id
@@ -125,6 +130,7 @@ struct MangaFilterView: View {
                 viewModel: SelectableListViewModel(
                     title: "Themes",
                     fetchItemsUseCase: FetchThemesUseCase(),
+                    selectedItem: filter.searchType == .theme ? Theme(id: filter.id ?? "", name: filter.query) : nil,
                     onSelectItem: { (selectedTheme: Theme) in
                         filter.query = selectedTheme.name
                         filter.id = selectedTheme.id
@@ -136,6 +142,7 @@ struct MangaFilterView: View {
                 viewModel: SelectableListViewModel(
                     title: "Demographics",
                     fetchItemsUseCase: FetchDemographicsUseCase(),
+                    selectedItem: filter.searchType == .demographic ? Demographic(id: filter.id ?? "", demographic: filter.query) : nil,
                     onSelectItem: { (selectedDemographic: Demographic) in
                         filter.query = selectedDemographic.demographic
                         filter.id = selectedDemographic.id

@@ -23,7 +23,7 @@ extension Genre {
 // MARK: - Mock UseCase
 
 final class MockFetchGenreUseCase: FetchGenresUseCaseProtocol {
-    func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Genre] {
+    func execute() async throws -> [Genre] {
         return Genre.previewData
     }
 }

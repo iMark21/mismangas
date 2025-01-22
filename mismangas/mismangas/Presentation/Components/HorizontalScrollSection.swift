@@ -11,13 +11,14 @@ struct HorizontalScrollSection: View {
     let title: String
     let mangas: [Manga]
     let isLoading: Bool
+    let onSelect: (Manga) -> Void
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
-                .font(.title2)
+            Text(title.uppercased())
+                .font(.headline)
                 .bold()
-                .padding(.horizontal)
+                .padding(.bottom, 8)
 
             if isLoading {
                 ProgressView()
@@ -25,13 +26,15 @@ struct HorizontalScrollSection: View {
                     .padding(.vertical)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 16) {
+                    LazyHStack {
                         ForEach(mangas) { manga in
                             MangaCardView(manga: manga)
-                                .padding(.vertical)
+                                .padding(8)
+                                .onTapGesture {
+                                    onSelect(manga)
+                                }
                         }
                     }
-                    .padding(.horizontal)
                 }
             }
         }
@@ -41,5 +44,5 @@ struct HorizontalScrollSection: View {
 // MARK: - Preview
 
 #Preview {
-    HorizontalScrollSection(title: "Section", mangas: Manga.previewData, isLoading: false)
+    HorizontalScrollSection(title: "Section", mangas: Manga.previewData, isLoading: false, onSelect: { _ in })
 }

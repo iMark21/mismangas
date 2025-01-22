@@ -24,7 +24,7 @@ extension Author {
 // MARK: - Mock UseCase
 
 final class MockFetchAuthorsUseCase: FetchAuthorsUseCaseProtocol {
-    func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Author] {
+    func execute() async throws -> [Author] {
         return Author.previewData
     }
 }

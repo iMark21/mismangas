@@ -26,7 +26,9 @@ struct MangaListContentView<RowContent: View>: View {
                     rowContent(manga)
                         .onAppear {
                             if items.last == manga {
-                                viewModel.fetchNextPage()
+                                Task {
+                                    await viewModel.fetchNextPage()
+                                }
                             }
                         }
                 }
@@ -37,13 +39,19 @@ struct MangaListContentView<RowContent: View>: View {
             }
             .listStyle(.plain)
             .refreshable {
-                viewModel.refresh()
+                Task {
+                    await viewModel.refresh()
+                }
             }
 
         case let .error(message, items):
             AlertErrorView(
                 message: message,
-                retryAction: { viewModel.refresh() }
+                retryAction: {
+                    Task {
+                        await viewModel.refresh()
+                    }
+                }
             ) {
                 if !items.isEmpty {
                     List {
@@ -51,13 +59,17 @@ struct MangaListContentView<RowContent: View>: View {
                             rowContent(manga)
                                 .onAppear {
                                     if items.last == manga {
-                                        viewModel.fetchNextPage()
+                                        Task {
+                                            await viewModel.fetchNextPage()
+                                        }
                                     }
                                 }
                         }
                     }
                     .refreshable {
-                        viewModel.refresh()
+                        Task {
+                            await viewModel.refresh()
+                        }                        
                     }
                 }
             }

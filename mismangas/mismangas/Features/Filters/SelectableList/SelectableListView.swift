@@ -24,7 +24,9 @@ struct SelectableListView<T: Identifiable & Hashable & Searchable>: View {
                     .onChange(of: viewModel.searchQuery) {
                         Task { viewModel.applyQuery() }
                     }
-                    .task { viewModel.fetch() }
+                    .task {
+                        await viewModel.fetch()
+                    }
             }
             .navigationTitle("Select \(viewModel.title)")
             .navigationBarTitleDisplayMode(.inline)
@@ -95,7 +97,7 @@ struct SelectableListView<T: Identifiable & Hashable & Searchable>: View {
         case .error(let message, _):
             ErrorView(
                 message: message,
-                onRetry: { Task { viewModel.fetch() } }
+                onRetry: { Task { await viewModel.fetch() } }
             )
         }
     }

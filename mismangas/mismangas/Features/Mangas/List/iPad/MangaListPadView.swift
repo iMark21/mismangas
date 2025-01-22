@@ -42,10 +42,14 @@ struct MangaListPadView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchInitialPage()
+                Task {
+                    await viewModel.fetchInitialPage()
+                }
             }
             .sheet(isPresented: $showFilterView, onDismiss: {
-                viewModel.applyFilter(filter)
+                Task {
+                    await viewModel.applyFilter(filter)
+                }
             }) {
                 MangaFilterView(filter: $filter)
             }

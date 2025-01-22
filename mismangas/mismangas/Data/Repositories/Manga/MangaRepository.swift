@@ -23,9 +23,17 @@ struct MangaRepository: MangaRepositoryProtocol {
         let url: URL
         switch filter.searchType {
         case .beginsWith:
-            url = .searchMangasBeginsWith(filter.query)
+            if filter.query.isEmpty {
+                url = .mangas
+            } else {
+                url = .searchMangasBeginsWith(filter.query)
+            }
         case .contains:
-            url = .searchMangasContains(filter.query)
+            if filter.query.isEmpty {
+                url = .mangas
+            } else {
+                url = .searchMangasContains(filter.query)
+            }
         case .author:
             url = .searchMangasByAuthor(filter.id ?? "")
         case .genre:

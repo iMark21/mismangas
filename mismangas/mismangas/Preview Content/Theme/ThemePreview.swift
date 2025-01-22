@@ -21,7 +21,7 @@ extension Theme {
 // MARK: - Mock UseCase
 
 final class MockFetchThemeUseCase: FetchThemesUseCaseProtocol {
-    func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Theme] {
+    func execute() async throws -> [Theme] {
         return Theme.previewData
     }
 }

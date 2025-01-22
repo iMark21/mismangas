@@ -21,7 +21,7 @@ extension Demographic {
 // MARK: - Mock UseCase
 
 final class MockFetchDemographicUseCase: FetchDemographicsUseCaseProtocol {
-    func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Demographic] {
+    func execute() async throws -> [Demographic] {
         return Demographic.previewData
     }
 }
