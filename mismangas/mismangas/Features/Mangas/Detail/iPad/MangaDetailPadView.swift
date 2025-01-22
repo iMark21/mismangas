@@ -17,9 +17,9 @@ struct MangaDetailPadView: View {
 
     // MARK: - Computed Properties
     
-    private var collection: MangaCollection? {
-        guard case .content(let manga) = viewModel.state else { return nil }
-        return collections.first(where: { $0.mangaID == manga.id })
+    private var isInCollection: Bool {
+        guard case .content(let manga) = viewModel.state else { return false }
+        return collections.contains { $0.mangaID == manga.id }
     }
 
     private var collectionManager: MangaCollectionManager {
@@ -52,7 +52,7 @@ struct MangaDetailPadView: View {
             }
         }
         .padding()
-        .navigationBarHidden(true)
+        .navigationBarHidden(iPad ? false : true)
     }
 
     // MARK: - Columns
@@ -63,7 +63,7 @@ struct MangaDetailPadView: View {
                 .padding()
 
             MangaDetailBottomBar(
-                isInCollection: collection != nil,
+                isInCollection: isInCollection,
                 toggleCollection: toggleCollection,
                 showManagement: nil,
                 showManageButton: false
@@ -83,10 +83,18 @@ struct MangaDetailPadView: View {
     private func rightColumn(for manga: Manga, geometry: GeometryProxy) -> some View {
         ScrollView {
             VStack(alignment: .leading) {
-                Text(manga.title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding()
+                HStack {
+                    if isInCollection {
+                        FavoriteIndicatorView()
+                    }
+                    
+                    Text(manga.title)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Spacer()
+                }
+                .padding()
 
                 MangaTagsView(
                     genres: manga.genres.map { $0.genre },
@@ -107,7 +115,7 @@ struct MangaDetailPadView: View {
     private func toggleCollection() {
         guard case .content(let manga) = viewModel.state else { return }
 
-        if collection != nil {
+        if isInCollection {
             collectionManager.removeFromCollection(mangaID: manga.id)
             viewModel.reset()
         } else {

@@ -19,10 +19,19 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     // Highlighted Carousel Section
-                    HighlightedCarousel(mangas: viewModel.bestMangas, isLoading: $viewModel.isLoadingMangas) { selectedManga in
+                    HighlightedCarousel(mangas: viewModel.bestMangas, isLoading: $viewModel.isLoadingMangas, height: iPad ? 600 : 300) { selectedManga in
                         navigateToMangaDetail(selectedManga)
                     }
-                    .frame(height: 300)
+                    .padding(.bottom)
+                    
+                    // Themes
+                    PillsScrollView(
+                        title: "🌐 Explore Themes",
+                        items: PillItem.fromThemes(viewModel.themes),
+                        isLoading: $viewModel.isLoadingThemes
+                    ) { selectedItem in
+                        navigateToMangaList(selectedItem, searchType: .theme)
+                    }
                     .padding(.vertical)
 
                     // Horizontal Scroll Section
@@ -32,16 +41,6 @@ struct HomeView: View {
                         isLoading: viewModel.isLoadingMangas
                     ) { selectedManga in
                         navigateToMangaDetail(selectedManga)
-                    }
-                    .padding(.vertical)
-
-                    // Themes
-                    PillsScrollView(
-                        title: "🌐 Explore Themes",
-                        items: PillItem.fromThemes(viewModel.themes),
-                        isLoading: $viewModel.isLoadingThemes
-                    ) { selectedItem in
-                        navigateToMangaList(selectedItem, searchType: .theme)
                     }
                     .padding(.vertical)
 
@@ -67,16 +66,26 @@ struct HomeView: View {
                 }
                 .padding()
             }
+            
             // Navigation to MangaListView (Filter)
             .navigationDestination(isPresented: $isNavigatingToFilter) {
                 if let filter = selectedFilter {
-                    MangaListView(viewModel: MangaListViewModel(initialFilter: filter))
+                    if iPad {
+                        MangaListPadView(viewModel: MangaListViewModel(initialFilter: filter))
+                    } else {
+                        MangaListView(viewModel: MangaListViewModel(initialFilter: filter))
+                    }
                 }
             }
+            
             // Navigation to MangaDetailView (Detail)
             .navigationDestination(isPresented: $isNavigatingToDetail) {
                 if let manga = selectedManga {
-                    MangaDetailView(viewModel: MangaDetailViewModel(manga: manga))
+                    if iPad {
+                        MangaDetailPadView(viewModel: MangaDetailViewModel(manga: manga))
+                    } else {
+                        MangaDetailView(viewModel: MangaDetailViewModel(manga: manga))
+                    }
                 }
             }
         }

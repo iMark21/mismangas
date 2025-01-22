@@ -11,6 +11,7 @@ import SwiftUI
 struct AutomaticMangaCarousel: View {
     let mangas: [Manga]
     let isLoading: Bool
+    var height: CGFloat
     let onSelect: (Manga) -> Void
 
     @State private var currentIndex = 0
@@ -21,13 +22,13 @@ struct AutomaticMangaCarousel: View {
             if isLoading {
                 ProgressView()
                     .scaleEffect(1.5)
-                    .frame(height: 300)
+                    .frame(height: height)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Rectangle())
             } else {
                 TabView(selection: $currentIndex) {
                     ForEach(mangas.indices, id: \.self) { index in
-                        MangaCarouselItem(manga: mangas[index])
+                        MangaCarouselItem(manga: mangas[index], height: height)
                             .tag(index)
                             .onTapGesture {
                                 onSelect(mangas[index])
@@ -54,5 +55,6 @@ struct AutomaticMangaCarousel: View {
 #Preview {
     AutomaticMangaCarousel(mangas: Manga.previewData,
                            isLoading: false,
+                           height: 300,
                            onSelect: { _ in })
 }

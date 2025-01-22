@@ -24,6 +24,7 @@ struct MangaListContentView<RowContent: View>: View {
             List {
                 ForEach(items, id: \.id) { manga in
                     rowContent(manga)
+                        .listRowSeparator(.hidden)
                         .onAppear {
                             if items.last == manga {
                                 Task {

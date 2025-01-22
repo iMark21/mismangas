@@ -13,7 +13,6 @@ struct MangaListPadView: View {
     @State var viewModel = MangaListViewModel()
     @State private var selectedManga: Manga? = nil
     @State private var showFilterView = false
-    @State private var filter = MangaFilter.empty
 
     // MARK: - Body
     
@@ -48,10 +47,10 @@ struct MangaListPadView: View {
             }
             .sheet(isPresented: $showFilterView, onDismiss: {
                 Task {
-                    await viewModel.applyFilter(filter)
+                    await viewModel.refresh()
                 }
             }) {
-                MangaFilterView(filter: $filter)
+                MangaFilterView(viewModel: viewModel.filterViewModel)
             }
         } detail: {
             if let manga = selectedManga {

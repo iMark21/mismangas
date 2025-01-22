@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MangaCarouselItem: View {
     let manga: Manga
+    var height: CGFloat
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -19,14 +20,14 @@ struct MangaCarouselItem: View {
                     image
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 300)
+                        .frame(height: height)
                         .cornerRadius(20)
                         .shadow(radius: 5)
                 default:
                     Image(systemName: "photo")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 300)
+                        .frame(height: height)
                         .foregroundColor(.gray)
                 }
             }
@@ -58,5 +59,5 @@ struct MangaCarouselItem: View {
 // MARK: - Preview
 
 #Preview {
-    MangaCarouselItem(manga: .preview)
+    MangaCarouselItem(manga: .preview, height: 300)
 }

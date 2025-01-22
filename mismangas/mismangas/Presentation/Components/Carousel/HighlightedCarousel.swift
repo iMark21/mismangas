@@ -11,10 +11,16 @@ import SwiftUI
 struct HighlightedCarousel: View {
     let mangas: [Manga]
     @Binding var isLoading: Bool
+    var height: CGFloat
     let onSelect: (Manga) -> Void
 
+
     var body: some View {
-        AutomaticMangaCarousel(mangas: mangas, isLoading: isLoading, onSelect: onSelect)
+        AutomaticMangaCarousel(mangas: mangas,
+                               isLoading: isLoading,
+                               height: height,
+                               onSelect: onSelect)
+            .frame(height: height)
     }
 }
 
@@ -24,5 +30,6 @@ struct HighlightedCarousel: View {
 #Preview {
     HighlightedCarousel(mangas: Manga.previewData,
                         isLoading: .constant(false),
+                        height: 300,
                         onSelect: { _ in })
 }

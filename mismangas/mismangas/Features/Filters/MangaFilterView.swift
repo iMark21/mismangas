@@ -8,108 +8,107 @@
 import SwiftUI
 
 struct MangaFilterView: View {
-    @Binding var filter: MangaFilter
+    @State var viewModel: MangaFilterViewModel
     @Environment(\.dismiss) private var dismiss
-    
-    // Picker
-    @State private var showPicker: SearchType?
-    
-    private var isFilterValid: Bool {
-        !filter.query.isEmpty
-    }
 
     var body: some View {
         NavigationStack {
             VStack {
                 Form {
-                    Section {
-                        HStack {
-                            Text("Select filter")
-                            Spacer()
-                            Picker("", selection: $filter.searchType) {
-                                Text("Begins with").tag(SearchType.beginsWith)
-                                Text("Contains").tag(SearchType.contains)
-                                Text("Author").tag(SearchType.author)
-                                Text("Genre").tag(SearchType.genre)
-                                Text("Theme").tag(SearchType.theme)
-                                Text("Demographic").tag(SearchType.demographic)
-                            }
-                            .pickerStyle(.menu)
-                            .onChange(of: filter.searchType) {
-                                filter.query = ""
-                            }
-                        }
-                    }
-
-                    Section {
-                        if filter.searchType == .beginsWith || filter.searchType == .contains {
-                            TextField("Type text", text: $filter.query)
-                                .autocapitalization(.none)
-                                .disableAutocorrection(true)
-                        } else {
-                            Text(filter.query.isEmpty ? "Select \(filter.searchType?.rawValue ?? "option")..." : filter.query)
-                                .foregroundColor(filter.query.isEmpty ? .blue : .primary)
-                                .onTapGesture {
-                                    showPicker = filter.searchType
-                                }
-                        }
-                    }
+                    filterPickerSection
+                    queryFieldSection
                 }
-                
-                Button(action: {
-                    dismiss()
-                }, label: {
-                    Text("Apply Filter")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(isFilterValid ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                        .padding()
-                })
-                .disabled(!isFilterValid)
-            }
-            .onAppear {
-                filter.searchType = filter.searchType == .none ? .beginsWith : filter.searchType
+
+                applyFilterButton
             }
             .navigationTitle("Filters")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Reset") {
-                        resetFilters()
-                    }
-                    .foregroundColor(.red)
-                }
+                toolbarContent
             }
-            .sheet(item: $showPicker, content: showSheet)
+            .sheet(item: $viewModel.showPicker, content: showSheet)
         }
     }
 
-    private func resetFilters() {
-        filter.id = nil
-        filter.query = ""
-        filter.searchType = .none
-        dismiss()
+    // MARK: - Sections
+
+    @ViewBuilder
+    private var filterPickerSection: some View {
+        Section {
+            HStack {
+                Text("Select filter")
+                Spacer()
+                Picker("", selection: $viewModel.filter.searchType) {
+                    Text("Begins with").tag(SearchType.beginsWith)
+                    Text("Contains").tag(SearchType.contains)
+                    Text("Author").tag(SearchType.author)
+                    Text("Genre").tag(SearchType.genre)
+                    Text("Theme").tag(SearchType.theme)
+                    Text("Demographic").tag(SearchType.demographic)
+                }
+                .pickerStyle(.menu)
+                .onChange(of: viewModel.filter.searchType) {
+                    viewModel.resetQueryIfNeeded()
+                }
+            }
+        }
     }
-    
-    // MARK: - View Builder
-    
+
+    @ViewBuilder
+    private var queryFieldSection: some View {
+        Section {
+            if viewModel.filter.searchType == .beginsWith || viewModel.filter.searchType == .contains {
+                TextField("Type text", text: $viewModel.filter.query)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+            } else {
+                Text(viewModel.filter.query.isEmpty ? "Select \(viewModel.filter.searchType?.rawValue ?? "option")..." : viewModel.filter.query)
+                    .foregroundColor(viewModel.filter.query.isEmpty ? .blue : .primary)
+                    .onTapGesture {
+                        viewModel.showPicker = viewModel.filter.searchType
+                    }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var applyFilterButton: some View {
+        Button(action: {
+            dismiss()
+        }, label: {
+            Text("Apply Filter")
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(viewModel.isFilterValid ? Color.blue : Color.gray)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+                .padding()
+        })
+        .disabled(!viewModel.isFilterValid)
+    }
+
+    @ToolbarContentBuilder
+    private var toolbarContent: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button("Reset") {
+                viewModel.resetFilters()
+                dismiss()
+            }
+            .foregroundColor(.red)
+        }
+    }
+
     @ViewBuilder
     private func showSheet(_ type: SearchType) -> some View {
-        
-        
-        
         switch type {
         case .author:
             SelectableListView(
                 viewModel: SelectableListViewModel(
                     title: "Authors",
                     fetchItemsUseCase: FetchAuthorsUseCase(),
-                    selectedItem: filter.searchType == .author ? Author(id: filter.id ?? "", fullName: filter.query, role: .story) : nil,
+                    selectedItem: viewModel.filter.searchType == .author ? Author(id: viewModel.filter.id ?? "", fullName: viewModel.filter.query, role: .story) : nil,
                     onSelectItem: { (selectedAuthor: Author) in
-                        filter.query = selectedAuthor.fullName
-                        filter.id = selectedAuthor.id
+                        viewModel.updateSelectedItem(for: .author, id: selectedAuthor.id, query: selectedAuthor.fullName)
                     }
                 )
             )
@@ -118,10 +117,9 @@ struct MangaFilterView: View {
                 viewModel: SelectableListViewModel(
                     title: "Genres",
                     fetchItemsUseCase: FetchGenresUseCase(),
-                    selectedItem: filter.searchType == .genre ? Genre(id: filter.id ?? "", genre: filter.query) : nil,
+                    selectedItem: viewModel.filter.searchType == .genre ? Genre(id: viewModel.filter.id ?? "", genre: viewModel.filter.query) : nil,
                     onSelectItem: { (selectedGenre: Genre) in
-                        filter.query = selectedGenre.genre
-                        filter.id = selectedGenre.id
+                        viewModel.updateSelectedItem(for: .genre, id: selectedGenre.id, query: selectedGenre.genre)
                     }
                 )
             )
@@ -130,10 +128,9 @@ struct MangaFilterView: View {
                 viewModel: SelectableListViewModel(
                     title: "Themes",
                     fetchItemsUseCase: FetchThemesUseCase(),
-                    selectedItem: filter.searchType == .theme ? Theme(id: filter.id ?? "", name: filter.query) : nil,
+                    selectedItem: viewModel.filter.searchType == .theme ? Theme(id: viewModel.filter.id ?? "", name: viewModel.filter.query) : nil,
                     onSelectItem: { (selectedTheme: Theme) in
-                        filter.query = selectedTheme.name
-                        filter.id = selectedTheme.id
+                        viewModel.updateSelectedItem(for: .theme, id: selectedTheme.id, query: selectedTheme.name)
                     }
                 )
             )
@@ -142,10 +139,9 @@ struct MangaFilterView: View {
                 viewModel: SelectableListViewModel(
                     title: "Demographics",
                     fetchItemsUseCase: FetchDemographicsUseCase(),
-                    selectedItem: filter.searchType == .demographic ? Demographic(id: filter.id ?? "", demographic: filter.query) : nil,
+                    selectedItem: viewModel.filter.searchType == .demographic ? Demographic(id: viewModel.filter.id ?? "", demographic: viewModel.filter.query) : nil,
                     onSelectItem: { (selectedDemographic: Demographic) in
-                        filter.query = selectedDemographic.demographic
-                        filter.id = selectedDemographic.id
+                        viewModel.updateSelectedItem(for: .demographic, id: selectedDemographic.id, query: selectedDemographic.demographic)
                     }
                 )
             )
@@ -158,5 +154,5 @@ struct MangaFilterView: View {
 // MARK: - Preview
 
 #Preview {
-    MangaFilterView(filter: .constant(MangaFilter.preview))
+    MangaFilterView(viewModel: MangaFilterViewModel(filter: .preview))
 }
