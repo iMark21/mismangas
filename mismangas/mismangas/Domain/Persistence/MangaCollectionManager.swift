@@ -23,14 +23,6 @@ final class MangaCollectionManager {
         return try? modelContext.fetch(descriptor).first
     }
 
-    /// Fetch collection state for a manga
-    func fetchCollectionState(for mangaID: Int) -> (completeCollection: Bool, volumesOwned: [Int], readingVolume: Int?) {
-        if let collection = fetchCollection(for: mangaID) {
-            return (collection.completeCollection, collection.volumesOwned, collection.readingVolume)
-        }
-        return (false, [], nil)
-    }
-
     // MARK: - Add/Update Operations
 
     /// Add manga to the collection or update if it already exists
