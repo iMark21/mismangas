@@ -14,26 +14,21 @@ struct SelectableListContentView<T: Identifiable & Hashable>: View {
     var content: (T) -> AnyView
 
     var body: some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: 8) {
-                ForEach(items, id: \.id) { item in
-                    Button {
-                        onSelect(item)
-                    } label: {
-                        HStack {
-                            content(item)
-                            Spacer()
-                            if item == selectedItem {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                        .padding(.vertical, 8)
+        List(items, id: \.id) { item in
+            Button {
+                onSelect(item)
+            } label: {
+                HStack {
+                    content(item)
+                    Spacer()
+                    if item.id == selectedItem?.id {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.blue)
                     }
                 }
             }
-            .padding(.horizontal)
         }
+        .listStyle(PlainListStyle())
     }
 }
 

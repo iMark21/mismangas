@@ -8,5 +8,5 @@
 import Foundation
 
 protocol FetchThemesUseCaseProtocol: FetchItemsUseCaseProtocol {
-    func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Theme]
+    func execute() async throws -> [Theme]
 }

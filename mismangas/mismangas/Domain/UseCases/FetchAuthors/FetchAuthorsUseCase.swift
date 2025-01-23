@@ -11,7 +11,7 @@ struct FetchAuthorsUseCase: FetchAuthorsUseCaseProtocol {
 
     let repository: AuthorRepositoryProtocol = AuthorRepository()
 
-    func execute(query: String? = nil, page: Int? = nil, perPage: Int? = nil) async throws -> [Author] {
-        return try await repository.fetchAuthors(query: query, page: page, perPage: perPage)
+    func execute() async throws -> [Author] {
+        return try await repository.fetchAuthors()
     }
 }

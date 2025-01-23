@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Manga: Decodable, Equatable {
+struct Manga: Decodable, Equatable, Identifiable {
     let id: Int
     let title: String
     let titleEnglish: String?

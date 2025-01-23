@@ -8,5 +8,5 @@
 import Foundation
 
 protocol AuthorRepositoryProtocol: Sendable {
-    func fetchAuthors(query: String?, page: Int?, perPage: Int?) async throws -> [Author]
+    func fetchAuthors() async throws -> [Author]
 }

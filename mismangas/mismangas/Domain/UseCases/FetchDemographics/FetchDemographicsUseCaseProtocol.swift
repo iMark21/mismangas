@@ -9,5 +9,5 @@
 import Foundation
 
 protocol FetchDemographicsUseCaseProtocol: FetchItemsUseCaseProtocol {
-    func execute(query: String?, page: Int?, perPage: Int?) async throws -> [Demographic]
+    func execute() async throws -> [Demographic]
 }

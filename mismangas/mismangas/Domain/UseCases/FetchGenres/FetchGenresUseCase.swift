@@ -11,7 +11,7 @@ struct FetchGenresUseCase: FetchGenresUseCaseProtocol {
 
     let repository: GenreRepositoryProtocol = GenreRepository()
 
-    func execute(query: String? = nil, page: Int? = nil, perPage: Int? = nil) async throws -> [Genre] {
+    func execute() async throws -> [Genre] {
         return try await repository.fetchGenres()
     }
 }

@@ -11,7 +11,7 @@ struct FetchThemesUseCase: FetchThemesUseCaseProtocol {
     
     let repository: ThemeRepositoryProtocol = ThemeRepository()
 
-    func execute(query: String? = nil, page: Int? = nil, perPage: Int? = nil) async throws -> [Theme] {
+    func execute() async throws -> [Theme] {
         // Fetch all themes from the repository
         return try await repository.fetchThemes()
     }

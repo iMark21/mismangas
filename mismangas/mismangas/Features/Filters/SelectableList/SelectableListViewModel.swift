@@ -44,16 +44,14 @@ final class SelectableListViewModel<T: Searchable> {
     // MARK: - Functions
 
     @MainActor
-    func fetch() {
+    func fetch() async {
         guard case .loading = state else { return }
-        Task {
-            do {
-                let items = try await fetchItemsUseCase.execute(query: nil, page: nil, perPage: nil) as? [T] ?? []
-                allItems = items
-                state = .content(items: items)
-            } catch {
-                state = .error(message: "Error: \(error.localizedDescription)", items: [])
-            }
+        do {
+            let items = try await fetchItemsUseCase.execute() as? [T] ?? []
+            allItems = items
+            state = .content(items: items)
+        } catch {
+            state = .error(message: "Error: \(error.localizedDescription)", items: [])
         }
     }
 

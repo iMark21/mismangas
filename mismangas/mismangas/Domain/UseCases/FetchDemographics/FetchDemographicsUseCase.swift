@@ -12,7 +12,7 @@ struct FetchDemographicsUseCase: FetchDemographicsUseCaseProtocol {
     
     let repository: DemographicRepositoryProtocol = DemographicRepository()
 
-    func execute(query: String? = nil, page: Int? = nil, perPage: Int? = nil) async throws -> [Demographic] {
+    func execute() async throws -> [Demographic] {
         return try await repository.fetchDemographics()
     }
 }

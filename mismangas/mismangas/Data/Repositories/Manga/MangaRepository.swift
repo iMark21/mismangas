@@ -13,13 +13,27 @@ struct MangaRepository: MangaRepositoryProtocol {
     
     // MARK: - Public Methods
     
+    func fetchBestMangas() async throws -> [Manga] {
+        let url = URL.bestMangas
+        let result: MangaResponseDTO = try await client.perform(.get(url))
+        return result.items.compactMap { $0.toDomain() }
+    }
+    
     func fetchMangasBy(filter: MangaFilter, page: Int, perPage: Int) async throws -> [Manga] {
         let url: URL
         switch filter.searchType {
         case .beginsWith:
-            url = .searchMangasBeginsWith(filter.query)
+            if filter.query.isEmpty {
+                url = .mangas
+            } else {
+                url = .searchMangasBeginsWith(filter.query)
+            }
         case .contains:
-            url = .searchMangasContains(filter.query)
+            if filter.query.isEmpty {
+                url = .mangas
+            } else {
+                url = .searchMangasContains(filter.query)
+            }
         case .author:
             url = .searchMangasByAuthor(filter.id ?? "")
         case .genre:

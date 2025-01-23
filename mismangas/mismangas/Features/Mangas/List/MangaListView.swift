@@ -14,7 +14,6 @@ struct MangaListView: View {
 
     @State var viewModel = MangaListViewModel()
     @State private var showFilterView = false
-    @State private var filter = MangaFilter.empty
 
     // MARK: - Body
 
@@ -25,7 +24,8 @@ struct MangaListView: View {
                     MangaRowView(manga: manga)
                 }
             }
-            .navigationTitle("Mangas")
+            .navigationTitle(viewModel.filterViewModel.filter.query.isEmpty ?
+                             "Mangas" : viewModel.filterViewModel.filter.query)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -38,12 +38,16 @@ struct MangaListView: View {
             }
         }
         .onAppear {
-            viewModel.fetchInitialPage()
+            Task {
+                await viewModel.fetchInitialPage()
+            }
         }
         .sheet(isPresented: $showFilterView, onDismiss: {
-            viewModel.applyFilter(filter)
+            Task {
+                await viewModel.refresh()
+            }
         }) {
-            MangaFilterView(filter: $filter)
+            MangaFilterView(viewModel: viewModel.filterViewModel)
         }
     }
 }
