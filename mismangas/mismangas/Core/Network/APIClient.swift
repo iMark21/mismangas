@@ -8,59 +8,61 @@
 import Foundation
 
 protocol APIClient: Sendable {
-    func perform<T: Decodable>(_ request: URLRequest) async throws -> T
+    func perform<T>(_ request: URLRequest) async throws -> T
 }
 
 struct MisMangasAPIClient: APIClient {
-    let session: URLSession = .shared
-    let decoder: JSONDecoder = .init()
+    private let session: URLSession
+    private let jsonDecoder: JSONDecoder
     
-    func perform<T: Decodable>(_ request: URLRequest) async throws -> T {
-        
-        // Log Request
-        Logger.logRequest(request)
-        
-        do {
-            let (data, response) = try await session.data(for: request)
-            // Log Response
-            Logger.logResponse(response, data: data)
-            
-            try validate(response: response)
-            return try decode(data: data)
-        } catch let urlError as URLError {
-            // Log Error
-            Logger.logError(urlError)
-            throw APIError.networkError(urlError)
-        } catch let decodingError as DecodingError {
-            // Log Error
-            Logger.logError(decodingError)
-            throw APIError.decodingError(decodingError)
-        } catch {
-            // Log Error
-            Logger.logError(error)
-            throw APIError.unknown(error)
-        }
+    // MARK: - Initialization
+    
+    init(session: URLSession = .shared, jsonDecoder: JSONDecoder = .init()) {
+        self.session = session
+        self.jsonDecoder = jsonDecoder
     }
     
-    // MARK: - Helpers
+    // MARK: - Public Methods
     
-    private func validate(response: URLResponse) throws {
+    func perform<T>(_ request: URLRequest) async throws -> T {
+        // 1. Execute the request and validate the response
+        let (data, response) = try await session.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
         }
-        
-        let validStatusCodes = 200..<300
-        guard validStatusCodes.contains(httpResponse.statusCode) else {
-            throw APIError.statusCode(httpResponse.statusCode)
+        try validate(httpResponse)
+
+        // 2. Decode the response based on the type of T
+        switch T.self {
+        // Case: plain text (data -> String)
+        case is String.Type:
+            guard let string = String(data: data, encoding: .utf8) as? T else {
+                throw APIError.decodingError(NSError(domain: "PlainText", code: 0))
+            }
+            return string
+
+        // Case: no content (data -> Void)
+        case is Void.Type:
+            guard data.isEmpty else {
+                throw APIError.custom(message: "Expected empty response but received data")
+            }
+            // Force cast to T == Void
+            return () as! T
+
+        // Case: generic Decodable (data -> T)
+        default:
+            guard let decodableType = T.self as? Decodable.Type else {
+                throw APIError.custom(message: "Type \(T.self) is not Decodable")
+            }
+            return try jsonDecoder.decode(decodableType, from: data) as! T
         }
     }
     
-    private func decode<T: Decodable>(data: Data) throws -> T {
-        do {
-            return try decoder.decode(T.self, from: data)
-        } catch {
-            Logger.logError(error)
-            throw APIError.decodingError(error)
+    // MARK: - Private Methods
+    
+    private func validate(_ httpResponse: HTTPURLResponse) throws {
+        guard (200..<300).contains(httpResponse.statusCode) else {
+            throw APIError.statusCode(httpResponse.statusCode)
         }
     }
 }

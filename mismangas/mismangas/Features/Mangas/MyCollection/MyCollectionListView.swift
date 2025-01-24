@@ -14,6 +14,7 @@ struct MyCollectionListView: View {
     @Query private var collections: [MangaCollection]
     @Environment(\.modelContext) private var modelContext
 
+    @Binding var isUserAuthenticated: Bool
     @State private var selectedMangaID: Int? = nil
 
     private var collectionManager: MangaCollectionManager {
@@ -39,6 +40,14 @@ struct MyCollectionListView: View {
             } detail: {
                 detailView
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    EditButton()
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    logoutButton
+                }
+            }
         } else {
             // iPhone layout with NavigationStack and NavigationLink
             NavigationStack {
@@ -59,9 +68,33 @@ struct MyCollectionListView: View {
                 }
                 .navigationTitle("My Collection")
                 .toolbar {
-                    EditButton()
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        EditButton()
+                    }
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        logoutButton
+                    }
                 }
             }
+        }
+    }
+
+    // MARK: - Logout Button
+
+    private var logoutButton: some View {
+        Button(role: .destructive) {
+            logout()
+        } label: {
+            Label("Log Out", systemImage: "arrow.backward.square.fill")
+        }
+    }
+
+    private func logout() {
+        do {
+            try KeyChainTokenStorage().delete()
+            isUserAuthenticated = false 
+        } catch {
+            print("Failed to log out: \(error.localizedDescription)")
         }
     }
 
@@ -94,6 +127,6 @@ struct MyCollectionListView: View {
 // MARK: - Preview
 
 #Preview {
-    MyCollectionListView()
+    MyCollectionListView(isUserAuthenticated: .constant(true))
         .modelContainer(MangaCollectionManager.modelContainer)
 }

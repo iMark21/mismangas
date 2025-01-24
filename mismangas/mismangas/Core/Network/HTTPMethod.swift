@@ -23,15 +23,30 @@ extension URLRequest {
         return request
     }
     
-    static func post<JSON: Encodable>(url: URL,
-                                      body: JSON,
-                                      method: HTTPMethod = .post) -> URLRequest {
+    static func post(url: URL,
+                     body: Encodable? = nil,
+                     headers: [String: String] = [:]) -> URLRequest {
         var request = URLRequest(url: url)
         request.timeoutInterval = URL.timeOut
-        request.httpMethod = method.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpMethod = HTTPMethod.post.rawValue
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONEncoder().encode(body)
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        // Add custom headers
+        headers.forEach { key, value in
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
+        // Add App-Token
+        if AppTokenConfig.requiredEndpoints.contains(url) {
+            request.setValue(AppTokenConfig.appToken, forHTTPHeaderField: "App-Token")
+        }
+        
+        // Encode JSON body if provided
+        if let body = body {
+            request.httpBody = try? JSONEncoder().encode(body)
+        }
+        
         return request
     }
     
