@@ -94,3 +94,11 @@ extension URLQueryItem {
         URLQueryItem(name: "per", value: "\(per)")
     }
 }
+
+// MARK: - User Endpoints
+
+extension URL {
+    static let registerUser = api.appending(path: "users")
+    static let loginUser = api.appending(path: "users/login")
+    static let renewToken = api.appending(path: "users/renew")
+}

@@ -12,20 +12,35 @@ enum APIError: LocalizedError {
     case statusCode(Int)
     case decodingError(Error)
     case networkError(URLError)
+    case unauthorized
+    case forbidden
+    case tokenExpired
+    case badRequest
+    case custom(message: String)
     case unknown(Error)
 
     var errorDescription: String? {
         switch self {
         case .invalidResponse:
-            return "La respuesta no es válida."
+            return "The response is invalid."
         case .statusCode(let code):
-            return "Respuesta con código de error: \(code)."
+            return "Error response with status code: \(code)."
         case .decodingError(let error):
-            return "Error al decodificar la respuesta: \(error.localizedDescription)"
+            return "Failed to decode the response: \(error.localizedDescription)"
         case .networkError(let error):
-            return "Error de red: \(error.localizedDescription)"
+            return "Network error: \(error.localizedDescription)"
+        case .unauthorized:
+            return "Unauthorized user. Please check your credentials."
+        case .forbidden:
+            return "Access denied. You don't have permission for this action."
+        case .tokenExpired:
+            return "Your session has expired. Please log in again."
+        case .badRequest:
+            return "Bad request. Please check your input."
+        case .custom(let message):
+            return message
         case .unknown(let error):
-            return "Error desconocido: \(error.localizedDescription)"
+            return "Unknown error: \(error.localizedDescription)"
         }
     }
 }
