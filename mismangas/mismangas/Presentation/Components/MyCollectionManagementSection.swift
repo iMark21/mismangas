@@ -10,7 +10,7 @@ import SwiftData
 
 struct MyCollectionManagementSection: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var collections: [MangaCollection]
+    @Query private var collections: [MangaCollectionDB]
 
     @Binding var completeCollection: Bool
     @Binding var volumesOwned: [Int]
@@ -19,7 +19,7 @@ struct MyCollectionManagementSection: View {
     let manga: Manga?
 
     private var collectionManager: MangaCollectionManager {
-        MangaCollectionManager(modelContext: modelContext)
+        MangaCollectionManager()
     }
 
     var body: some View {
@@ -70,7 +70,7 @@ struct MyCollectionManagementSection: View {
 
     private func loadCollection() {
         guard let manga else { return }
-        let state = collectionManager.fetchCollectionState(for: manga.id)
+        let state = collectionManager.fetchCollectionState(for: manga.id, using: modelContext)
         completeCollection = state.completeCollection
         volumesOwned = state.volumesOwned
         readingVolume = state.readingVolume
@@ -78,10 +78,20 @@ struct MyCollectionManagementSection: View {
 
     private func saveCollection() {
         guard let manga else { return }
-        collectionManager.saveToMyCollection(manga: manga,
-                                          completeCollection: completeCollection,
-                                          volumesOwned: volumesOwned,
-                                          readingVolume: readingVolume)
+
+        Task {
+            do {
+                try await collectionManager.saveToMyCollection(
+                    manga: manga,
+                    completeCollection: completeCollection,
+                    volumesOwned: volumesOwned,
+                    readingVolume: readingVolume,
+                    using: modelContext
+                )
+            } catch {
+                Logger.logErrorMessage("Failed to save collection: \(error.localizedDescription)")
+            }
+        }
     }
 
     private func updateVolumes(_ newCount: Int) {
@@ -98,7 +108,7 @@ struct MyCollectionManagementSection: View {
     @Previewable @State var volumesOwned: [Int] = []
     @Previewable @State var readingVolume: Int? = nil
 
-    return MyCollectionManagementSection(
+    MyCollectionManagementSection(
         completeCollection: $completeCollection,
         volumesOwned: $volumesOwned,
         readingVolume: $readingVolume,

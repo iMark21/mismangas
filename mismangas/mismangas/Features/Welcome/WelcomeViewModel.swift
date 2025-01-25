@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import SwiftData
 
-@Observable
+@Observable @MainActor
 final class WelcomeViewModel {
 
     // MARK: - State
@@ -23,21 +24,30 @@ final class WelcomeViewModel {
 
     var state: State = .idle
     private let renewTokenUseCase: RenewTokenUseCaseProtocol
+    private let collectionManager: MangaCollectionManagerProtocol
 
     // MARK: - Init
 
-    init(renewTokenUseCase: RenewTokenUseCaseProtocol = RenewTokenUseCase()) {
+    init(renewTokenUseCase: RenewTokenUseCaseProtocol = RenewTokenUseCase(),
+         collectionManager: MangaCollectionManagerProtocol = MangaCollectionManager()) {
         self.renewTokenUseCase = renewTokenUseCase
+        self.collectionManager = collectionManager
     }
 
     // MARK: - Methods
 
-    @MainActor
-    func checkAuthentication() async {
+    func checkAuthentication(using context: ModelContext) async {
         state = .checking
         do {
+            // Try to renew the token
             let isAuthenticated = try await renewTokenUseCase.execute()
-            state = isAuthenticated ? .authenticated : .unauthenticated
+            if isAuthenticated {
+                // Sync collections if authenticated
+                try await collectionManager.syncWithCloud(using: context)
+                state = .authenticated
+            } else {
+                state = .unauthenticated
+            }
         } catch {
             Logger.logErrorMessage("Failed to check authentication: \(error.localizedDescription)")
             state = .unauthenticated

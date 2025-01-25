@@ -102,3 +102,13 @@ extension URL {
     static let loginUser = api.appending(path: "users/login")
     static let renewToken = api.appending(path: "users/renew")
 }
+
+// MARK: - User Collection Endpoints
+
+extension URL {
+    static let userCollection = api.appending(path: "collection/manga")
+    
+    static func userCollectionManga(_ mangaID: Int) -> URL {
+        api.appending(path: "collection/manga/\(mangaID)")
+    }
+}

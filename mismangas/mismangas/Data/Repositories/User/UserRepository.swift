@@ -15,7 +15,7 @@ struct UserRepository: UserRepositoryProtocol {
     
     func registerUser(email: String, password: String) async throws {
         let url: URL = .registerUser
-        let body = UserCredentialsDTO(email: email, password: password)
+        let body = UserCredentialsRequest(email: email, password: password)
 
         try await client.perform(.post(url: url, body: body)) as Void
     }
@@ -25,7 +25,7 @@ struct UserRepository: UserRepositoryProtocol {
     func loginUser(email: String, password: String) async throws -> String {
         let url: URL = .loginUser
 
-        let body = UserCredentialsDTO(email: email, password: password)
+        let body = UserCredentialsRequest(email: email, password: password)
         let credentials = "\(email):\(password)"
         
         guard let encodedCredentials = credentials.data(using: .utf8)?.base64EncodedString() else {

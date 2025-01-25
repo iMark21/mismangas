@@ -17,7 +17,7 @@ struct MangaBasicInfoView: View {
     let mangaID: Int
     
     // Query
-    @Query private var collections: [MangaCollection]
+    @Query private var collections: [MangaCollectionDB]
 
     private var isInCollection: Bool {
         collections.contains { $0.mangaID == mangaID }

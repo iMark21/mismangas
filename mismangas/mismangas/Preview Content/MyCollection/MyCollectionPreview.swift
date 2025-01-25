@@ -9,18 +9,18 @@ import SwiftUI
 import SwiftData
 
 extension MangaCollectionManager {
-    static var mangaCollections: [MangaCollection] {
+    static var mangaCollections: [MangaCollectionDB] {
         [
-            MangaCollection(manga: .previewData.randomElement() ?? .preview),
-            MangaCollection(manga: .previewData.randomElement() ?? .preview),
-            MangaCollection(manga: .previewData.randomElement() ?? .preview)
+            MangaCollectionDB(manga: .previewData.randomElement() ?? .preview),
+            MangaCollectionDB(manga: .previewData.randomElement() ?? .preview),
+            MangaCollectionDB(manga: .previewData.randomElement() ?? .preview)
         ]
     }
 
     @MainActor
     static var modelContainer: ModelContainer {
         do {
-            let container = try ModelContainer(for: MangaCollection.self)
+            let container = try ModelContainer(for: MangaCollectionDB.self)
             mangaCollections.forEach { container.mainContext.insert($0) }
             return container
         } catch {

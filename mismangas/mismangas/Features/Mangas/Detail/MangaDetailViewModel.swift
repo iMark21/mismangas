@@ -22,6 +22,7 @@ final class MangaDetailViewModel {
     // MARK: - Properties
     
     private let fetchMangaDetailsUseCase: FetchMangaDetailsUseCaseProtocol
+    private let collectionManager: MangaCollectionManagerProtocol
     var state: ViewState = .loading
     var mangaID: Int?
 
@@ -36,8 +37,10 @@ final class MangaDetailViewModel {
     
     init(manga: Manga? = nil,
          mangaID: Int? = nil,
-         fetchMangaDetailsUseCase: FetchMangaDetailsUseCaseProtocol = FetchMangaDetailsUseCase()) {
+         fetchMangaDetailsUseCase: FetchMangaDetailsUseCaseProtocol = FetchMangaDetailsUseCase(),
+         collectionManager: MangaCollectionManagerProtocol = MangaCollectionManager()) {
         self.fetchMangaDetailsUseCase = fetchMangaDetailsUseCase
+        self.collectionManager = collectionManager
         self.mangaID = mangaID
 
         if let mangaID = mangaID {
@@ -58,6 +61,23 @@ final class MangaDetailViewModel {
             } catch {
                 state = .error(message: "Failed to load manga details.")
             }
+        }
+    }
+    
+    func toggleCollection(_ manga: Manga, isInCollection: Bool, modelContext: ModelContext) async {
+        do {
+            if isInCollection {
+                try await collectionManager.removeFromCollection(mangaID: manga.id, using: modelContext)
+                reset()
+            } else {
+                try await collectionManager.saveToMyCollection(manga: manga,
+                                                               completeCollection: completeCollection,
+                                                               volumesOwned: volumesOwned,
+                                                               readingVolume: readingVolume,
+                                                               using: modelContext)
+            }
+        } catch {
+            state = .error(message: "Failed to toggle collection: \(error.localizedDescription)")
         }
     }
     

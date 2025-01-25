@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @Environment(\.modelContext) private var modelContext
     @State var viewModel = WelcomeViewModel()
     @Binding var isUserAuthenticated: Bool
 
@@ -20,15 +21,13 @@ struct WelcomeView: View {
                 case .checking:
                     loadingContent
                 case .authenticated:
-                    EmptyView() 
+                    EmptyView()
                 }
             }
             .onAppear {
                 Task {
-                    await viewModel.checkAuthentication()
-                    if viewModel.state == .authenticated {
-                        isUserAuthenticated = true
-                    }
+                    await viewModel.checkAuthentication(using: modelContext)
+                    isUserAuthenticated = viewModel.state == .authenticated
                 }
             }
         }
@@ -51,14 +50,9 @@ struct WelcomeView: View {
                 NavigationLink(destination: LoginUserView(isUserAuthenticated: $isUserAuthenticated)) {
                     AuthButtonView(title: "Log In")
                 }
-
-                Button("Skip for Now") {
-                    isUserAuthenticated = true
-                }
-                .foregroundColor(.secondary)
             }
             .padding(.horizontal, 24)
-
+            
             Spacer()
         }
         .padding()
