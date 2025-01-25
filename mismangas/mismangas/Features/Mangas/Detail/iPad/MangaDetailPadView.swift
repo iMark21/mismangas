@@ -12,7 +12,7 @@ struct MangaDetailPadView: View {
     // MARK: - Properties
     
     @State var viewModel: MangaDetailViewModel
-    @Query private var collections: [MangaCollection]
+    @Query private var collections: [MangaCollectionDB]
     @Environment(\.modelContext) private var modelContext
 
     // MARK: - Computed Properties
@@ -23,7 +23,7 @@ struct MangaDetailPadView: View {
     }
 
     private var collectionManager: MangaCollectionManager {
-        MangaCollectionManager(modelContext: modelContext)
+        MangaCollectionManager()
     }
 
     // MARK: - Body
@@ -64,7 +64,11 @@ struct MangaDetailPadView: View {
 
             MangaDetailBottomBar(
                 isInCollection: isInCollection,
-                toggleCollection: toggleCollection,
+                toggleCollection: {
+                    Task {
+                        await toggleCollection()
+                    }
+                },
                 showManagement: nil,
                 showManageButton: false
             )
@@ -79,7 +83,6 @@ struct MangaDetailPadView: View {
         }
         .frame(width: geometry.size.width * 0.33)
     }
-
     private func rightColumn(for manga: Manga, geometry: GeometryProxy) -> some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -112,20 +115,11 @@ struct MangaDetailPadView: View {
 
     // MARK: - Actions
     
-    private func toggleCollection() {
+    private func toggleCollection() async {
         guard case .content(let manga) = viewModel.state else { return }
-
-        if isInCollection {
-            collectionManager.removeFromCollection(mangaID: manga.id)
-            viewModel.reset()
-        } else {
-            collectionManager.saveToMyCollection(
-                manga: manga,
-                completeCollection: viewModel.completeCollection,
-                volumesOwned: viewModel.volumesOwned,
-                readingVolume: viewModel.readingVolume
-            )
-        }
+        await viewModel.toggleCollection(manga,
+                                   isInCollection: isInCollection,
+                                   modelContext: modelContext)
     }
 }
 

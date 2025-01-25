@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+import SwiftData
 
-@Observable
+@Observable @MainActor
 final class LoginUserViewModel {
 
     // MARK: - ViewState
@@ -26,22 +27,30 @@ final class LoginUserViewModel {
     var state: ViewState = .idle
 
     private let loginUserUseCase: LoginUserUseCaseProtocol
+    private let collectionManager: MangaCollectionManagerProtocol
 
     // MARK: - Initializer
 
-    init(loginUserUseCase: LoginUserUseCaseProtocol = LoginUserUseCase()) {
+    init(loginUserUseCase: LoginUserUseCaseProtocol = LoginUserUseCase(),
+         syncManager: MangaCollectionManagerProtocol = MangaCollectionManager()) {
         self.loginUserUseCase = loginUserUseCase
+        self.collectionManager = syncManager
     }
 
     // MARK: - Public Methods
 
-    @MainActor
-    func login() async {
+    func login(using context: ModelContext) async {
         guard validateInputs() else { return }
 
         state = .loading
         do {
+            // Perform login
             try await loginUserUseCase.execute(email: email, password: password)
+
+            // Sync collections after login
+            try await collectionManager.syncWithCloud(using: context)
+
+            // Mark login and sync as successful
             state = .success
         } catch {
             state = .error(message: error.localizedDescription)

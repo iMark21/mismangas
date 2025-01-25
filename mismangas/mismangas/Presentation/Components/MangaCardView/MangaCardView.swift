@@ -12,7 +12,7 @@ struct MangaCardView: View {
     let manga: Manga
     
     // Query
-    @Query private var collections: [MangaCollection]
+    @Query private var collections: [MangaCollectionDB]
     
     private var isInCollection: Bool {
         collections.contains { $0.mangaID == manga.id }

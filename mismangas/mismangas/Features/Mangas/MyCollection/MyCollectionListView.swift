@@ -9,117 +9,91 @@ import SwiftUI
 import SwiftData
 
 struct MyCollectionListView: View {
-    // MARK: - Properties
-    
-    @Query private var collections: [MangaCollection]
+    // MARK: - Environment
     @Environment(\.modelContext) private var modelContext
+    @State var viewModel: MyCollectionListViewModel = MyCollectionListViewModel()
 
+    // MARK: - Properties
+    @Query private var collections: [MangaCollectionDB]
     @Binding var isUserAuthenticated: Bool
-    @State private var selectedMangaID: Int? = nil
-
-    private var collectionManager: MangaCollectionManager {
-        MangaCollectionManager(modelContext: modelContext)
-    }
-
-    // MARK: - Body
+    @State private var selectedMangaID: Int?
 
     var body: some View {
-        if iPad {
-            // iPad layout with NavigationSplitView
-            NavigationSplitView {
-                List(selection: $selectedMangaID) {
-                    ForEach(collections) { collection in
-                        MyCollectionRowView(
-                            mangaName: collection.mangaName,
-                            completeCollection: collection.completeCollection
-                        )
-                        .tag(collection.mangaID)
-                    }
-                    .onDelete(perform: deleteCollection)
-                }
-            } detail: {
-                detailView
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    logoutButton
-                }
-            }
-        } else {
-            // iPhone layout with NavigationStack and NavigationLink
-            NavigationStack {
-                List {
-                    ForEach(collections) { collection in
-                        NavigationLink(
-                            destination: MangaDetailView(
-                                viewModel: MangaDetailViewModel(mangaID: collection.mangaID)
-                            )
-                        ) {
-                            MyCollectionRowView(
-                                mangaName: collection.mangaName,
-                                completeCollection: collection.completeCollection
-                            )
+        NavigationStack {
+            ZStack {
+                collectionList
+                    .navigationTitle("My Collection")
+                    .toolbar {
+                        // Left toolbar item for Logout
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            logoutButton
+                                .foregroundColor(.red)
+                        }
+                        // Right toolbar items for Sync and Edit
+                        ToolbarItemGroup(placement: .navigationBarTrailing) {
+                            syncButton
+                            if viewModel.isSyncing {
+                                ProgressView()
+                            } else {
+                                EditButton()
+                                    .disabled(viewModel.isSyncing)
+                            }
                         }
                     }
-                    .onDelete(perform: deleteCollection)
+            }
+            .alert("Are you sure you want to log out?", isPresented: $viewModel.showLogoutConfirmation) {
+                Button("Log Out", role: .destructive) {
+                    viewModel.logout()
+                    isUserAuthenticated = false
                 }
-                .navigationTitle("My Collection")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        EditButton()
-                    }
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        logoutButton
-                    }
-                }
+                Button("Cancel", role: .cancel) {}
             }
         }
     }
 
-    // MARK: - Logout Button
+    private var collectionList: some View {
+        List {
+            ForEach(collections) { collection in
+                NavigationLink(
+                    destination: MangaDetailView(viewModel: MangaDetailViewModel(mangaID: collection.mangaID))
+                ) {
+                    MyCollectionRowView(mangaName: collection.mangaName,
+                                        completeCollection: collection.completeCollection)
+                }
+            }
+            .onDelete { offsets in
+                Task {
+                    for offset in offsets {
+                        let mangaID = collections[offset].mangaID
+                        await viewModel.deleteCollection(withID: mangaID, using: modelContext)
+                    }
+                }
+            }
+        }.refreshable {
+            syncData()
+        }
+    }
 
     private var logoutButton: some View {
         Button(role: .destructive) {
-            logout()
+            viewModel.showLogoutConfirmation = true
         } label: {
-            Label("Log Out", systemImage: "arrow.backward.square.fill")
+            Label("Logout", systemImage: "power")
         }
     }
 
-    private func logout() {
-        do {
-            try KeyChainTokenStorage().delete()
-            isUserAuthenticated = false 
-        } catch {
-            print("Failed to log out: \(error.localizedDescription)")
+    private var syncButton: some View {
+        Button(action: {
+            syncData()
+        }) {
+            Label("Sync", systemImage: "arrow.triangle.2.circlepath")
         }
+        .disabled(viewModel.isSyncing)
     }
 
-    // MARK: - Detail View
-
-    private var detailView: some View {
-        Group {
-            if let selectedMangaID = selectedMangaID,
-               let collection = collections.first(where: { $0.mangaID == selectedMangaID }) {
-                MangaDetailPadView(viewModel: MangaDetailViewModel(mangaID: collection.mangaID))
-                    .id(selectedMangaID)
-            } else {
-                Text("Select a manga from your collection")
-                    .foregroundColor(.secondary)
-                    .font(.title2)
-            }
-        }
-    }
-
-    // MARK: - Actions
-
-    private func deleteCollection(at offsets: IndexSet) {
-        for index in offsets {
-            let collection = collections[index]
-            collectionManager.removeFromCollection(mangaID: collection.mangaID)
+    private func syncData() {
+        Task {
+            await viewModel.syncCollections(using: modelContext)
         }
     }
 }
@@ -127,6 +101,7 @@ struct MyCollectionListView: View {
 // MARK: - Preview
 
 #Preview {
-    MyCollectionListView(isUserAuthenticated: .constant(true))
-        .modelContainer(MangaCollectionManager.modelContainer)
+    @Previewable @State var isUserAuthenticated = true
+
+    MyCollectionListView(isUserAuthenticated: $isUserAuthenticated)
 }

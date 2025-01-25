@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginUserView: View {
+    @Environment(\.modelContext) private var modelContext
     @State var viewModel = LoginUserViewModel()
     @Binding var isUserAuthenticated: Bool
 
@@ -31,7 +32,7 @@ struct LoginUserView: View {
                 
                 AuthActionButton(title: viewModel.state == .loading ? "Logging in..." : "Log In",
                                   isLoading: (viewModel.state == .loading)) {
-                    await viewModel.login()
+                    await viewModel.login(using: modelContext)
                     isUserAuthenticated = (viewModel.state == .success)
                 }
                 .padding(.horizontal, 24)

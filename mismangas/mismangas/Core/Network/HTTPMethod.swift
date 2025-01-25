@@ -15,11 +15,17 @@ enum HTTPMethod: String {
 }
 
 extension URLRequest {
-    static func get(_ url: URL) -> URLRequest {
+    static func get(_ url: URL, headers: [String: String]? = nil) -> URLRequest {
         var request = URLRequest(url: url)
         request.timeoutInterval = URL.timeOut
         request.httpMethod = HTTPMethod.get.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        // Add custom headers
+        headers?.forEach { key, value in
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
         return request
     }
     
@@ -50,11 +56,18 @@ extension URLRequest {
         return request
     }
     
-    static func delete(_ url: URL) -> URLRequest {
+    static func delete(_ url: URL,
+                       headers: [String: String]? = nil) -> URLRequest {
         var request = URLRequest(url: url)
         request.timeoutInterval = URL.timeOut
         request.httpMethod = HTTPMethod.delete.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        // Add custom headers
+        headers?.forEach { key, value in
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
         return request
     }
 }

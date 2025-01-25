@@ -11,8 +11,8 @@ struct AppTokenConfig {
     static let requiredEndpoints: Set<URL> = [
         .registerUser,
         .loginUser,
-        .renewToken
-//        "/collection/manga" // Manage Collection
+        .renewToken,
+        .userCollection
     ]
     
     static let appToken = "sLGH38NhEJ0_anlIWwhsz1-LarClEohiAHQqayF0FY"

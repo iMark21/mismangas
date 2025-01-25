@@ -69,6 +69,6 @@ struct mismangasApp: App {
                 }
             }
         }
-        .modelContainer(for: [MangaCollection.self])
+        .modelContainer(for: [MangaCollectionDB.self])
     }
 }

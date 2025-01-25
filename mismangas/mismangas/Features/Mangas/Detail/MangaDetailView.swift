@@ -10,20 +10,27 @@ import SwiftData
 
 struct MangaDetailView: View {
     @State var viewModel: MangaDetailViewModel
-    @Query private var collections: [MangaCollection]
+    @Query private var collections: [MangaCollectionDB]
     @Environment(\.modelContext) private var modelContext
-
+    
     // MARK: - Computed Properties
     
-    private var collection: MangaCollection? {
+    private var collection: MangaCollectionDB? {
         guard case .content(let manga) = viewModel.state else { return nil }
         return collections.first(where: { $0.mangaID == manga.id })
     }
-
-    private var collectionManager: MangaCollectionManager {
-        MangaCollectionManager(modelContext: modelContext)
+    
+    // MARK: - Computed Properties
+    
+    private var isInCollection: Bool {
+        guard case .content(let manga) = viewModel.state else { return false }
+        return collections.contains { $0.mangaID == manga.id }
     }
-
+    
+    private var collectionManager: MangaCollectionManager {
+        MangaCollectionManager()
+    }
+    
     // MARK: - Body
     
     var body: some View {
@@ -31,7 +38,7 @@ struct MangaDetailView: View {
             switch viewModel.state {
             case .loading:
                 ProgressMeView(message: "Loading ...")
-
+                
             case .content(let manga):
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
@@ -46,9 +53,14 @@ struct MangaDetailView: View {
                             .padding()
                     }
                 }
+                
+                
                 MangaDetailBottomBar(isInCollection: collection != nil,
-                                     toggleCollection: toggleCollection,
-                                     showManagement: {
+                                     toggleCollection: {
+                    Task {
+                        await toggleCollection()
+                    }
+                }, showManagement: {
                     viewModel.showingCollectionManagement = true
                 })
                 
@@ -65,30 +77,24 @@ struct MangaDetailView: View {
         .sheet(isPresented: $viewModel.showingCollectionManagement) {
             if case .content(let manga) = viewModel.state {
                 MyCollectionManagementSection(completeCollection: $viewModel.completeCollection,
-                                            volumesOwned: $viewModel.volumesOwned,
-                                            readingVolume: $viewModel.readingVolume,
-                                            totalVolumes: manga.volumes,
-                                            manga: manga)
+                                              volumesOwned: $viewModel.volumesOwned,
+                                              readingVolume: $viewModel.readingVolume,
+                                              totalVolumes: manga.volumes,
+                                              manga: manga)
                 .presentationDetents([.height(200), .medium])
                 .presentationDragIndicator(.visible)
             }
         }
     }
-
+    
     // MARK: - Actions
     
-    private func toggleCollection() {
+    private func toggleCollection() async {
         guard case .content(let manga) = viewModel.state else { return }
+        await viewModel.toggleCollection(manga,
+                                   isInCollection: isInCollection,
+                                   modelContext: modelContext)
 
-        if collection != nil {
-            collectionManager.removeFromCollection(mangaID: manga.id)
-            viewModel.reset()
-        } else {
-            collectionManager.saveToMyCollection(manga: manga,
-                                                 completeCollection: viewModel.completeCollection,
-                                                 volumesOwned: viewModel.volumesOwned,
-                                                 readingVolume: viewModel.readingVolume)
-        }
     }
 }
 
