@@ -13,7 +13,8 @@ extension UserMangaCollectionDTO {
                                mangaName: manga.title,
                                completeCollection: completeCollection,
                                volumesOwned: volumesOwned,
-                               readingVolume: readingVolume)
+                               readingVolume: readingVolume,
+                               totalVolumes: totalVolumes)
     }
 }
 
@@ -33,7 +34,8 @@ extension MangaCollection {
                           mangaName: mangaName,
                           completeCollection: completeCollection,
                           volumesOwned: volumesOwned,
-                          readingVolume: readingVolume)
+                          readingVolume: readingVolume,
+                          totalVolumes: totalVolumes)
     }
 }
 

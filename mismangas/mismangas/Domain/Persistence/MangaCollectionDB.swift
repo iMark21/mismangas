@@ -16,14 +16,16 @@ final class MangaCollectionDB {
     var completeCollection: Bool
     var volumesOwned: [Int]
     var readingVolume: Int?
+    var totalVolumes: Int?
     
-    init(mangaID: Int, mangaName: String, completeCollection: Bool = false, volumesOwned: [Int] = [], readingVolume: Int? = nil) {
+    init(mangaID: Int, mangaName: String, completeCollection: Bool = false, volumesOwned: [Int] = [], readingVolume: Int? = nil, totalVolumes: Int?) {
         self.id = UUID()
         self.mangaID = mangaID
         self.mangaName = mangaName
         self.completeCollection = completeCollection
         self.volumesOwned = volumesOwned
         self.readingVolume = readingVolume
+        self.totalVolumes = totalVolumes
     }
 
     convenience init(manga: Manga, completeCollection: Bool = false, volumesOwned: [Int] = [], readingVolume: Int? = nil) {
@@ -32,7 +34,8 @@ final class MangaCollectionDB {
             mangaName: manga.title,
             completeCollection: completeCollection,
             volumesOwned: volumesOwned,
-            readingVolume: readingVolume
+            readingVolume: readingVolume,
+            totalVolumes: manga.volumes
         )
     }
 }

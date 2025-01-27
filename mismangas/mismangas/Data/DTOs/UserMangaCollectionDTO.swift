@@ -11,4 +11,5 @@ struct UserMangaCollectionDTO: Decodable {
     let completeCollection: Bool
     let volumesOwned: [Int]
     let readingVolume: Int?
+    let totalVolumes: Int?
 }
