@@ -35,6 +35,7 @@ struct LoginUserView: View {
                     await viewModel.login(using: modelContext)
                     isUserAuthenticated = (viewModel.state == .success)
                 }
+                .buttonStyle(PlatformButtonStyle())
                 .padding(.horizontal, 24)
 
                 // Message

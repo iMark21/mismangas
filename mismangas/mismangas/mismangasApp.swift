@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct mismangasApp: App {
-    @State private var selectedSection: String? = "Home"
+    @State private var selectedSection: AppSection? = .home
     @State private var isUserAuthenticated = false
 
     var body: some Scene {
@@ -18,54 +18,13 @@ struct mismangasApp: App {
             if !isUserAuthenticated {
                 WelcomeView(isUserAuthenticated: $isUserAuthenticated)
             } else {
-                if iPad {
-                    NavigationSplitView {
-                        List(selection: $selectedSection) {
-                            NavigationLink(value: "Home") {
-                                Label("Home", systemImage: "house")
-                            }
-                            NavigationLink(value: "All Mangas") {
-                                Label("All Mangas", systemImage: "book")
-                            }
-                            NavigationLink(value: "My Collection") {
-                                Label("My Collection", systemImage: "heart.fill")
-                            }
-                        }
-                        .navigationTitle("Mismangas")
-                    } detail: {
-                        if let section = selectedSection {
-                            switch section {
-                            case "Home":
-                                HomeView()
-                            case "All Mangas":
-                                MangaListPadView()
-                            case "My Collection":
-                                MyCollectionListView(isUserAuthenticated: $isUserAuthenticated)
-                            default:
-                                Text("Select a section")
-                                    .foregroundColor(.secondary)
-                            }
-                        } else {
-                            Text("Select a section")
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                } else {
-                    // TabView para iPhone
-                    TabView {
-                        HomeView()
-                            .tabItem {
-                                Label("Home", systemImage: "house")
-                            }
-                        MangaListView()
-                            .tabItem {
-                                Label("All Mangas", systemImage: "book")
-                            }
-                        MyCollectionListView(isUserAuthenticated: $isUserAuthenticated)
-                            .tabItem {
-                                Label("My Collection", systemImage: "heart.fill")
-                            }
-                    }
+                switch currentDeviceType {
+                case .mac:
+                    macOSMainView(selectedSection: $selectedSection)
+                case .iPad:
+                    iPadMainView(selectedSection: $selectedSection, isUserAuthenticated: $isUserAuthenticated)
+                case .iPhone:
+                    iPhoneMainView(isUserAuthenticated: $isUserAuthenticated)
                 }
             }
         }

@@ -29,6 +29,10 @@ struct MangaDetailBottomBar: View {
                 .foregroundColor(.white)
                 .cornerRadius(8)
             }
+            #if os(macOS)
+            .buttonStyle(.borderless)
+            #endif
+            
 
             if showManageButton, let showManagement = showManagement {
                 Button(action: showManagement) {
@@ -41,10 +45,12 @@ struct MangaDetailBottomBar: View {
                     }
                     .padding(8)
                     .frame(maxWidth: .infinity)
-                    .background(Color(UIColor.systemGray5))
+                    .background(.secondary.opacity(0.1))
                     .foregroundColor(.primary)
                     .cornerRadius(8)
                 }
+                .buttonStyle(PlatformBorderLessStyle())
+
             }
         }
         .padding(.horizontal, 16)

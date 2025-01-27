@@ -15,11 +15,15 @@ struct AuthCredentialsFormView: View {
         VStack(spacing: 16) {
             TextField("Email", text: $email)
                 .textFieldStyle(.roundedBorder)
+            #if os(iOS)
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
+            #endif
+                .platformTextFieldStyle()
             
             SecureField("Password", text: $password)
                 .textFieldStyle(.roundedBorder)
+                .platformTextFieldStyle()
         }
         .padding()
     }

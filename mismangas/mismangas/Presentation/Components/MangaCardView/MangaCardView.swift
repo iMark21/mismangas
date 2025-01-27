@@ -46,11 +46,13 @@ struct MangaCardView: View {
             .padding(8)
         }
         .frame(width: 140)
+        #if os(iOS)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color(.secondarySystemBackground))
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         )
+        #endif
     }
 }
 

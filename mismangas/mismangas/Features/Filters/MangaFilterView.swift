@@ -12,6 +12,53 @@ struct MangaFilterView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
+        Group {
+            if isMac {
+                macOSLayout
+            } else {
+                iOSLayout
+            }
+        }
+        .frame(minWidth: isMac ? 500 : nil, minHeight: isMac ? 400 : nil)
+    }
+    
+    private var macOSLayout: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Filters")
+                        .font(.title2)
+                        .bold()
+                    Spacer()
+                    Button("Cancel") {
+                        cancel()
+                    }
+                    .keyboardShortcut(.cancelAction)
+                    .padding(.trailing)
+                }
+                .padding()
+
+                Divider()
+
+                VStack {
+                    Form {
+                        filterPickerSection
+                        queryFieldSection
+                    }
+                    .padding()
+                    Spacer()
+                    applyFilterButton
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            .platformNavigationBarTitle()
+            .platformModalPresentation(item: $viewModel.showPicker) { type in
+                showSheet(type)
+            }
+        }
+    }
+    // MARK: - iOS Layout
+    private var iOSLayout: some View {
         NavigationStack {
             VStack {
                 Form {
@@ -22,16 +69,19 @@ struct MangaFilterView: View {
                 applyFilterButton
             }
             .navigationTitle("Filters")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                toolbarContent
+            .platformNavigationBarTitle()
+            .platformToolbar(
+                resetAction: {
+                    cancel()
+                }
+            )
+            .platformModalPresentation(item: $viewModel.showPicker) { type in
+                showSheet(type)
             }
-            .sheet(item: $viewModel.showPicker, content: showSheet)
         }
     }
 
     // MARK: - Sections
-
     @ViewBuilder
     private var filterPickerSection: some View {
         Section {
@@ -59,13 +109,14 @@ struct MangaFilterView: View {
         Section {
             if viewModel.filter.searchType == .beginsWith || viewModel.filter.searchType == .contains {
                 TextField("Type text", text: $viewModel.filter.query)
-                    .autocapitalization(.none)
+                    .platformAutoCapitalization()
                     .disableAutocorrection(true)
             } else {
                 Text(viewModel.filter.query.isEmpty ? "Select \(viewModel.filter.searchType?.rawValue ?? "option")..." : viewModel.filter.query)
                     .foregroundColor(viewModel.filter.query.isEmpty ? .blue : .primary)
                     .onTapGesture {
                         viewModel.showPicker = viewModel.filter.searchType
+                        print("showPicker updated to: \(String(describing: viewModel.showPicker))")
                     }
             }
         }
@@ -85,17 +136,6 @@ struct MangaFilterView: View {
                 .padding()
         })
         .disabled(!viewModel.isFilterValid)
-    }
-
-    @ToolbarContentBuilder
-    private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button("Reset") {
-                viewModel.resetFilters()
-                dismiss()
-            }
-            .foregroundColor(.red)
-        }
     }
 
     @ViewBuilder
@@ -148,6 +188,11 @@ struct MangaFilterView: View {
         default:
             EmptyView()
         }
+    }
+    
+    private func cancel() {
+        viewModel.resetFilters()
+        dismiss()
     }
 }
 

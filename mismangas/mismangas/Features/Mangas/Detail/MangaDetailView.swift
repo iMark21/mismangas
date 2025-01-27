@@ -73,7 +73,7 @@ struct MangaDetailView: View {
             }
         }
         .navigationTitle("Manga Details")
-        .navigationBarTitleDisplayMode(.inline)
+        .platformNavigationBarTitle()
         .sheet(isPresented: $viewModel.showingCollectionManagement) {
             if case .content(let manga) = viewModel.state {
                 MyCollectionManagementSection(completeCollection: $viewModel.completeCollection,
@@ -81,7 +81,7 @@ struct MangaDetailView: View {
                                               readingVolume: $viewModel.readingVolume,
                                               totalVolumes: manga.volumes,
                                               manga: manga)
-                .presentationDetents([.height(200), .medium])
+                .presentationDetents([.height(350), .medium])
                 .presentationDragIndicator(.visible)
             }
         }

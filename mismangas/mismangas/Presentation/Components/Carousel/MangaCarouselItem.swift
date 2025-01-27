@@ -48,9 +48,11 @@ struct MangaCarouselItem: View {
                     endPoint: .bottom
                 )
             )
+            #if os(iOS)
             .clipShape(
                 RoundedCornerShape(radius: 20, corners: [.topLeft, .topRight])
             )
+            #endif
         }
         .cornerRadius(20)
     }

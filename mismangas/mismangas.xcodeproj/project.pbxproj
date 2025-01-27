@@ -65,6 +65,8 @@
 		B35D49A62D396AE000F090D1 /* FetchDemographicsUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35D49A52D396AE000F090D1 /* FetchDemographicsUseCaseProtocol.swift */; };
 		B35D49A92D396B9900F090D1 /* DemographicPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35D49A82D396B9900F090D1 /* DemographicPreview.swift */; };
 		B35D49AB2D396BF900F090D1 /* demographics_mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B35D49AA2D396BF900F090D1 /* demographics_mock.json */; };
+		B35E78882D47952A000C71B2 /* PlatformBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35E78872D47952A000C71B2 /* PlatformBackgroundModifier.swift */; };
+		B35E788A2D479559000C71B2 /* HideFormBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35E78892D479559000C71B2 /* HideFormBackgroundModifier.swift */; };
 		B366B8512D43A79100139BB5 /* AuthHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366B8502D43A79100139BB5 /* AuthHeaderView.swift */; };
 		B366B8532D43A7FC00139BB5 /* AuthCredentialsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366B8522D43A7FC00139BB5 /* AuthCredentialsFormView.swift */; };
 		B366B8572D43ADB600139BB5 /* AuthActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B366B8562D43ADB600139BB5 /* AuthActionButton.swift */; };
@@ -87,6 +89,7 @@
 		B367C4462D3FF68A007643D5 /* ReusableMangaImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B367C4452D3FF68A007643D5 /* ReusableMangaImageView.swift */; };
 		B367C4492D3FFC75007643D5 /* PillType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B367C4482D3FFC75007643D5 /* PillType.swift */; };
 		B367C44C2D3FFCDE007643D5 /* PillsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B367C44B2D3FFCDE007643D5 /* PillsScrollView.swift */; };
+		B374B9082D4688FF00FD9E64 /* WelcomePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374B9072D4688FA00FD9E64 /* WelcomePreview.swift */; };
 		B37671BD2D3AE0B20028055D /* MangaCollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37671BC2D3AE0B20028055D /* MangaCollectionManager.swift */; };
 		B37671C22D3AE9A00028055D /* MyCollectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37671C12D3AE9A00028055D /* MyCollectionListView.swift */; };
 		B37671C52D3AF1870028055D /* FetchMangaDetailsUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37671C42D3AF1870028055D /* FetchMangaDetailsUseCaseProtocol.swift */; };
@@ -98,6 +101,10 @@
 		B38D15CC2D11A14B00C47428 /* LoadingMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38D15CB2D11A14B00C47428 /* LoadingMoreView.swift */; };
 		B38D15CE2D11A21B00C47428 /* AlertErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38D15CD2D11A21B00C47428 /* AlertErrorView.swift */; };
 		B397D8E82D2D69330005B21B /* AuthorsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B397D8E72D2D69330005B21B /* AuthorsPreview.swift */; };
+		B39AB3AE2D456B8600387CAB /* macOSMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AB3AD2D456B8600387CAB /* macOSMainView.swift */; };
+		B39AB3B12D456CBA00387CAB /* AppSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AB3B02D456CBA00387CAB /* AppSection.swift */; };
+		B39AB3B42D456E4100387CAB /* iPadMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AB3B32D456E4100387CAB /* iPadMainView.swift */; };
+		B39AB3B72D456EF700387CAB /* iPhoneMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AB3B62D456EF700387CAB /* iPhoneMainView.swift */; };
 		B39CD3662D1B269A00C7667A /* MangaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39CD3652D1B269A00C7667A /* MangaFilterView.swift */; };
 		B3AB20412D0C5D94009A4C98 /* MangasPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AB20402D0C5D94009A4C98 /* MangasPreview.swift */; };
 		B3AB20482D0C650E009A4C98 /* mangas_mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B3AB20472D0C650E009A4C98 /* mangas_mock.json */; };
@@ -122,8 +129,6 @@
 		B3CBB60A2D416D1200208B8E /* MangaFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CBB6092D416D1200208B8E /* MangaFilterViewModel.swift */; };
 		B3CC28072D3BEF43009D085D /* MyCollectionPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC28062D3BEF3F009D085D /* MyCollectionPreview.swift */; };
 		B3CC28092D3C2CE6009D085D /* FavoriteIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC28082D3C2CE6009D085D /* FavoriteIndicatorView.swift */; };
-		B3CC280C2D3C35A2009D085D /* MangaListPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC280B2D3C35A2009D085D /* MangaListPadView.swift */; };
-		B3CC280F2D3C3885009D085D /* MangaDetailPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC280E2D3C3885009D085D /* MangaDetailPadView.swift */; };
 		B3CC28122D3C4B07009D085D /* MyCollectionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC28112D3C4B07009D085D /* MyCollectionRowView.swift */; };
 		B3CD67A32D450ED800A12DCD /* LogoutUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD67A22D450ED800A12DCD /* LogoutUserUseCase.swift */; };
 		B3CD67A92D450F0000A12DCD /* LogoutUserUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CD67A82D450F0000A12DCD /* LogoutUserUseCaseProtocol.swift */; };
@@ -147,6 +152,12 @@
 		B3D5BDD22D3EA49B006BCD86 /* HomePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D5BDD12D3EA498006BCD86 /* HomePreview.swift */; };
 		B3D5BDD72D3EACBC006BCD86 /* FetchBestMangasUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D5BDD62D3EACBC006BCD86 /* FetchBestMangasUseCaseProtocol.swift */; };
 		B3D5BDD92D3EACC7006BCD86 /* FetchBestMangasUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D5BDD82D3EACC7006BCD86 /* FetchBestMangasUseCase.swift */; };
+		B3D90BFA2D4691590009796C /* PlatformButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D90BF92D4691590009796C /* PlatformButtonStyle.swift */; };
+		B3D90BFD2D4696370009796C /* PlatformTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D90BFC2D4696370009796C /* PlatformTextFieldModifier.swift */; };
+		B3D90BFF2D469BC70009796C /* PlatformToolbarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D90BFE2D469BC70009796C /* PlatformToolbarModifier.swift */; };
+		B3D90C012D469BD40009796C /* PlatformNavigationBarTitleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D90C002D469BD40009796C /* PlatformNavigationBarTitleModifier.swift */; };
+		B3D90C052D46B2050009796C /* PlatformNoneAutoCapitalizationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D90C042D46B2050009796C /* PlatformNoneAutoCapitalizationModifier.swift */; };
+		B3D90C0E2D46BA700009796C /* PlatformModalPresentationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D90C0D2D46BA700009796C /* PlatformModalPresentationModifier.swift */; };
 		B3EB034C2D3D178400F1790E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB034B2D3D178400F1790E /* Utils.swift */; };
 		B3EB03512D3D1F3000F1790E /* MangaListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB03502D3D1F3000F1790E /* MangaListContentView.swift */; };
 		B3EB03532D3D28CB00F1790E /* MangaImageDetailPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB03522D3D28CB00F1790E /* MangaImageDetailPadView.swift */; };
@@ -220,6 +231,8 @@
 		B35D49A52D396AE000F090D1 /* FetchDemographicsUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDemographicsUseCaseProtocol.swift; sourceTree = "<group>"; };
 		B35D49A82D396B9900F090D1 /* DemographicPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemographicPreview.swift; sourceTree = "<group>"; };
 		B35D49AA2D396BF900F090D1 /* demographics_mock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = demographics_mock.json; sourceTree = "<group>"; };
+		B35E78872D47952A000C71B2 /* PlatformBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformBackgroundModifier.swift; sourceTree = "<group>"; };
+		B35E78892D479559000C71B2 /* HideFormBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideFormBackgroundModifier.swift; sourceTree = "<group>"; };
 		B366B8502D43A79100139BB5 /* AuthHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHeaderView.swift; sourceTree = "<group>"; };
 		B366B8522D43A7FC00139BB5 /* AuthCredentialsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsFormView.swift; sourceTree = "<group>"; };
 		B366B8562D43ADB600139BB5 /* AuthActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthActionButton.swift; sourceTree = "<group>"; };
@@ -242,6 +255,7 @@
 		B367C4452D3FF68A007643D5 /* ReusableMangaImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableMangaImageView.swift; sourceTree = "<group>"; };
 		B367C4482D3FFC75007643D5 /* PillType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillType.swift; sourceTree = "<group>"; };
 		B367C44B2D3FFCDE007643D5 /* PillsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsScrollView.swift; sourceTree = "<group>"; };
+		B374B9072D4688FA00FD9E64 /* WelcomePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePreview.swift; sourceTree = "<group>"; };
 		B37671BC2D3AE0B20028055D /* MangaCollectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaCollectionManager.swift; sourceTree = "<group>"; };
 		B37671C12D3AE9A00028055D /* MyCollectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionListView.swift; sourceTree = "<group>"; };
 		B37671C42D3AF1870028055D /* FetchMangaDetailsUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMangaDetailsUseCaseProtocol.swift; sourceTree = "<group>"; };
@@ -253,6 +267,10 @@
 		B38D15CB2D11A14B00C47428 /* LoadingMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingMoreView.swift; sourceTree = "<group>"; };
 		B38D15CD2D11A21B00C47428 /* AlertErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertErrorView.swift; sourceTree = "<group>"; };
 		B397D8E72D2D69330005B21B /* AuthorsPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorsPreview.swift; sourceTree = "<group>"; };
+		B39AB3AD2D456B8600387CAB /* macOSMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOSMainView.swift; sourceTree = "<group>"; };
+		B39AB3B02D456CBA00387CAB /* AppSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSection.swift; sourceTree = "<group>"; };
+		B39AB3B32D456E4100387CAB /* iPadMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadMainView.swift; sourceTree = "<group>"; };
+		B39AB3B62D456EF700387CAB /* iPhoneMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneMainView.swift; sourceTree = "<group>"; };
 		B39CD3652D1B269A00C7667A /* MangaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaFilterView.swift; sourceTree = "<group>"; };
 		B3AB20402D0C5D94009A4C98 /* MangasPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangasPreview.swift; sourceTree = "<group>"; };
 		B3AB20472D0C650E009A4C98 /* mangas_mock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mangas_mock.json; sourceTree = "<group>"; };
@@ -277,8 +295,6 @@
 		B3CBB6092D416D1200208B8E /* MangaFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaFilterViewModel.swift; sourceTree = "<group>"; };
 		B3CC28062D3BEF3F009D085D /* MyCollectionPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionPreview.swift; sourceTree = "<group>"; };
 		B3CC28082D3C2CE6009D085D /* FavoriteIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteIndicatorView.swift; sourceTree = "<group>"; };
-		B3CC280B2D3C35A2009D085D /* MangaListPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListPadView.swift; sourceTree = "<group>"; };
-		B3CC280E2D3C3885009D085D /* MangaDetailPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailPadView.swift; sourceTree = "<group>"; };
 		B3CC28112D3C4B07009D085D /* MyCollectionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionRowView.swift; sourceTree = "<group>"; };
 		B3CD67A22D450ED800A12DCD /* LogoutUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUserUseCase.swift; sourceTree = "<group>"; };
 		B3CD67A82D450F0000A12DCD /* LogoutUserUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUserUseCaseProtocol.swift; sourceTree = "<group>"; };
@@ -302,6 +318,12 @@
 		B3D5BDD12D3EA498006BCD86 /* HomePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePreview.swift; sourceTree = "<group>"; };
 		B3D5BDD62D3EACBC006BCD86 /* FetchBestMangasUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchBestMangasUseCaseProtocol.swift; sourceTree = "<group>"; };
 		B3D5BDD82D3EACC7006BCD86 /* FetchBestMangasUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchBestMangasUseCase.swift; sourceTree = "<group>"; };
+		B3D90BF92D4691590009796C /* PlatformButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformButtonStyle.swift; sourceTree = "<group>"; };
+		B3D90BFC2D4696370009796C /* PlatformTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformTextFieldModifier.swift; sourceTree = "<group>"; };
+		B3D90BFE2D469BC70009796C /* PlatformToolbarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformToolbarModifier.swift; sourceTree = "<group>"; };
+		B3D90C002D469BD40009796C /* PlatformNavigationBarTitleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformNavigationBarTitleModifier.swift; sourceTree = "<group>"; };
+		B3D90C042D46B2050009796C /* PlatformNoneAutoCapitalizationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformNoneAutoCapitalizationModifier.swift; sourceTree = "<group>"; };
+		B3D90C0D2D46BA700009796C /* PlatformModalPresentationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformModalPresentationModifier.swift; sourceTree = "<group>"; };
 		B3EB034B2D3D178400F1790E /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		B3EB03502D3D1F3000F1790E /* MangaListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListContentView.swift; sourceTree = "<group>"; };
 		B3EB03522D3D28CB00F1790E /* MangaImageDetailPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaImageDetailPadView.swift; sourceTree = "<group>"; };
@@ -344,17 +366,18 @@
 		B30279802D08C23D009675C2 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				B302797F2D08C23D009675C2 /* Preview Assets.xcassets */,
 				B397D8E62D2D69220005B21B /* Authors */,
 				B35D49A72D396B8600F090D1 /* Demographic */,
 				B3F4D3F02D359297008C4C8A /* Genre */,
 				B3D5BDD02D3EA484006BCD86 /* Home */,
 				B3AB203F2D0C5D78009A4C98 /* Mangas */,
 				B3CC28052D3BEF32009D085D /* MyCollection */,
-				B302797F2D08C23D009675C2 /* Preview Assets.xcassets */,
 				B319DBBC2D428E4000C5CBD3 /* Register */,
 				B3AB204A2D0C664C009A4C98 /* Resources */,
 				B35D499A2D39646A00F090D1 /* Theme */,
 				B3AB20492D0C6643009A4C98 /* Utils */,
+				B374B9062D4688E100FD9E64 /* Welcome */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -378,6 +401,7 @@
 		B302798A2D08C492009675C2 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				B39AB3AC2D456B7300387CAB /* MainView */,
 				B302799B2D08C53D009675C2 /* Components */,
 			);
 			path = Presentation;
@@ -506,7 +530,6 @@
 				B3CC28082D3C2CE6009D085D /* FavoriteIndicatorView.swift */,
 				B38D15CD2D11A21B00C47428 /* AlertErrorView.swift */,
 				B33AE3E62D0CC2A800A2984C /* BackgroundImageView.swift */,
-				B3404E2F2D3AD07D003499F0 /* MyCollectionManagementSection.swift */,
 				B3D338B02D3445C7004FC6F7 /* ErrorView.swift */,
 				B38D15CB2D11A14B00C47428 /* LoadingMoreView.swift */,
 				B33AE3EA2D0CC51600A2984C /* MangaBasicInfoView.swift */,
@@ -640,10 +663,10 @@
 		B3404E242D3AB605003499F0 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				B3EB034D2D3D1A8A00F1790E /* Components */,
-				B3CC280A2D3C3598009D085D /* iPad */,
-				B30279822D08C23D009675C2 /* MangaListView.swift */,
+				B35E78962D47A3C1000C71B2 /* Mac */,
 				B303EAFD2D0C51FB00BFFE27 /* MangaListViewModel.swift */,
+				B30279822D08C23D009675C2 /* MangaListView.swift */,
+				B3EB034D2D3D1A8A00F1790E /* Components */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -651,10 +674,9 @@
 		B3404E252D3AB609003499F0 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				B3404E282D3ACFAC003499F0 /* Components */,
-				B3CC280D2D3C3878009D085D /* iPad */,
-				B3404E262D3AB623003499F0 /* MangaDetailView.swift */,
 				B37671C82D3AF2780028055D /* MangaDetailViewModel.swift */,
+				B3404E262D3AB623003499F0 /* MangaDetailView.swift */,
+				B3404E282D3ACFAC003499F0 /* Components */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -722,6 +744,64 @@
 			path = Demographic;
 			sourceTree = "<group>";
 		};
+		B35E788B2D479E85000C71B2 /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				B35E78872D47952A000C71B2 /* PlatformBackgroundModifier.swift */,
+				B35E78892D479559000C71B2 /* HideFormBackgroundModifier.swift */,
+			);
+			path = Form;
+			sourceTree = "<group>";
+		};
+		B35E788C2D479E8D000C71B2 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				B3D90C002D469BD40009796C /* PlatformNavigationBarTitleModifier.swift */,
+				B3D90BFE2D469BC70009796C /* PlatformToolbarModifier.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		B35E788D2D479E92000C71B2 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				B3D90BF92D4691590009796C /* PlatformButtonStyle.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		B35E788E2D479E97000C71B2 /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				B3D90BFC2D4696370009796C /* PlatformTextFieldModifier.swift */,
+				B3D90C042D46B2050009796C /* PlatformNoneAutoCapitalizationModifier.swift */,
+			);
+			path = TextFields;
+			sourceTree = "<group>";
+		};
+		B35E78902D479EA1000C71B2 /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+				B3D90C0D2D46BA700009796C /* PlatformModalPresentationModifier.swift */,
+			);
+			path = Modal;
+			sourceTree = "<group>";
+		};
+		B35E78912D47A0AD000C71B2 /* MyCollectionManagementSection */ = {
+			isa = PBXGroup;
+			children = (
+				B3404E2F2D3AD07D003499F0 /* MyCollectionManagementSection.swift */,
+			);
+			path = MyCollectionManagementSection;
+			sourceTree = "<group>";
+		};
+		B35E78962D47A3C1000C71B2 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mac;
+			sourceTree = "<group>";
+		};
 		B366B84D2D43A71C00139BB5 /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -768,13 +848,6 @@
 			path = MangaCollectionUseCase;
 			sourceTree = "<group>";
 		};
-		B366B8762D4412F000139BB5 /* Sync */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Sync;
-			sourceTree = "<group>";
-		};
 		B367C43B2D3FEAF8007643D5 /* Carousel */ = {
 			isa = PBXGroup;
 			children = (
@@ -810,6 +883,23 @@
 			path = Pills;
 			sourceTree = "<group>";
 		};
+		B374B9062D4688E100FD9E64 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				B374B9072D4688FA00FD9E64 /* WelcomePreview.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		B374B90D2D468E5D00FD9E64 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				B3D90BFB2D4691830009796C /* Styles */,
+				B3EB034B2D3D178400F1790E /* Utils.swift */,
+			);
+			path = Platform;
+			sourceTree = "<group>";
+		};
 		B37671C02D3AE9930028055D /* MyCollection */ = {
 			isa = PBXGroup;
 			children = (
@@ -832,9 +922,9 @@
 		B38D15C42D118D6600C47428 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				B374B90D2D468E5D00FD9E64 /* Platform */,
 				B3D338B62D345435004FC6F7 /* Protocols */,
 				B367C4392D3FEA66007643D5 /* RoundedCornerShape.swift */,
-				B3EB034B2D3D178400F1790E /* Utils.swift */,
 				B38D15C72D1191A900C47428 /* Logger.swift */,
 				B38D15C52D118D6B00C47428 /* Paginator.swift */,
 			);
@@ -847,6 +937,41 @@
 				B397D8E72D2D69330005B21B /* AuthorsPreview.swift */,
 			);
 			path = Authors;
+			sourceTree = "<group>";
+		};
+		B39AB3AC2D456B7300387CAB /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				B39AB3B02D456CBA00387CAB /* AppSection.swift */,
+				B39AB3B22D456DE900387CAB /* iPad */,
+				B39AB3B52D456ED300387CAB /* iPhone */,
+				B39AB3AF2D456C8E00387CAB /* Mac */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		B39AB3AF2D456C8E00387CAB /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				B39AB3AD2D456B8600387CAB /* macOSMainView.swift */,
+			);
+			path = Mac;
+			sourceTree = "<group>";
+		};
+		B39AB3B22D456DE900387CAB /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				B39AB3B32D456E4100387CAB /* iPadMainView.swift */,
+			);
+			path = iPad;
+			sourceTree = "<group>";
+		};
+		B39AB3B52D456ED300387CAB /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				B39AB3B62D456EF700387CAB /* iPhoneMainView.swift */,
+			);
+			path = iPhone;
 			sourceTree = "<group>";
 		};
 		B3AB203F2D0C5D78009A4C98 /* Mangas */ = {
@@ -902,7 +1027,6 @@
 		B3C3CB512D2D368700A03470 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				B366B8762D4412F000139BB5 /* Sync */,
 				B3C3CB542D2D36BA00A03470 /* Filters */,
 				B3D5BDC72D3EA3AE006BCD86 /* Home */,
 				B319DBC22D42943200C5CBD3 /* Login */,
@@ -927,6 +1051,7 @@
 		B3C3CB542D2D36BA00A03470 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				B3D90C062D46B5040009796C /* Mac */,
 				B3CBB6092D416D1200208B8E /* MangaFilterViewModel.swift */,
 				B39CD3652D1B269A00C7667A /* MangaFilterView.swift */,
 				B3F6DE3C2D1B1DD70014A17F /* SearchType.swift */,
@@ -943,25 +1068,10 @@
 			path = MyCollection;
 			sourceTree = "<group>";
 		};
-		B3CC280A2D3C3598009D085D /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				B3CC280B2D3C35A2009D085D /* MangaListPadView.swift */,
-			);
-			path = iPad;
-			sourceTree = "<group>";
-		};
-		B3CC280D2D3C3878009D085D /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				B3CC280E2D3C3885009D085D /* MangaDetailPadView.swift */,
-			);
-			path = iPad;
-			sourceTree = "<group>";
-		};
 		B3CC28102D3C4B03009D085D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				B35E78912D47A0AD000C71B2 /* MyCollectionManagementSection */,
 				B3CC28112D3C4B07009D085D /* MyCollectionRowView.swift */,
 			);
 			path = Components;
@@ -1025,9 +1135,9 @@
 		B3D5BDC72D3EA3AE006BCD86 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				B367C4472D3FFC6E007643D5 /* Models */,
-				B3D5BDCE2D3EA416006BCD86 /* HomeViewModel.swift */,
 				B3D5BDC82D3EA3B5006BCD86 /* HomeView.swift */,
+				B3D5BDCE2D3EA416006BCD86 /* HomeViewModel.swift */,
+				B367C4472D3FFC6E007643D5 /* Models */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1047,6 +1157,25 @@
 				B3D5BDD82D3EACC7006BCD86 /* FetchBestMangasUseCase.swift */,
 			);
 			path = FetchBestMangas;
+			sourceTree = "<group>";
+		};
+		B3D90BFB2D4691830009796C /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				B35E78902D479EA1000C71B2 /* Modal */,
+				B35E788E2D479E97000C71B2 /* TextFields */,
+				B35E788D2D479E92000C71B2 /* Buttons */,
+				B35E788C2D479E8D000C71B2 /* Navigation */,
+				B35E788B2D479E85000C71B2 /* Form */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		B3D90C062D46B5040009796C /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mac;
 			sourceTree = "<group>";
 		};
 		B3EB034D2D3D1A8A00F1790E /* Components */ = {
@@ -1182,6 +1311,7 @@
 				B367C4462D3FF68A007643D5 /* ReusableMangaImageView.swift in Sources */,
 				B30279892D08C23D009675C2 /* mismangasApp.swift in Sources */,
 				B3AB20512D0C9180009A4C98 /* URL.swift in Sources */,
+				B374B9082D4688FF00FD9E64 /* WelcomePreview.swift in Sources */,
 				B3CECACE2D2C1D2800665020 /* FetchAuthorsUseCase.swift in Sources */,
 				B3D338B52D3451B1004FC6F7 /* SelectableContentRowView.swift in Sources */,
 				B3CA88E22D42BC8F0086B459 /* WelcomeViewModel.swift in Sources */,
@@ -1192,6 +1322,7 @@
 				B3CC28092D3C2CE6009D085D /* FavoriteIndicatorView.swift in Sources */,
 				B319DBB12D428AD400C5CBD3 /* RegisterUserUseCaseProtocol.swift in Sources */,
 				B3CA88E02D42BBE40086B459 /* RenewTokenUseCase.swift in Sources */,
+				B35E78882D47952A000C71B2 /* PlatformBackgroundModifier.swift in Sources */,
 				B366B8572D43ADB600139BB5 /* AuthActionButton.swift in Sources */,
 				B3F4D3ED2D358BB1008C4C8A /* GenreRepository.swift in Sources */,
 				B3AB205E2D0C9638009A4C98 /* GenreMapper.swift in Sources */,
@@ -1199,15 +1330,18 @@
 				B3D338B82D345440004FC6F7 /* Searchable.swift in Sources */,
 				B35D49A92D396B9900F090D1 /* DemographicPreview.swift in Sources */,
 				B367C44C2D3FFCDE007643D5 /* PillsScrollView.swift in Sources */,
+				B3D90BFF2D469BC70009796C /* PlatformToolbarModifier.swift in Sources */,
 				B38D15CA2D11A09800C47428 /* ProgressView.swift in Sources */,
 				B366B8512D43A79100139BB5 /* AuthHeaderView.swift in Sources */,
 				B38D15CE2D11A21B00C47428 /* AlertErrorView.swift in Sources */,
 				B3CC28072D3BEF43009D085D /* MyCollectionPreview.swift in Sources */,
 				B3AB20552D0C94F2009A4C98 /* MangaRepository.swift in Sources */,
 				B3D338B32D34467D004FC6F7 /* SelectableListContentView.swift in Sources */,
+				B39AB3B72D456EF700387CAB /* iPhoneMainView.swift in Sources */,
 				B366B8532D43A7FC00139BB5 /* AuthCredentialsFormView.swift in Sources */,
 				B303EAFE2D0C51FB00BFFE27 /* MangaListViewModel.swift in Sources */,
 				B366B8732D43F9B800139BB5 /* MangaCollection.swift in Sources */,
+				B39AB3B42D456E4100387CAB /* iPadMainView.swift in Sources */,
 				B35D499F2D396A6C00F090D1 /* DemographicRepositoryProtocol.swift in Sources */,
 				B3CD67A32D450ED800A12DCD /* LogoutUserUseCase.swift in Sources */,
 				B3F4D3EF2D358D21008C4C8A /* FetchGenresUseCaseProtocol.swift in Sources */,
@@ -1215,6 +1349,7 @@
 				B3CBB60A2D416D1200208B8E /* MangaFilterViewModel.swift in Sources */,
 				B319DBB42D428B7E00C5CBD3 /* RegisterUserViewModel.swift in Sources */,
 				B367C4492D3FFC75007643D5 /* PillType.swift in Sources */,
+				B3D90BFD2D4696370009796C /* PlatformTextFieldModifier.swift in Sources */,
 				B366B8712D43EF7400139BB5 /* MyCollectionListViewModel.swift in Sources */,
 				B33AE3E02D0CB47300A2984C /* MangaRowView.swift in Sources */,
 				B35D49922D3962AD00F090D1 /* ThemeRepositoryProtocol.swift in Sources */,
@@ -1235,6 +1370,7 @@
 				B3404E322D3AD0BF003499F0 /* MangaDetailBottomBar.swift in Sources */,
 				B3D338B12D3445C7004FC6F7 /* ErrorView.swift in Sources */,
 				B303EAFB2D0C4B5600BFFE27 /* APIError.swift in Sources */,
+				B3D90BFA2D4691590009796C /* PlatformButtonStyle.swift in Sources */,
 				B3AB20622D0C99E8009A4C98 /* HTTPMethod.swift in Sources */,
 				B366B8752D4411F200139BB5 /* MangaCollectionManagerProtocol.swift in Sources */,
 				B3443B7D2D395E84006F35C6 /* ThemeDTO.swift in Sources */,
@@ -1242,11 +1378,13 @@
 				B319DBA62D42886F00C5CBD3 /* UserRepositoryProtocol.swift in Sources */,
 				B366B8602D43C9CE00139BB5 /* UserMangaCollectionDTO.swift in Sources */,
 				B38D15CC2D11A14B00C47428 /* LoadingMoreView.swift in Sources */,
+				B39AB3B12D456CBA00387CAB /* AppSection.swift in Sources */,
 				B3CECABF2D2BF2B300665020 /* AuthorDTO.swift in Sources */,
 				B3C3CB5A2D2D37F200A03470 /* MangaFilter.swift in Sources */,
 				B3AB20532D0C9410009A4C98 /* MangaDTO.swift in Sources */,
 				B3AB204C2D0C6686009A4C98 /* JSONLoader.swift in Sources */,
 				B3D338AD2D344377004FC6F7 /* Demographic.swift in Sources */,
+				B3D90C0E2D46BA700009796C /* PlatformModalPresentationModifier.swift in Sources */,
 				B319DBCC2D429E3500C5CBD3 /* LoginUserUseCaseProtocol.swift in Sources */,
 				B319DBDC2D42BBA800C5CBD3 /* RenewTokenUseCaseProtocol.swift in Sources */,
 				B3F6DE3D2D1B1DD70014A17F /* SearchType.swift in Sources */,
@@ -1255,9 +1393,10 @@
 				B366B85E2D43C98900139BB5 /* UserMangaCollectionRequest.swift in Sources */,
 				B3EB034C2D3D178400F1790E /* Utils.swift in Sources */,
 				B35D49902D3962A100F090D1 /* ThemeRepository.swift in Sources */,
+				B3D90C012D469BD40009796C /* PlatformNavigationBarTitleModifier.swift in Sources */,
 				B37671C22D3AE9A00028055D /* MyCollectionListView.swift in Sources */,
-				B3CC280F2D3C3885009D085D /* MangaDetailPadView.swift in Sources */,
 				B319DBAC2D4288E500C5CBD3 /* RegisterUserResponse.swift in Sources */,
+				B39AB3AE2D456B8600387CAB /* macOSMainView.swift in Sources */,
 				B3CECAC32D2C07C700665020 /* AuthorMapper.swift in Sources */,
 				B3404E272D3AB623003499F0 /* MangaDetailView.swift in Sources */,
 				B3404E342D3AD0FA003499F0 /* TagsView.swift in Sources */,
@@ -1266,6 +1405,7 @@
 				B3CECAC72D2C08CF00665020 /* AuthorRepositoryProtocol.swift in Sources */,
 				B3CECAC92D2C19CD00665020 /* AuthorRepository.swift in Sources */,
 				B3EB03512D3D1F3000F1790E /* MangaListContentView.swift in Sources */,
+				B35E788A2D479559000C71B2 /* HideFormBackgroundModifier.swift in Sources */,
 				B319DBD22D42AC7E00C5CBD3 /* AppTokenConfig.swift in Sources */,
 				B33AE3E92D0CC41D00A2984C /* VolumesView.swift in Sources */,
 				B3404E2A2D3ACFB9003499F0 /* MangaHeaderView.swift in Sources */,
@@ -1281,6 +1421,7 @@
 				B39CD3662D1B269A00C7667A /* MangaFilterView.swift in Sources */,
 				B35D49A42D396AD800F090D1 /* FetchDemographicsUseCase.swift in Sources */,
 				B397D8E82D2D69330005B21B /* AuthorsPreview.swift in Sources */,
+				B3D90C052D46B2050009796C /* PlatformNoneAutoCapitalizationModifier.swift in Sources */,
 				B3443B7F2D395ECD006F35C6 /* Theme.swift in Sources */,
 				B3404E2E2D3AD058003499F0 /* MangaSynopsisView.swift in Sources */,
 				B3C4C8D02D2C204D00F3379A /* SelectableListViewModel.swift in Sources */,
@@ -1298,7 +1439,6 @@
 				B319DBBB2D428C3400C5CBD3 /* RegisterUserView.swift in Sources */,
 				B3D5BDCF2D3EA416006BCD86 /* HomeViewModel.swift in Sources */,
 				B35D498D2D3961A300F090D1 /* ThemeMapper.swift in Sources */,
-				B3CC280C2D3C35A2009D085D /* MangaListPadView.swift in Sources */,
 				B33AE3E52D0CB8F900A2984C /* StarRatingView.swift in Sources */,
 				B30279A72D08C9D5009675C2 /* MangaResponseDTO.swift in Sources */,
 				B366B8652D43CBEC00139BB5 /* UserMangaCollectionMapper.swift in Sources */,
@@ -1432,6 +1572,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = mismangas/mismangas.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -1448,8 +1589,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -1457,6 +1598,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imark.mismangas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1473,6 +1615,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = mismangas/mismangas.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -1489,8 +1632,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -1498,6 +1641,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imark.mismangas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;

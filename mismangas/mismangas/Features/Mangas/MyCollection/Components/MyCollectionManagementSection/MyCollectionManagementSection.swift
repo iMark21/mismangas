@@ -9,12 +9,18 @@ import SwiftUI
 import SwiftData
 
 struct MyCollectionManagementSection: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query private var collections: [MangaCollectionDB]
+
+    @State private var tempCompleteCollection: Bool = false
+    @State private var tempVolumesOwned: [Int] = []
+    @State private var tempReadingVolume: Int? = nil
 
     @Binding var completeCollection: Bool
     @Binding var volumesOwned: [Int]
     @Binding var readingVolume: Int?
+    
     let totalVolumes: Int?
     let manga: Manga?
 
@@ -23,57 +29,89 @@ struct MyCollectionManagementSection: View {
     }
 
     var body: some View {
-        Form {
-            completeCollectionToggle
-
-            if let totalVolumes {
-                volumesOwnedStepper(totalVolumes: totalVolumes)
-                if !completeCollection {
-                    currentlyReadingPicker(totalVolumes: totalVolumes)
+        VStack {
+            Form {
+                completeCollectionToggle
+                
+                if let totalVolumes {
+                    volumesOwnedStepper(totalVolumes: totalVolumes)
+                    if !tempCompleteCollection {
+                        currentlyReadingPicker(totalVolumes: totalVolumes)
+                    }
                 }
             }
+            .hideFormBackground()
+            .platformBackground()
+            
+            HStack {
+                Spacer()
+                
+                Button("Cancel") {
+                    dismissChanges()
+                }
+                .buttonStyle(.bordered)
+                
+                Button("Save") {
+                    saveChanges()
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .padding(.top)
         }
+        .padding()
+        .platformBackground()
         .onAppear(perform: loadCollection)
     }
 
     // MARK: - Components
 
     private var completeCollectionToggle: some View {
-        Toggle("Complete Collection", isOn: $completeCollection)
-            .onChange(of: completeCollection) { saveCollection() }
+        Toggle("Complete Collection", isOn: $tempCompleteCollection)
     }
 
     private func volumesOwnedStepper(totalVolumes: Int) -> some View {
         Stepper(
-            "Volumes Owned: \(volumesOwned.count)",
+            "Volumes Owned: \(tempVolumesOwned.count)",
             value: Binding(
-                get: { volumesOwned.count },
+                get: { tempVolumesOwned.count },
                 set: { updateVolumes($0) }
             ),
             in: 0...totalVolumes
         )
-        .onChange(of: volumesOwned) { saveCollection() }
     }
 
     private func currentlyReadingPicker(totalVolumes: Int) -> some View {
-        Picker("Currently Reading", selection: $readingVolume) {
+        Picker("Currently Reading", selection: $tempReadingVolume) {
             Text("None").tag(nil as Int?)
             ForEach(1...totalVolumes, id: \.self) { volume in
                 Text("Volume \(volume)").tag(volume as Int?)
             }
         }
         .pickerStyle(.menu)
-        .onChange(of: readingVolume) { saveCollection() }
     }
 
-    // MARK: - Data Persistence
+    // MARK: - Actions
 
     private func loadCollection() {
         guard let manga else { return }
+
         let state = collectionManager.fetchCollectionState(for: manga.id, using: modelContext)
-        completeCollection = state.completeCollection
-        volumesOwned = state.volumesOwned
-        readingVolume = state.readingVolume
+        tempCompleteCollection = state.completeCollection
+        tempVolumesOwned = state.volumesOwned
+        tempReadingVolume = state.readingVolume
+    }
+
+    private func saveChanges() {
+        completeCollection = tempCompleteCollection
+        volumesOwned = tempVolumesOwned
+        readingVolume = tempReadingVolume
+
+        saveCollection()
+        dismiss()
+    }
+
+    private func dismissChanges() {
+        dismiss()
     }
 
     private func saveCollection() {
@@ -95,9 +133,9 @@ struct MyCollectionManagementSection: View {
     }
 
     private func updateVolumes(_ newCount: Int) {
-        let updatedState = collectionManager.updateVolumes(newCount: newCount, currentReadingVolume: readingVolume)
-        volumesOwned = updatedState.updatedVolumes
-        readingVolume = updatedState.updatedReadingVolume
+        let updatedState = collectionManager.updateVolumes(newCount: newCount, currentReadingVolume: tempReadingVolume)
+        tempVolumesOwned = updatedState.updatedVolumes
+        tempReadingVolume = updatedState.updatedReadingVolume
     }
 }
 

@@ -35,7 +35,9 @@ struct AutomaticMangaCarousel: View {
                             }
                     }
                 }
+                #if os(iOS)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                #endif
                 .onReceive(timer) { _ in
                     withAnimation(.easeInOut(duration: 0.5)) {
                         if currentIndex == mangas.count - 1 {

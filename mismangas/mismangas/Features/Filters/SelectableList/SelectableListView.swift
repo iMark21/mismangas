@@ -29,12 +29,8 @@ struct SelectableListView<T: Identifiable & Hashable & Searchable>: View {
                     }
             }
             .navigationTitle("Select \(viewModel.title)")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") { dismiss() }
-                }
-            }
+            .platformNavigationBarTitle()
+            .platformToolbar(cancelAction: { dismiss() })
         }
     }
     
