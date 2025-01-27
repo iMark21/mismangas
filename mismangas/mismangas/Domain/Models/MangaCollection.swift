@@ -12,6 +12,7 @@ struct MangaCollection: Sendable, Identifiable {
     let completeCollection: Bool
     let volumesOwned: [Int]
     let readingVolume: Int?
+    let totalVolumes: Int?
     
     var id: Int {
         return mangaID

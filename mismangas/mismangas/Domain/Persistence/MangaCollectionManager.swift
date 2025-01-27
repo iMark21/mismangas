@@ -92,7 +92,8 @@ final class MangaCollectionManager: MangaCollectionManagerProtocol {
             mangaName: manga.title,
             completeCollection: completeCollection,
             volumesOwned: volumesOwned,
-            readingVolume: readingVolume
+            readingVolume: readingVolume,
+            totalVolumes: manga.volumes
         ))
     }
 
