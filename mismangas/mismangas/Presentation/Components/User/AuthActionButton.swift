@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct AuthActionButton: View {
     let title: String

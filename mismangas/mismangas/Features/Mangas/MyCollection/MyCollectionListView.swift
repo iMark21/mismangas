@@ -23,23 +23,15 @@ struct MyCollectionListView: View {
             ZStack {
                 collectionList
                     .navigationTitle("My Collection")
-                    .toolbar {
-                        // Left toolbar item for Logout
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            logoutButton
-                                .foregroundColor(.red)
+                    .platformToolbar(
+                        logoutAction: {
+                            viewModel.showLogoutConfirmation = true
+                        },
+                        isSyncing: viewModel.isSyncing,
+                        syncAction: {
+                            syncData()
                         }
-                        // Right toolbar items for Sync and Edit
-                        ToolbarItemGroup(placement: .navigationBarTrailing) {
-                            syncButton
-                            if viewModel.isSyncing {
-                                ProgressView()
-                            } else {
-                                EditButton()
-                                    .disabled(viewModel.isSyncing)
-                            }
-                        }
-                    }
+                    )
             }
             .alert("Are you sure you want to log out?", isPresented: $viewModel.showLogoutConfirmation) {
                 Button("Log Out", role: .destructive) {

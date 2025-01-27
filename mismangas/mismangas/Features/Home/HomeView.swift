@@ -13,13 +13,22 @@ struct HomeView: View {
     @State private var selectedManga: Manga?
     @State private var isNavigatingToFilter = false
     @State private var isNavigatingToDetail = false
-
+    
+    // MARK: - Computed property to read device type
+    private var deviceType: DeviceType {
+        currentDeviceType
+    }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
                     // Highlighted Carousel Section
-                    HighlightedCarousel(mangas: viewModel.bestMangas, isLoading: $viewModel.isLoadingMangas, height: iPad ? 600 : 300) { selectedManga in
+                    HighlightedCarousel(
+                        mangas: viewModel.bestMangas,
+                        isLoading: $viewModel.isLoadingMangas,
+                        height: deviceType == .iPad ? 600 : 300
+                    ) { selectedManga in
                         navigateToMangaDetail(selectedManga)
                     }
                     .padding(.bottom)
@@ -33,7 +42,7 @@ struct HomeView: View {
                         navigateToMangaList(selectedItem, searchType: .theme)
                     }
                     .padding(.vertical)
-
+                    
                     // Horizontal Scroll Section
                     HorizontalScrollSection(
                         title: "🏆 Top 10 Mangas",
@@ -43,7 +52,7 @@ struct HomeView: View {
                         navigateToMangaDetail(selectedManga)
                     }
                     .padding(.vertical)
-
+                    
                     // Demographics
                     PillsScrollView(
                         title: "👥 Explore Demographics",
@@ -53,7 +62,7 @@ struct HomeView: View {
                         navigateToMangaList(selectedItem, searchType: .demographic)
                     }
                     .padding(.vertical)
-
+                    
                     // Genres
                     PillsScrollView(
                         title: "🎭 Explore Genres",
@@ -66,33 +75,27 @@ struct HomeView: View {
                 }
                 .padding()
             }
-            
-            // Navigation to MangaListView (Filter)
             .navigationDestination(isPresented: $isNavigatingToFilter) {
+                // MARK: Decide which View to navigate depending on DeviceType
                 if let filter = selectedFilter {
-                    if iPad {
-                        MangaListPadView(viewModel: MangaListViewModel(initialFilter: filter))
-                    } else {
-                        MangaListView(viewModel: MangaListViewModel(initialFilter: filter))
-                    }
+                    MangaListView(viewModel: MangaListViewModel(initialFilter: filter))
                 }
             }
-            
-            // Navigation to MangaDetailView (Detail)
             .navigationDestination(isPresented: $isNavigatingToDetail) {
                 if let manga = selectedManga {
-                    if iPad {
-                        MangaDetailPadView(viewModel: MangaDetailViewModel(manga: manga))
-                    } else {
-                        MangaDetailView(viewModel: MangaDetailViewModel(manga: manga))
-                    }
+                    MangaDetailView(viewModel: MangaDetailViewModel(manga: manga))
                 }
             }
         }
     }
-
+    
+    // MARK: - Navigation Helpers
     private func navigateToMangaList(_ selectedItem: PillItem, searchType: SearchType) {
-        selectedFilter = MangaFilter(id: selectedItem.id, query: selectedItem.title, searchType: searchType)
+        selectedFilter = MangaFilter(
+            id: selectedItem.id,
+            query: selectedItem.title,
+            searchType: searchType
+        )
         isNavigatingToFilter = true
     }
     
@@ -103,7 +106,6 @@ struct HomeView: View {
 }
 
 // MARK: - Preview
-
 #Preview {
     HomeView(viewModel: .preview)
 }

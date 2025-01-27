@@ -42,16 +42,18 @@ struct WelcomeView: View {
                            title: "Welcome to Mis Mangas",
                            subtitle: "Your ultimate manga collection manager!")
 
-            VStack(spacing: 16) {
+            VStack (spacing: 16) {
                 NavigationLink(destination: RegisterUserView(isUserAuthenticated: $isUserAuthenticated)) {
                     AuthButtonView(title: "Create Account")
                 }
+                .buttonStyle(PlatformButtonStyle())
 
                 NavigationLink(destination: LoginUserView(isUserAuthenticated: $isUserAuthenticated)) {
                     AuthButtonView(title: "Log In")
                 }
+                .buttonStyle(PlatformButtonStyle())
             }
-            .padding(.horizontal, 24)
+            .padding()
             
             Spacer()
         }

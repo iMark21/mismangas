@@ -36,7 +36,7 @@ struct RegisterUserView: View {
                     await viewModel.registerUser()
                     isUserAuthenticated = (viewModel.state == .authenticated)
                 }
-                .padding(.horizontal, 24)
+                .buttonStyle(PlatformButtonStyle())
 
                 // MARK: - Status Message
                 if let message = viewModel.stateMessage, viewModel.state != .authenticated {

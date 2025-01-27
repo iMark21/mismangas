@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if os(iOS)
 struct RoundedCornerShape: Shape {
     var radius: CGFloat
     var corners: UIRectCorner
@@ -20,3 +21,4 @@ struct RoundedCornerShape: Shape {
         return Path(path.cgPath)
     }
 }
+#endif

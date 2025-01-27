@@ -16,7 +16,7 @@ struct AuthHeaderView: View {
     var body: some View {
         VStack(spacing: 8) {
             Text(emoji)
-                .font(.system(size: 90))
+                .font(.system(size: currentDeviceType == .iPad ? 180 : 90))
             
             Text(title)
                 .font(.largeTitle)
