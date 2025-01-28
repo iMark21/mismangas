@@ -11,146 +11,96 @@ import SwiftData
 struct MyCollectionManagementSection: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    @Query private var collections: [MangaCollectionDB]
 
-    @State private var tempCompleteCollection: Bool = false
-    @State private var tempVolumesOwned: [Int] = []
-    @State private var tempReadingVolume: Int? = nil
-
-    @Binding var completeCollection: Bool
-    @Binding var volumesOwned: [Int]
-    @Binding var readingVolume: Int?
-    
-    let totalVolumes: Int?
-    let manga: Manga?
-
-    private var collectionManager: MangaCollectionManager {
-        MangaCollectionManager()
-    }
+    @State var viewModel: MyCollectionManagementViewModel
 
     var body: some View {
         VStack {
             Form {
                 completeCollectionToggle
-                
-                if let totalVolumes {
+
+                if let totalVolumes = viewModel.manga?.volumes {
                     volumesOwnedStepper(totalVolumes: totalVolumes)
-                    if !tempCompleteCollection {
-                        currentlyReadingPicker(totalVolumes: totalVolumes)
-                    }
+                    currentlyReadingPicker(totalVolumes: totalVolumes)
                 }
             }
             .hideFormBackground()
             .platformBackground()
-            
+
             HStack {
                 Spacer()
-                
                 Button("Cancel") {
-                    dismissChanges()
+                    dismiss()
                 }
                 .buttonStyle(.bordered)
-                
+
                 Button("Save") {
-                    saveChanges()
+                    Task {
+                        do {
+                            try await viewModel.saveChanges(using: modelContext)
+                            dismiss()
+                        } catch {
+                            Logger.logErrorMessage("Failed to save changes: \(error.localizedDescription)")
+                        }
+                    }
                 }
                 .buttonStyle(.borderedProminent)
             }
             .padding(.top)
         }
         .padding()
-        .platformBackground()
-        .onAppear(perform: loadCollection)
+        .onAppear {
+            viewModel.loadCollection(using: modelContext)
+        }
     }
 
     // MARK: - Components
 
     private var completeCollectionToggle: some View {
-        Toggle("Complete Collection", isOn: $tempCompleteCollection)
+        Toggle("Complete Collection", isOn: $viewModel.tempCompleteCollection)
     }
 
     private func volumesOwnedStepper(totalVolumes: Int) -> some View {
         Stepper(
-            "Volumes Owned: \(tempVolumesOwned.count)",
-            value: Binding(
-                get: { tempVolumesOwned.count },
-                set: { updateVolumes($0) }
-            ),
-            in: 0...totalVolumes
+            "Volumes Owned: \(viewModel.tempVolumesOwned.count)",
+            onIncrement: {
+                if viewModel.tempVolumesOwned.count < totalVolumes {
+                    viewModel.tempVolumesOwned.append(viewModel.tempVolumesOwned.count + 1)
+                    viewModel.updateVolumes()
+                }
+            },
+            onDecrement: {
+                if viewModel.tempVolumesOwned.count > 0 {
+                    viewModel.tempVolumesOwned.removeLast()
+                    viewModel.updateVolumes()
+                }
+            }
         )
     }
-
+    
     private func currentlyReadingPicker(totalVolumes: Int) -> some View {
-        Picker("Currently Reading", selection: $tempReadingVolume) {
-            Text("None").tag(nil as Int?)
+        Menu {
+            Button("None") { viewModel.tempReadingVolume = nil }
+            
             ForEach(1...totalVolumes, id: \.self) { volume in
-                Text("Volume \(volume)").tag(volume as Int?)
+                Button("Volume \(volume)") {
+                    viewModel.tempReadingVolume = volume
+                }
+                .disabled(!viewModel.tempVolumesOwned.contains(volume))
+                .foregroundColor(viewModel.tempVolumesOwned.contains(volume) ? .primary : .gray)
+            }
+        } label: {
+            HStack {
+                Text(viewModel.tempReadingVolume.map { "Reading volume: \($0)" } ?? "No volumes readed")
+                Spacer()
+                Image(systemName: "chevron.right")
             }
         }
-        .pickerStyle(.menu)
-    }
-
-    // MARK: - Actions
-
-    private func loadCollection() {
-        guard let manga else { return }
-
-        let state = collectionManager.fetchCollectionState(for: manga.id, using: modelContext)
-        tempCompleteCollection = state.completeCollection
-        tempVolumesOwned = state.volumesOwned
-        tempReadingVolume = state.readingVolume
-    }
-
-    private func saveChanges() {
-        completeCollection = tempCompleteCollection
-        volumesOwned = tempVolumesOwned
-        readingVolume = tempReadingVolume
-
-        saveCollection()
-        dismiss()
-    }
-
-    private func dismissChanges() {
-        dismiss()
-    }
-
-    private func saveCollection() {
-        guard let manga else { return }
-
-        Task {
-            do {
-                try await collectionManager.saveToMyCollection(
-                    manga: manga,
-                    completeCollection: completeCollection,
-                    volumesOwned: volumesOwned,
-                    readingVolume: readingVolume,
-                    using: modelContext
-                )
-            } catch {
-                Logger.logErrorMessage("Failed to save collection: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    private func updateVolumes(_ newCount: Int) {
-        let updatedState = collectionManager.updateVolumes(newCount: newCount, currentReadingVolume: tempReadingVolume)
-        tempVolumesOwned = updatedState.updatedVolumes
-        tempReadingVolume = updatedState.updatedReadingVolume
     }
 }
 
 // MARK: - Preview
 
 #Preview {
-    @Previewable @State var completeCollection = false
-    @Previewable @State var volumesOwned: [Int] = []
-    @Previewable @State var readingVolume: Int? = nil
-
-    MyCollectionManagementSection(
-        completeCollection: $completeCollection,
-        volumesOwned: $volumesOwned,
-        readingVolume: $readingVolume,
-        totalVolumes: Manga.preview.volumes,
-        manga: .preview
-    )
+    MyCollectionManagementSection(viewModel: MyCollectionManagementViewModel(manga: .preview))
 }

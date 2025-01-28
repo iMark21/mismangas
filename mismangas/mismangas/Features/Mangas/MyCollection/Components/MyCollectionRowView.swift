@@ -5,12 +5,11 @@
 //  Created by Michel Marques on 18/1/25.
 //
 
-
 import SwiftUI
 
 struct MyCollectionRowView: View {
     let mangaName: String
-    let completeCollection: Bool
+    let collection: MangaCollectionDB
 
     var body: some View {
         HStack {
@@ -19,7 +18,8 @@ struct MyCollectionRowView: View {
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
-                if completeCollection {
+
+                if collection.completeCollection {
                     Text("Status: Complete")
                         .font(.subheadline)
                         .foregroundColor(.green)
@@ -28,18 +28,22 @@ struct MyCollectionRowView: View {
                         .font(.subheadline)
                         .foregroundColor(.orange)
                 }
+
+                Text("Owned: \(collection.volumesOwned.last ?? 0) of \(collection.totalVolumes ?? 1) volumes")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+
+                if let currentReadingVolume = collection.readingVolume {
+                    Text("Currently Reading: Volume \(currentReadingVolume)")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
             }
             Spacer()
-            Image(systemName: completeCollection ? "checkmark.seal.fill" : "book.fill")
-                .foregroundColor(completeCollection ? .green : .orange)
+            Image(systemName: collection.completeCollection ? "checkmark.seal.fill" : "book.fill")
+                .foregroundColor(collection.completeCollection ? .green : .orange)
                 .font(.title3)
         }
         .padding(.vertical, 8)
     }
-}
-
-// MARK: - Preview
-
-#Preview {
-    MyCollectionRowView(mangaName: Manga.preview.title, completeCollection: true)
 }

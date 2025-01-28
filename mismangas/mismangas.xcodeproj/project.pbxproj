@@ -52,6 +52,8 @@
 		B3404E342D3AD0FA003499F0 /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3404E332D3AD0FA003499F0 /* TagsView.swift */; };
 		B3443B7D2D395E84006F35C6 /* ThemeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3443B7C2D395E84006F35C6 /* ThemeDTO.swift */; };
 		B3443B7F2D395ECD006F35C6 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3443B7E2D395ECD006F35C6 /* Theme.swift */; };
+		B34A69AA2D49200900539FB9 /* MyCollectionManagementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34A69A92D49200900539FB9 /* MyCollectionManagementViewModel.swift */; };
+		B34A69AD2D49418500539FB9 /* VolumeIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34A69AC2D49418500539FB9 /* VolumeIndicatorView.swift */; };
 		B35D498D2D3961A300F090D1 /* ThemeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35D498C2D3961A300F090D1 /* ThemeMapper.swift */; };
 		B35D49902D3962A100F090D1 /* ThemeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35D498F2D3962A100F090D1 /* ThemeRepository.swift */; };
 		B35D49922D3962AD00F090D1 /* ThemeRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35D49912D3962AD00F090D1 /* ThemeRepositoryProtocol.swift */; };
@@ -342,6 +344,8 @@
 		B3404E332D3AD0FA003499F0 /* TagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
 		B3443B7C2D395E84006F35C6 /* ThemeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeDTO.swift; sourceTree = "<group>"; };
 		B3443B7E2D395ECD006F35C6 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		B34A69A92D49200900539FB9 /* MyCollectionManagementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionManagementViewModel.swift; sourceTree = "<group>"; };
+		B34A69AC2D49418500539FB9 /* VolumeIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeIndicatorView.swift; sourceTree = "<group>"; };
 		B35D498C2D3961A300F090D1 /* ThemeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMapper.swift; sourceTree = "<group>"; };
 		B35D498F2D3962A100F090D1 /* ThemeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeRepository.swift; sourceTree = "<group>"; };
 		B35D49912D3962AD00F090D1 /* ThemeRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeRepositoryProtocol.swift; sourceTree = "<group>"; };
@@ -840,6 +844,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		B34A69AB2D49417A00539FB9 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B34A69AC2D49418500539FB9 /* VolumeIndicatorView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		B35D498E2D39629400F090D1 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -938,6 +950,7 @@
 		B35E78912D47A0AD000C71B2 /* MyCollectionManagementSection */ = {
 			isa = PBXGroup;
 			children = (
+				B34A69A92D49200900539FB9 /* MyCollectionManagementViewModel.swift */,
 				B3404E2F2D3AD07D003499F0 /* MyCollectionManagementSection.swift */,
 			);
 			path = MyCollectionManagementSection;
@@ -991,6 +1004,7 @@
 		B35E791B2D47D4C5000C71B2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B34A69AB2D49417A00539FB9 /* Components */,
 				B35E791C2D47D4CE000C71B2 /* MangaReadingWidgetEntryView.swift */,
 			);
 			path = View;
@@ -1635,6 +1649,7 @@
 				B319DBDC2D42BBA800C5CBD3 /* RenewTokenUseCaseProtocol.swift in Sources */,
 				B3F6DE3D2D1B1DD70014A17F /* SearchType.swift in Sources */,
 				B366B85B2D43B05600139BB5 /* AuthButtonView.swift in Sources */,
+				B34A69AA2D49200900539FB9 /* MyCollectionManagementViewModel.swift in Sources */,
 				B35E79242D47D8C0000C71B2 /* MangaCollectionProvider.swift in Sources */,
 				B35D49A62D396AE000F090D1 /* FetchDemographicsUseCaseProtocol.swift in Sources */,
 				B366B85E2D43C98900139BB5 /* UserMangaCollectionRequest.swift in Sources */,
@@ -1706,6 +1721,7 @@
 				B35E78D12D47D0CB000C71B2 /* PlatformToolbarModifier.swift in Sources */,
 				B35E78D22D47D0CB000C71B2 /* UserCredentialsRequest.swift in Sources */,
 				B35E78D32D47D0CB000C71B2 /* RenewTokenUseCaseProtocol.swift in Sources */,
+				B34A69AD2D49418500539FB9 /* VolumeIndicatorView.swift in Sources */,
 				B35E78D42D47D0CB000C71B2 /* FetchThemesUseCase.swift in Sources */,
 				B35E78D52D47D0CB000C71B2 /* LoginUserUseCase.swift in Sources */,
 				B35E78D62D47D0CB000C71B2 /* FetchGenresUseCaseProtocol.swift in Sources */,

@@ -49,8 +49,7 @@ struct MyCollectionListView: View {
                 NavigationLink(
                     destination: MangaDetailView(viewModel: MangaDetailViewModel(mangaID: collection.mangaID))
                 ) {
-                    MyCollectionRowView(mangaName: collection.mangaName,
-                                        completeCollection: collection.completeCollection)
+                    MyCollectionRowView(mangaName: collection.mangaName, collection: collection)
                 }
             }
             .onDelete { offsets in

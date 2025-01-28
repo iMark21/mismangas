@@ -9,14 +9,16 @@
 import SwiftUI
 import WidgetKit
 
+
 struct MangaReadingWidgetEntryView: View {
     var entry: MangaCollectionProvider.Entry
 
     @Environment(\.widgetFamily) var family
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             widgetTitle()
+
             switch family {
             case .systemSmall:
                 smallWidgetContent()
@@ -25,7 +27,6 @@ struct MangaReadingWidgetEntryView: View {
             default:
                 largeWidgetContent()
             }
-            Spacer()
         }
         .padding()
         .onAppear {
@@ -33,85 +34,137 @@ struct MangaReadingWidgetEntryView: View {
         }
     }
 
-    // MARK: - Subvistas
+    // MARK: - Subviews
 
-    @ViewBuilder
     private func widgetTitle() -> some View {
-        Text("I'm reading")
+        Text("Currently Reading")
             .font(.headline)
             .foregroundColor(.primary)
+            .padding(.bottom, 4)
     }
 
     // MARK: - Small Widget Content
-    
+
     @ViewBuilder
     private func smallWidgetContent() -> some View {
-        if entry.collections.isEmpty {
-            emptyState()
+        if let collection = entry.collections.first {
+            compactMangaRow(for: collection)
         } else {
-            ForEach(entry.collections.prefix(2)) { collection in
-                mangaRow(for: collection)
-                    .padding(.vertical, 4)
-            }
+            emptyState()
         }
     }
 
     // MARK: - Medium Widget Content
-    
+
     @ViewBuilder
     private func mediumWidgetContent() -> some View {
         if entry.collections.isEmpty {
             emptyState()
         } else {
             ForEach(entry.collections.prefix(2)) { collection in
-                mangaRow(for: collection)
-                    .padding(.vertical, 4)
+                detailedMangaRow(for: collection)
             }
         }
     }
 
     // MARK: - Large Widget Content
-    
+
     @ViewBuilder
     private func largeWidgetContent() -> some View {
         if entry.collections.isEmpty {
             emptyState()
         } else {
             ForEach(entry.collections) { collection in
-                mangaRow(for: collection)
-                    .padding(.vertical, 4)
+                detailedMangaRow(for: collection)
             }
         }
     }
-    
-    // MARK: - Views
+
+    // MARK: - Empty State View
 
     @ViewBuilder
     private func emptyState() -> some View {
-        Text("No manga in progress")
-            .font(.subheadline)
-            .foregroundColor(.secondary)
+        VStack {
+            Text("No manga in your collection")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            Text("Add manga to track progress.")
+                .font(.caption2)
+                .foregroundColor(.secondary)
+        }
+        .multilineTextAlignment(.center)
     }
 
-    @ViewBuilder
-    private func mangaRow(for collection: MangaCollectionDB) -> some View {
-        VStack(alignment: .leading) {
-            // Título del manga
-            Text(collection.mangaName)
-                .font(.subheadline)
-                .lineLimit(1)
+    // MARK: - Compact Manga Row (Small Widget)
 
-            // Barra de progreso
-            ProgressView(value: collection.completeCollection ? 1.0 : CGFloat(collection.readingVolume ?? 0) / CGFloat(collection.totalVolumes ?? 1))
-                .progressViewStyle(LinearProgressViewStyle(tint: collection.completeCollection ? .green : .blue))
-                .scaleEffect(x: 1, y: 2, anchor: .center)
+    private func compactMangaRow(for collection: MangaCollectionDB) -> some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(collection.mangaName)
+                    .font(.caption)
+                    .lineLimit(1)
+
+                if let totalVolumes = collection.totalVolumes,
+                   let readingVolume = collection.readingVolume {
+                    Text("\(readingVolume) / \(totalVolumes)")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
+            Spacer()
+            volumeIndicator(for: collection, maxWidth: 50)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: - Detailed Manga Row (Medium/Large Widgets)
+
+    private func detailedMangaRow(for collection: MangaCollectionDB) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(collection.mangaName)
+                    .font(.subheadline)
+                    .lineLimit(1)
+
+                if let totalVolumes = collection.totalVolumes,
+                   let readingVolume = collection.readingVolume {
+                    Text("Reading: \(readingVolume) / \(totalVolumes)")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+
+                if collection.completeCollection {
+                    Text("Complete Collection")
+                        .font(.caption2)
+                        .foregroundColor(.green)
+                } else {
+                    EmptyView()
+                }
+            }
+            Spacer()
+            volumeIndicator(for: collection, maxWidth: 70)
+        }
+    }
+
+    // MARK: - Volume Indicator
+
+    private func volumeIndicator(for collection: MangaCollectionDB, maxWidth: CGFloat) -> some View {
+        Group {
+            if let totalVolumes = collection.totalVolumes, let readingVolume = collection.readingVolume {
+                VolumeIndicatorView(
+                    totalVolumes: totalVolumes,
+                    readingVolume: readingVolume,
+                    maxWidth: maxWidth
+                )
+            } else {
+                EmptyView()
+            }
+        }
     }
 }
+
 // MARK: - Preview
 
-#Preview(as: .systemLarge) {
+#Preview(as: .systemMedium) {
     MangaReadingWidget()
 } timeline: {
     MangaEntry.preview
