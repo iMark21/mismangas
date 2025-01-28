@@ -27,6 +27,7 @@ struct MangaReadingWidgetEntryView: View {
             default:
                 largeWidgetContent()
             }
+            Spacer()
         }
         .padding()
         .onAppear {
