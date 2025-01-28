@@ -1,74 +1,68 @@
-# Mis Mangas
+# 📚 Mis Mangas
 
-- [🇬🇧 English](#english)
-- [🇪🇸 Español](#español)
+**Mis Mangas** es una aplicación desarrollada como proyecto final del **Swift Developer Program 2024**. Su objetivo es gestionar colecciones de manga y explorar un extenso catálogo, proporcionando una experiencia fluida y adaptada a las últimas tecnologías de Apple.
 
----
+## 🚀 Características Principales
 
-## 🇬🇧 English
-
-**Mis Mangas** is an iOS and macOS application developed as the final project for the **Swift Developer Program 2024**. The app allows users to manage their personal manga collection, explore thousands of titles, and access advanced features, all with an adaptive design and cross-platform support.
-
-### Key Features
-
-- **Collection Management**:
-  - Track the volumes you own.
-  - Mark which volume you're currently reading.
-  - Indicate if you own the complete collection of a manga.
-
-- **Manga Exploration**:
-  - Access detailed information on over 64,000 mangas, including genres, themes, demographics, authors, scores, and synopses.
-
-- **Advanced Filters**:
-  - Filter mangas by genre, theme, demographic, or author.
-
-- **Cross-Platform Compatibility**:
-  - Full support for iPhone, iPad, and macOS.
-  - Adaptive design utilizing `NavigationSplitView` for larger devices.
-
-- **Widget**:
-  - See the mangas you're reading and your progress directly from the home screen.
-
-### Technology Used
-
-- **Swift 6**: Main programming language.
-- **SwiftUI**: For creating modern, reactive user interfaces.
-- **Strict Concurrency**: Using `async/await` for a seamless and efficient user experience.
-- **SwiftData**: For local persistence of user collections.
-- **Modular Design**: Following Clean Architecture principles to ensure maintainability and scalability.
-- **Compatibility**: Designed for iOS 18 and macOS Sonoma, leveraging the latest features in the Apple ecosystem.
-
----
-
-## 🇪🇸 Español
-
-**Mis Mangas** es una aplicación para iOS y macOS desarrollada como proyecto final del **Swift Developer Program 2024**. La app permite a los usuarios gestionar su colección personal de mangas, explorar miles de títulos y acceder a funcionalidades avanzadas, todo con un diseño adaptativo y soporte multiplataforma.
-
-### Funcionalidades principales
+- **Explora el catálogo de mangas**:
+  - Navegación por un catálogo con más de 64,000 títulos.
+  - Filtrado avanzado por género, temática, demografía y autor.
+  - Búsqueda rápida para localizar tus mangas favoritos.
 
 - **Gestión de colecciones**:
-  - Guarda los tomos que posees.
-  - Marca por qué tomo vas leyendo.
-  - Indica si tienes la colección completa de un manga.
+  - Almacena mangas en tu colección personal.
+  - Registra qué volúmenes tienes y por cuál vas leyendo.
+  - Indica si posees la colección completa.
 
-- **Exploración de mangas**:
-  - Accede a información detallada de más de 64,000 mangas, incluyendo géneros, temáticas, demografías, autores, puntuaciones y sinopsis.
-
-- **Filtros avanzados**:
-  - Filtra mangas por género, temática, demografía o autor.
-
-- **Compatibilidad multiplataforma**:
+- **Diseño adaptativo**:
   - Soporte completo para iPhone, iPad y macOS.
-  - Diseño adaptativo gracias al uso de `NavigationSplitView` en dispositivos de mayor tamaño.
+  - Uso de `NavigationSplitView` para una experiencia optimizada en dispositivos con pantallas grandes.
 
-- **Widget**:
-  - Visualiza los mangas que estás leyendo y tu progreso directamente desde la pantalla de inicio.
+- **Sincronización avanzada**:
+  - Gestión local de datos con **SwiftData**.
+  - Autenticación segura con almacenamiento de tokens en el llavero del dispositivo.
 
-### Tecnología utilizada
+## 🛠️ Tecnologías Utilizadas
 
-- **Swift 6**: Lenguaje principal de desarrollo.
-- **SwiftUI**: Creación de interfaces de usuario modernas y reactivas.
-- **Concurrencia estricta**: Implementación con `async/await` para una experiencia fluida y eficiente.
-- **SwiftData**: Persistencia local para la colección del usuario.
-- **Diseño modular**: Implementación siguiendo Clean Architecture para facilitar la mantenibilidad y escalabilidad.
-- **Compatibilidad**: Diseñado para iOS 18 y macOS Sonoma, aprovechando las últimas características del ecosistema Apple.
+- **Lenguaje**: Swift 6
+- **Frameworks**: SwiftUI, SwiftData
+- **Plataforma**: iOS 18+, iPadOS 18+, macOS 14+
+- **Concurrencia**: Implementación con `async/await`
+- **Diseño Adaptativo**: `NavigationSplitView` y soporte para múltiples dispositivos.
+
+## 🏆 Niveles de Implementación
+
+### 🥉 Versión Básica
+- ✅ Consulta del catálogo y búsqueda básica de mangas.
+- ✅ Gestión local de la colección del usuario.
+- ✅ Compatibilidad para iPhone y iPad.
+
+### 🥈 Versión Media
+- ✅ Filtrado avanzado por género, temática, demografía y autor.
+- ✅ Diseño adaptativo con vistas de listado, detalle y grid.
+
+### 🥇 Versión Avanzada
+- ✅ Gestión de colecciones sincronizadas en la nube.
+- ✅ Autenticación segura y almacenamiento de tokens.
+
+### 🏅 Versión Deluxe
+- ✅ Soporte para macOS.
+- ✅ Widget estático mostrando el progreso de lectura.
+
+## 📋 Requisitos
+
+- **Sistema Operativo**: iOS 18+, iPadOS 18+, macOS 14+
+- **Xcode**: Versión 16 o superior
+- **Lenguaje**: Swift 6
+
+## 🎨 Capturas de Pantalla
+
+- No disponibles
+
+## 🤝 Contribuciones
+
+¡Se aceptan contribuciones! Si tienes ideas o mejoras, abre un issue o envía un pull request. Tu ayuda es bienvenida.
+
+---
+
+Desarrollado con ❤️ como parte del **Swift Developer Program 2024**.
