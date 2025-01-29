@@ -23,8 +23,8 @@ struct RenewTokenUseCase: RenewTokenUseCaseProtocol {
         }
 
         do {
-            let newToken = try await repository.renewToken(currentToken)
-            try tokenStorage.save(item: newToken)
+            let user = try await repository.renewToken(currentToken)
+            try tokenStorage.save(item: user.token)
             return true
         } catch {
             Logger.logErrorMessage("Failed to renew token: \(error.localizedDescription)")

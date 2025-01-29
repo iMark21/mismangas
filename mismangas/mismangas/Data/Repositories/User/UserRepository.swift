@@ -22,7 +22,7 @@ struct UserRepository: UserRepositoryProtocol {
 
     // MARK: - Login User
     
-    func loginUser(email: String, password: String) async throws -> String {
+    func loginUser(email: String, password: String) async throws -> User {
         let url: URL = .loginUser
 
         let body = UserCredentialsRequest(email: email, password: password)
@@ -39,12 +39,12 @@ struct UserRepository: UserRepositoryProtocol {
         )
 
         let response: String = try await client.perform(request)
-        return response
+        return response.toUserDomain()
     }
     
     // MARK: - Renew Token
     
-    func renewToken(_ token: String) async throws -> String {
+    func renewToken(_ token: String) async throws -> User {
         let url: URL = .renewToken
         let request: URLRequest = .post(
             url: url,
@@ -54,6 +54,6 @@ struct UserRepository: UserRepositoryProtocol {
         )
 
         let response: String = try await client.perform(request)
-        return response
+        return response.toUserDomain()
     }
 }

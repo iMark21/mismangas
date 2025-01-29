@@ -26,8 +26,7 @@ struct MangaCollectionRepository: MangaCollectionRepositoryProtocol {
                 headers: [
                     "Authorization": "Bearer \(token)"
                 ]
-            )
-        ) as Void
+        )) as Void
     }
 
     func deleteMangaFromCloud(withID mangaID: Int) async throws {
@@ -41,8 +40,7 @@ struct MangaCollectionRepository: MangaCollectionRepositoryProtocol {
                 headers: [
                     "Authorization": "Bearer \(token)"
                 ]
-            )
-        ) as Void
+        )) as Void
     }
 
     func fetchUserCloudCollection() async throws -> [MangaCollection] {
