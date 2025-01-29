@@ -221,6 +221,7 @@
 		B3AB205E2D0C9638009A4C98 /* GenreMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AB205D2D0C9638009A4C98 /* GenreMapper.swift */; };
 		B3AB20602D0C9644009A4C98 /* DemographicMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AB205F2D0C9644009A4C98 /* DemographicMapper.swift */; };
 		B3AB20622D0C99E8009A4C98 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AB20612D0C99E8009A4C98 /* HTTPMethod.swift */; };
+		B3B9872A2D4A422A0089B046 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = B3B987292D4A422A0089B046 /* Config.plist */; };
 		B3C3CB5A2D2D37F200A03470 /* MangaFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3CB592D2D37F200A03470 /* MangaFilter.swift */; };
 		B3C3CB5C2D2D55E700A03470 /* SelectableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C3CB5B2D2D55E700A03470 /* SelectableRowView.swift */; };
 		B3C3CB5E2D2D65DC00A03470 /* authors_mock.json in Resources */ = {isa = PBXBuildFile; fileRef = B3C3CB5D2D2D65DC00A03470 /* authors_mock.json */; };
@@ -424,6 +425,7 @@
 		B3AB205D2D0C9638009A4C98 /* GenreMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreMapper.swift; sourceTree = "<group>"; };
 		B3AB205F2D0C9644009A4C98 /* DemographicMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemographicMapper.swift; sourceTree = "<group>"; };
 		B3AB20612D0C99E8009A4C98 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		B3B987292D4A422A0089B046 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		B3C3CB592D2D37F200A03470 /* MangaFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaFilter.swift; sourceTree = "<group>"; };
 		B3C3CB5B2D2D55E700A03470 /* SelectableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableRowView.swift; sourceTree = "<group>"; };
 		B3C3CB5D2D2D65DC00A03470 /* authors_mock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = authors_mock.json; sourceTree = "<group>"; };
@@ -593,6 +595,7 @@
 		B302798E2D08C4A9009675C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B3B987292D4A422A0089B046 /* Config.plist */,
 				B30279812D08C23D009675C2 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -1527,6 +1530,7 @@
 				B3C3CB5E2D2D65DC00A03470 /* authors_mock.json in Resources */,
 				B35D49AB2D396BF900F090D1 /* demographics_mock.json in Resources */,
 				B30279862D08C23D009675C2 /* Preview Assets.xcassets in Resources */,
+				B3B9872A2D4A422A0089B046 /* Config.plist in Resources */,
 				B30279872D08C23D009675C2 /* Assets.xcassets in Resources */,
 				B3AB20482D0C650E009A4C98 /* mangas_mock.json in Resources */,
 				B3F4D3F62D3592DE008C4C8A /* genres_mock.json in Resources */,
