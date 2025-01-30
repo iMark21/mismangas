@@ -14,24 +14,24 @@ protocol APIClient: Sendable {
 struct MisMangasAPIClient: APIClient {
     private let session: URLSession
     private let jsonDecoder: JSONDecoder
-
+    
     // MARK: - Init
     
     init(session: URLSession = .shared, jsonDecoder: JSONDecoder = .init()) {
         self.session = session
         self.jsonDecoder = jsonDecoder
     }
-
+    
     // MARK: - Public Methods
     
     func perform<T>(_ request: URLRequest) async throws -> T {
-        Logger.logRequest(request) // Log the request details
-
+        Logger.logRequest(request)
+        
         do {
             // 1. Execute the request and validate the response
             let (data, response) = try await session.data(for: request)
-            Logger.logResponse(response, data: data) // Log the response details
-
+            Logger.logResponse(response, data: data)
+            
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw APIError.invalidResponse
             }
@@ -58,11 +58,11 @@ struct MisMangasAPIClient: APIClient {
                 return try jsonDecoder.decode(decodableType, from: data) as! T
             }
         } catch {
-            Logger.logError(error) // Log the error details
+            Logger.logError(error)
             throw error
         }
     }
-
+    
     // MARK: - Private Methods
     private func validate(_ httpResponse: HTTPURLResponse) throws {
         guard (200..<300).contains(httpResponse.statusCode) else {

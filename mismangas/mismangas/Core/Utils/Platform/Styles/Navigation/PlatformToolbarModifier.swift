@@ -11,7 +11,6 @@ struct PlatformToolbarModifier: ViewModifier {
     var logoutAction: (() -> Void)?
     var isSyncing: Bool = false
     var syncAction: (() -> Void)?
-    var resetAction: (() -> Void)?
     var showFilterView: Binding<Bool>? = nil
     var cancelAction: (() -> Void)?
 
@@ -42,12 +41,6 @@ struct PlatformToolbarModifier: ViewModifier {
                             Label("Sync", systemImage: "arrow.triangle.2.circlepath")
                         }
                         .disabled(isSyncing)
-                    }
-
-                    if let resetAction = resetAction {
-                        Button(action: resetAction) {
-                            Label("Reset", systemImage: "arrow.counterclockwise")
-                        }
                     }
 
                     if isSyncing {
@@ -82,12 +75,6 @@ struct PlatformToolbarModifier: ViewModifier {
                         .disabled(isSyncing)
                     }
 
-                    if let resetAction = resetAction {
-                        Button(action: resetAction) {
-                            Label("Reset", systemImage: "arrow.counterclockwise")
-                        }
-                    }
-
                     if isSyncing {
                         ProgressView()
                     } else if let showFilterView = showFilterView {
@@ -110,14 +97,12 @@ extension View {
     func platformToolbar(logoutAction: (() -> Void)? = nil,
                          isSyncing: Bool = false,
                          syncAction: (() -> Void)? = nil,
-                         resetAction: (() -> Void)? = nil,
                          showFilterView: Binding<Bool>? = nil,
                          cancelAction: (() -> Void)? = nil) -> some View {
         self.modifier(PlatformToolbarModifier(
             logoutAction: logoutAction,
             isSyncing: isSyncing,
             syncAction: syncAction,
-            resetAction: resetAction,
             showFilterView: showFilterView,
             cancelAction: cancelAction
         ))
