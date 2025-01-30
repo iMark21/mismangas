@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   Config.plist
+   mismangas
+
+   Created by Michel Marques on 29/1/25.
+   Copyright (c) 2025 ___ORGANIZATIONNAME___. All rights reserved.
+-->
+<plist version="1.0">
+<dict>
+    <key>AppToken</key>
+    <string>sLGH38NhEJ0_anlIWwhsz1-LarClEohiAHQqayF0FY</string>
+</dict>
+</plist>
