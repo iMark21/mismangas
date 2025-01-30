@@ -11,7 +11,7 @@ import Foundation
 final class MangaListViewModel {
 
     // MARK: - View State
-    enum ViewState {
+    enum ViewState: Equatable {
         case loading
         case content(items: [Manga], isLoadingMore: Bool)
         case error(message: String, items: [Manga])

@@ -10,7 +10,7 @@ import Foundation
 
 struct FetchDemographicsUseCase: FetchDemographicsUseCaseProtocol {
     
-    let repository: DemographicRepositoryProtocol = DemographicRepository()
+    var repository: DemographicRepositoryProtocol = DemographicRepository()
 
     func execute() async throws -> [Demographic] {
         return try await repository.fetchDemographics()

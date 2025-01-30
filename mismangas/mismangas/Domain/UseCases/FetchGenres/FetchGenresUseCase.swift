@@ -9,7 +9,7 @@ import Foundation
 
 struct FetchGenresUseCase: FetchGenresUseCaseProtocol {
 
-    let repository: GenreRepositoryProtocol = GenreRepository()
+    var repository: GenreRepositoryProtocol = GenreRepository()
 
     func execute() async throws -> [Genre] {
         return try await repository.fetchGenres()

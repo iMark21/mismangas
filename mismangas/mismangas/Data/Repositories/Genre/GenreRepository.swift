@@ -10,7 +10,7 @@ import Foundation
 
 struct GenreRepository: GenreRepositoryProtocol {
     
-    let client: APIClient = MisMangasAPIClient()
+    var client: APIClient = MisMangasAPIClient()
 
     func fetchGenres() async throws -> [Genre] {
         let url: URL = .genres

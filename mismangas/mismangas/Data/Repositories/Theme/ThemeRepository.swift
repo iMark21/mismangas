@@ -9,7 +9,7 @@ import Foundation
 
 struct ThemeRepository: ThemeRepositoryProtocol {
     
-    let client: APIClient = MisMangasAPIClient()
+    var client: APIClient = MisMangasAPIClient()
 
     func fetchThemes() async throws -> [Theme] {
         let url: URL = .themes

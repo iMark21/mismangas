@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum APIError: LocalizedError, Sendable {
+enum APIError: LocalizedError, Sendable, Equatable {
+    
     case invalidResponse
     case statusCode(Int)
     case decodingError(Error)
@@ -42,5 +43,9 @@ enum APIError: LocalizedError, Sendable {
         case .unknown(let error):
             return "Unknown error: \(error.localizedDescription)"
         }
+    }
+    
+    static func == (lhs: APIError, rhs: APIError) -> Bool {
+        return lhs.errorDescription == rhs.errorDescription
     }
 }

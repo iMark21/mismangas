@@ -10,7 +10,7 @@ import Foundation
 struct LogoutUserUseCase: LogoutUserUseCaseProtocol {
     var tokenStorage: KeyChainItemManager = KeyChainTokenStorage()
 
-    func execute() throws {
-        try tokenStorage.delete()
+    func execute() async throws {
+        try await tokenStorage.delete()
     }
 }

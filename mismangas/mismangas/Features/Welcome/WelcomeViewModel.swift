@@ -36,7 +36,7 @@ final class WelcomeViewModel {
 
     // MARK: - Methods
 
-    func checkAuthentication(using context: ModelContext) async {
+    func checkAuthentication(using context: ModelContextProtocol) async {
         state = .checking
         do {
             // Try to renew the token

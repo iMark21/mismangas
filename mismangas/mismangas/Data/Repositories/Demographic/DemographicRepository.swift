@@ -10,7 +10,7 @@ import Foundation
 
 struct DemographicRepository: DemographicRepositoryProtocol {
     
-    let client: APIClient = MisMangasAPIClient()
+    var client: APIClient = MisMangasAPIClient()
 
     func fetchDemographics() async throws -> [Demographic] {
         let url: URL = .demographics

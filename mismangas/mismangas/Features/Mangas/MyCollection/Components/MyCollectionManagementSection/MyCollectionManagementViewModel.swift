@@ -26,7 +26,7 @@ final class MyCollectionManagementViewModel {
     }
 
     @MainActor
-    func loadCollection(using modelContext: ModelContext) {
+    func loadCollection(using modelContext: ModelContextProtocol) {
         guard let manga else { return }
         let state = collectionManager.fetchCollectionState(for: manga.id, using: modelContext)
         tempCompleteCollection = state.completeCollection
@@ -64,7 +64,7 @@ final class MyCollectionManagementViewModel {
     }
     
     @MainActor
-    func saveChanges(using modelContext: ModelContext) async throws {
+    func saveChanges(using modelContext: ModelContextProtocol) async throws {
         guard let manga else { return }
         try await collectionManager.saveToMyCollection(
             manga: manga,

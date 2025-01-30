@@ -8,5 +8,5 @@
 import Foundation
 
 protocol LogoutUserUseCaseProtocol: Sendable {
-    func execute() throws
+    func execute() async throws
 }

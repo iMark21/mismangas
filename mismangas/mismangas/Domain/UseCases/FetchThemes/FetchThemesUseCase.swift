@@ -9,7 +9,7 @@ import Foundation
 
 struct FetchThemesUseCase: FetchThemesUseCaseProtocol {
     
-    let repository: ThemeRepositoryProtocol = ThemeRepository()
+    var repository: ThemeRepositoryProtocol = ThemeRepository()
 
     func execute() async throws -> [Theme] {
         // Fetch all themes from the repository

@@ -10,7 +10,7 @@ import Foundation
 @Observable
 final class SelectableListViewModel<T: Searchable> {
 
-    enum ViewState {
+    enum ViewState: Equatable {
         case loading
         case content(items: [T])
         case error(message: String, items: [T])

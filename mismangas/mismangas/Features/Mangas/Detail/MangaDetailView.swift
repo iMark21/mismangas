@@ -67,7 +67,9 @@ struct MangaDetailView: View {
             case .error(let message):
                 ErrorView(message: message) {
                     if let mangaID = viewModel.mangaID {
-                        viewModel.fetchMangaDetails(for: mangaID)
+                        Task {
+                            await viewModel.fetchMangaDetails(for: mangaID)
+                        }
                     }
                 }
             }
@@ -79,6 +81,11 @@ struct MangaDetailView: View {
                 MyCollectionManagementSection(viewModel: .init(manga: manga))
                     .presentationDetents([.height(350), .medium])
                     .presentationDragIndicator(.visible)
+            }
+        }
+        .onAppear {
+            Task {
+                await viewModel.load()
             }
         }
     }

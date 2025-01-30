@@ -13,6 +13,6 @@ struct LoginUserUseCase: LoginUserUseCaseProtocol {
 
     func execute(email: String, password: String) async throws {
         let user = try await repository.loginUser(email: email, password: password)
-        try tokenStorage.save(item: user.token)
+        try await tokenStorage.save(item: user.token)
     }
 }
