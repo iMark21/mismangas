@@ -13,7 +13,7 @@ final class MangaDetailViewModel {
 
     // MARK: - View State
     
-    enum ViewState {
+    enum ViewState: Equatable {
         case loading
         case content(manga: Manga)
         case error(message: String)
@@ -21,10 +21,11 @@ final class MangaDetailViewModel {
 
     // MARK: - Properties
     
-    private let fetchMangaDetailsUseCase: FetchMangaDetailsUseCaseProtocol
-    private let collectionManager: MangaCollectionManagerProtocol
+    private(set) var fetchMangaDetailsUseCase: FetchMangaDetailsUseCaseProtocol
+    private(set) var collectionManager: MangaCollectionManagerProtocol
     var state: ViewState = .loading
     var mangaID: Int?
+    var manga: Manga?
 
     // MARK: - Collection Management
     
@@ -42,9 +43,12 @@ final class MangaDetailViewModel {
         self.fetchMangaDetailsUseCase = fetchMangaDetailsUseCase
         self.collectionManager = collectionManager
         self.mangaID = mangaID
-
-        if let mangaID = mangaID {
-            fetchMangaDetails(for: mangaID)
+        self.manga = manga
+    }
+    
+    func load() async {
+        if let mangaID {
+            await fetchMangaDetails(for: mangaID)
         } else if let manga = manga {
             state = .content(manga: manga)
         }
@@ -52,19 +56,17 @@ final class MangaDetailViewModel {
 
     // MARK: - Methods
     
-    func fetchMangaDetails(for mangaID: Int) {
+    func fetchMangaDetails(for mangaID: Int) async {
         state = .loading
-        Task {
-            do {
-                let fetchedManga = try await fetchMangaDetailsUseCase.execute(id: mangaID)
-                state = .content(manga: fetchedManga)
-            } catch {
-                state = .error(message: "Failed to load manga details.")
-            }
+        do {
+            let fetchedManga = try await fetchMangaDetailsUseCase.execute(id: mangaID)
+            state = .content(manga: fetchedManga)
+        } catch {
+            state = .error(message: "Failed to load manga details.")
         }
     }
     
-    func toggleCollection(_ manga: Manga, isInCollection: Bool, modelContext: ModelContext) async {
+    func toggleCollection(_ manga: Manga, isInCollection: Bool, modelContext: ModelContextProtocol) async {
         do {
             if isInCollection {
                 try await collectionManager.removeFromCollection(mangaID: manga.id, using: modelContext)

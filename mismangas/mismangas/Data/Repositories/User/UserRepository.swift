@@ -9,7 +9,7 @@ import Foundation
 
 struct UserRepository: UserRepositoryProtocol {
     
-    let client: APIClient = MisMangasAPIClient()
+    var client: APIClient = MisMangasAPIClient()
     
     // MARK: - Register User
     

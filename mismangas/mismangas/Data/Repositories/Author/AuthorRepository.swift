@@ -9,7 +9,7 @@ import Foundation
 
 struct AuthorRepository: AuthorRepositoryProtocol {
     
-    let client: APIClient = MisMangasAPIClient()
+    var client: APIClient = MisMangasAPIClient()
 
     func fetchAuthors() async throws -> [Author] {
         let url: URL = .authors

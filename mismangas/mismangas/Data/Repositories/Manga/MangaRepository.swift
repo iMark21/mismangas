@@ -9,7 +9,7 @@ import Foundation
 
 struct MangaRepository: MangaRepositoryProtocol {
     
-    let client: APIClient = MisMangasAPIClient()
+    var client: APIClient = MisMangasAPIClient()
     
     // MARK: - Public Methods
     

@@ -12,7 +12,7 @@ import SwiftData
 final class MyCollectionListViewModel {
     // MARK: - Properties
     private let syncManager: MangaCollectionManagerProtocol
-    private var logoutUseCase: LogoutUserUseCase = LogoutUserUseCase()
+    private var logoutUseCase: LogoutUserUseCaseProtocol = LogoutUserUseCase()
     
     /// Public
     var isSyncing: Bool = false
@@ -20,25 +20,29 @@ final class MyCollectionListViewModel {
 
     // MARK: - Initialization
     init(syncManager: MangaCollectionManagerProtocol = MangaCollectionManager(),
-         logoutUseCase: LogoutUserUseCase = LogoutUserUseCase()) {
+         logoutUseCase: LogoutUserUseCaseProtocol = LogoutUserUseCase()) {
         self.syncManager = syncManager
         self.logoutUseCase = logoutUseCase
     }
     
     // MARK: - Logout Action
     
-    func logout() {
+    func logout() async {
         do {
-            try logoutUseCase.execute()
+            try await logoutUseCase.execute()
         } catch {
             Logger.logErrorMessage("Failed to logout: \(error.localizedDescription)")
         }
+    }
+    
+    func showMessageLogout() {
+        showLogoutConfirmation = true
     }
 
     // MARK: - Manager Actions
 
     /// Fetch all collections from the local database
-    func syncCollections(using context: ModelContext) async {
+    func syncCollections(using context: ModelContextProtocol) async {
         isSyncing = true
         do {
             try await syncManager.syncWithCloud(using: context)
@@ -49,7 +53,7 @@ final class MyCollectionListViewModel {
     }
 
     /// Delete a collection by manga ID and sync the change with the cloud
-    func deleteCollection(withID mangaID: Int, using context: ModelContext) async {
+    func deleteCollection(withID mangaID: Int, using context: ModelContextProtocol) async {
         do {
             try await syncManager.removeFromCollection(mangaID: mangaID, using: context)
         } catch {
@@ -63,7 +67,7 @@ final class MyCollectionListViewModel {
         completeCollection: Bool,
         volumesOwned: [Int],
         readingVolume: Int?,
-        using context: ModelContext
+        using context: ModelContextProtocol
     ) async {
         do {
             try await syncManager.saveToMyCollection(

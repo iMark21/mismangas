@@ -7,7 +7,7 @@
 
 
 protocol KeyChainItemManager: Sendable {
-    func save(item: String) throws
-    func load() throws -> String?
-    func delete() throws
+    func save(item: String) async throws
+    func load() async throws -> String?
+    func delete() async throws
 }

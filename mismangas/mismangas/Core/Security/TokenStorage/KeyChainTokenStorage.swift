@@ -10,8 +10,9 @@ import Security
 import Foundation
 
 struct KeyChainTokenStorage: KeyChainItemManager {
-    private let service = Bundle.main.bundleIdentifier ?? "defaultService"
-    private let account = "userAuthenticationToken"
+    
+    var service = Bundle.main.bundleIdentifier ?? "defaultService"
+    let account = "userAuthenticationToken"
 
     func save(item: String) throws {
         let data = Data(item.utf8)
@@ -63,6 +64,6 @@ struct KeyChainTokenStorage: KeyChainItemManager {
 
 // MARK: - KeychainError
 
-enum KeychainError: Error {
+enum KeychainError: Error, Equatable {
     case unhandledError(status: OSStatus)
 }

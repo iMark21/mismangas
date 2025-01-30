@@ -25,7 +25,7 @@ struct MyCollectionListView: View {
                     .navigationTitle("My Collection")
                     .platformToolbar(
                         logoutAction: {
-                            viewModel.showLogoutConfirmation = true
+                            viewModel.showMessageLogout()
                         },
                         isSyncing: viewModel.isSyncing,
                         syncAction: {
@@ -35,8 +35,10 @@ struct MyCollectionListView: View {
             }
             .alert("Are you sure you want to log out?", isPresented: $viewModel.showLogoutConfirmation) {
                 Button("Log Out", role: .destructive) {
-                    viewModel.logout()
-                    isUserAuthenticated = false
+                    Task {
+                        await viewModel.logout()
+                        isUserAuthenticated = false
+                    }
                 }
                 Button("Cancel", role: .cancel) {}
             }

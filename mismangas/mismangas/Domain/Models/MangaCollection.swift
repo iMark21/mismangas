@@ -6,7 +6,7 @@
 //
 
 
-struct MangaCollection: Sendable, Identifiable {
+struct MangaCollection: Sendable, Equatable, Identifiable {
     let mangaID: Int
     let mangaName: String
     let completeCollection: Bool
