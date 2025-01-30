@@ -9,7 +9,7 @@ import Foundation
 
 struct FetchAuthorsUseCase: FetchAuthorsUseCaseProtocol {
 
-    let repository: AuthorRepositoryProtocol = AuthorRepository()
+    var repository: AuthorRepositoryProtocol = AuthorRepository()
 
     func execute() async throws -> [Author] {
         return try await repository.fetchAuthors()

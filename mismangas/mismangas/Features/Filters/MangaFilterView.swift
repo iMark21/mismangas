@@ -30,7 +30,7 @@ struct MangaFilterView: View {
                         .font(.title2)
                         .bold()
                     Spacer()
-                    Button("Cancel") {
+                    Button("Reset") {
                         cancel()
                     }
                     .keyboardShortcut(.cancelAction)
@@ -69,13 +69,17 @@ struct MangaFilterView: View {
                 applyFilterButton
             }
             .navigationTitle("Filters")
-            .platformNavigationBarTitle()
-            .platformToolbar(
-                resetAction: {
-                    cancel()
+            #if os(iOS)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Reset") {
+                        cancel()
+                    }
+                    .foregroundColor(.red)
                 }
-            )
-            .platformModalPresentation(item: $viewModel.showPicker) { type in
+            }
+            #endif
+            .sheet(item: $viewModel.showPicker) { type in
                 showSheet(type)
             }
         }

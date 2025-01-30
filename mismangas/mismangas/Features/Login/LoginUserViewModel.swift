@@ -39,7 +39,7 @@ final class LoginUserViewModel {
 
     // MARK: - Public Methods
 
-    func login(using context: ModelContext) async {
+    func login(using context: ModelContextProtocol) async {
         guard validateInputs() else { return }
 
         state = .loading

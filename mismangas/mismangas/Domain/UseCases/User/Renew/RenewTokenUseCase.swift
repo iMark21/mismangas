@@ -18,13 +18,13 @@ struct RenewTokenUseCase: RenewTokenUseCaseProtocol {
     }
 
     func execute() async throws -> Bool {
-        guard let currentToken = try? tokenStorage.load() else {
+        guard let currentToken = try? await tokenStorage.load() else {
             throw APIError.custom(message: "No token available")
         }
 
         do {
-            let newToken = try await repository.renewToken(currentToken)
-            try tokenStorage.save(item: newToken)
+            let user = try await repository.renewToken(currentToken)
+            try await tokenStorage.save(item: user.token)
             return true
         } catch {
             Logger.logErrorMessage("Failed to renew token: \(error.localizedDescription)")

@@ -9,12 +9,12 @@ import Foundation
 
 struct MangaCollectionRepository: MangaCollectionRepositoryProtocol {
     
-    let apiClient: APIClient = MisMangasAPIClient()
-    let tokenStorage: KeyChainItemManager = KeyChainTokenStorage()
+    var apiClient: APIClient = MisMangasAPIClient()
+    var tokenStorage: KeyChainItemManager = KeyChainTokenStorage()
 
     // MARK: - Cloud Interactions
     func syncMangaToCloud(_ manga: MangaCollection) async throws {
-        guard let token = try tokenStorage.load() else {
+        guard let token = try await tokenStorage.load() else {
             throw APIError.unauthorized
         }
 
@@ -26,12 +26,11 @@ struct MangaCollectionRepository: MangaCollectionRepositoryProtocol {
                 headers: [
                     "Authorization": "Bearer \(token)"
                 ]
-            )
-        ) as Void
+        )) as Void
     }
 
     func deleteMangaFromCloud(withID mangaID: Int) async throws {
-        guard let token = try tokenStorage.load() else {
+        guard let token = try await tokenStorage.load() else {
             throw APIError.unauthorized
         }
 
@@ -41,12 +40,11 @@ struct MangaCollectionRepository: MangaCollectionRepositoryProtocol {
                 headers: [
                     "Authorization": "Bearer \(token)"
                 ]
-            )
-        ) as Void
+        )) as Void
     }
 
     func fetchUserCloudCollection() async throws -> [MangaCollection] {
-        guard let token = try tokenStorage.load() else {
+        guard let token = try await tokenStorage.load() else {
             throw APIError.unauthorized
         }
 

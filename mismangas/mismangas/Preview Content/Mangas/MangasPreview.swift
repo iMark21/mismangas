@@ -10,6 +10,16 @@ import Foundation
 // MARK: - Mock Data
 
 extension Manga {
+    
+    static var responseDTO: MangaResponseDTO {
+        let response = JSONLoader.load(from: "mangas_mock", as: MangaResponseDTO.self)
+        return response!
+    }
+    
+    static var mangaDTO: MangaDTO {
+        responseDTO.items.first!
+    }
+    
     static var previewData: [Manga] {
         let response = JSONLoader.load(from: "mangas_mock", as: MangaResponseDTO.self)
         return response?.items.map( { $0.toDomain() }) ?? []

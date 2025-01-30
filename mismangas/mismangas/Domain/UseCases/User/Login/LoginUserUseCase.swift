@@ -12,7 +12,7 @@ struct LoginUserUseCase: LoginUserUseCaseProtocol {
     var tokenStorage: KeyChainItemManager = KeyChainTokenStorage()
 
     func execute(email: String, password: String) async throws {
-        let token = try await repository.loginUser(email: email, password: password)
-        try tokenStorage.save(item: token)
+        let user = try await repository.loginUser(email: email, password: password)
+        try await tokenStorage.save(item: user.token)
     }
 }

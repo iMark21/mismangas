@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "A0E29B0B-38DD-4735-BBFC-6527EF73A21C",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:mismangas.xcodeproj",
+        "identifier" : "B3B9873B2D4A590C0089B046",
+        "name" : "mismangasTests"
+      }
+    }
+  ],
+  "version" : 1
+}

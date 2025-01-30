@@ -8,6 +8,19 @@
 import Foundation
 import SwiftData
 
+// MARK: - Protocol Definition
+
+protocol ModelContextProtocol {
+    func insert<T: PersistentModel>(_ object: T)
+    func delete<T: PersistentModel>(_ object: T)
+    func save() throws
+    func fetch<T: PersistentModel>(_ descriptor: FetchDescriptor<T>) throws -> [T]
+}
+
+// MARK: - Real Context Conformance
+
+extension ModelContext: ModelContextProtocol {}
+
 @MainActor
 final class MangaCollectionManager: MangaCollectionManagerProtocol {
     private let useCase: ManageMangaCollectionUseCaseProtocol
@@ -18,7 +31,7 @@ final class MangaCollectionManager: MangaCollectionManagerProtocol {
 
     // MARK: - Sync Operations
 
-    func syncWithCloud(using context: ModelContext) async throws {
+    func syncWithCloud(using context: ModelContextProtocol) async throws {
         let cloudCollections = try await useCase.fetchUserCloudCollection()
         let localCollections = fetchAllCollections(using: context)
         
@@ -47,19 +60,19 @@ final class MangaCollectionManager: MangaCollectionManagerProtocol {
 
     // MARK: - Fetch Operations
 
-    func fetchCollection(for mangaID: Int, using context: ModelContext) -> MangaCollectionDB? {
+    func fetchCollection(for mangaID: Int, using context: ModelContextProtocol) -> MangaCollectionDB? {
         let descriptor = FetchDescriptor<MangaCollectionDB>(predicate: #Predicate { $0.mangaID == mangaID })
         return try? context.fetch(descriptor).first
     }
 
-    func fetchCollectionState(for mangaID: Int, using context: ModelContext) -> (completeCollection: Bool, volumesOwned: [Int], readingVolume: Int?) {
+    func fetchCollectionState(for mangaID: Int, using context: ModelContextProtocol) -> (completeCollection: Bool, volumesOwned: [Int], readingVolume: Int?) {
         if let collection = fetchCollection(for: mangaID, using: context) {
             return (collection.completeCollection, collection.volumesOwned, collection.readingVolume)
         }
         return (false, [], nil)
     }
 
-    func fetchAllCollections(using context: ModelContext) -> [MangaCollectionDB] {
+    func fetchAllCollections(using context: ModelContextProtocol) -> [MangaCollectionDB] {
         let descriptor = FetchDescriptor<MangaCollectionDB>()
         return (try? context.fetch(descriptor)) ?? []
     }
@@ -71,7 +84,7 @@ final class MangaCollectionManager: MangaCollectionManagerProtocol {
         completeCollection: Bool,
         volumesOwned: [Int],
         readingVolume: Int?,
-        using context: ModelContext
+        using context: ModelContextProtocol
     ) async throws {
         if let existing = fetchCollection(for: manga.id, using: context) {
             existing.completeCollection = completeCollection
@@ -99,7 +112,7 @@ final class MangaCollectionManager: MangaCollectionManagerProtocol {
 
     // MARK: - Delete Operations
 
-    func removeFromCollection(mangaID: Int, using context: ModelContext) async throws {
+    func removeFromCollection(mangaID: Int, using context: ModelContextProtocol) async throws {
         if let collection = fetchCollection(for: mangaID, using: context) {
             context.delete(collection)
             try? context.save()
@@ -107,7 +120,7 @@ final class MangaCollectionManager: MangaCollectionManagerProtocol {
         try await deleteMangaFromCloud(withID: mangaID)
     }
     
-    func clearLocalDatabase(using context: ModelContext) throws {
+    func clearLocalDatabase(using context: ModelContextProtocol) throws {
         let descriptor = FetchDescriptor<MangaCollectionDB>()
         let allCollections = try context.fetch(descriptor)
         for collection in allCollections {
@@ -126,7 +139,7 @@ final class MangaCollectionManager: MangaCollectionManagerProtocol {
 
     // MARK: - Private Methods
 
-    private func saveToLocal(_ mangaCollection: MangaCollection, using context: ModelContext) {
+    private func saveToLocal(_ mangaCollection: MangaCollection, using context: ModelContextProtocol) {
         context.insert(mangaCollection.toDBModel())
         try? context.save()
     }
@@ -143,7 +156,7 @@ final class MangaCollectionManager: MangaCollectionManagerProtocol {
         try await useCase.fetchUserCloudCollection()
     }
     
-    private func updateLocalCollection(_ local: MangaCollectionDB, with cloud: MangaCollection, using context: ModelContext) {
+    private func updateLocalCollection(_ local: MangaCollectionDB, with cloud: MangaCollection, using context: ModelContextProtocol) {
         local.mangaName = cloud.mangaName
         local.completeCollection = cloud.completeCollection
         local.volumesOwned = cloud.volumesOwned
